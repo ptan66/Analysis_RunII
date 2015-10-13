@@ -1,0 +1,39 @@
+electron ID
++++++++++++
+
+Oct. 08, 2015: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
+
+
+
+
+
+
+Oct. 07, 2015
++++++++++++++
+
+first test with MC samples, check the configration file "test.py"
+essentially need check from all basic collections to be copied over, and 
+root dictionary error as well. Good luck tomorrow!
+
+
+
+Oct. 06, 2015
++++++++++++++
+
+have code compiled in 7_4_14; first commit back to CVS
+
+
+
+
+Oct. 05, 2015
++++++++++++++
+
+Start porting code in 53x release to 74x releases.
+
+Release: CMSSW_7_4_14; slc6_amd64_gcc491
+Global tag:  MCRUN2_74_V9 (74x 25ns MC)
+
+access the jet ID value map for jet ID related variables
+ InputJetIDValueMap         = cms.InputTag("ak4JetID"), 
+
+!!!!! need check for missing hits for track/electronID/electron MVA id/cocktail muon/
