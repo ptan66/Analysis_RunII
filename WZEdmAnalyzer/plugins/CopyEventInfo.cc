@@ -2632,7 +2632,7 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
 	      << std::endl;
     */
 
-
+    /* NOTE74
     myElectron->calibratedSCEt        = ((*calibratedElectrons.product())[index]).superCluster()->energy()/TMath::CosH(((*calibratedElectrons.product())[index]).superCluster()->eta());
     myElectron->calibratedSCEta       = ((*calibratedElectrons.product())[index]).superCluster()->eta();
     myElectron->calibratedSCPhi       = ((*calibratedElectrons.product())[index]).superCluster()->phi();
@@ -2646,7 +2646,7 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
     myElectron->regressionEnergyError = (*regErr_handle.product()).get(index);
     myElectron->mvaTrigV0             = (*mvaTrigV0_handle.product()).get(index);
     myElectron->mvaNonTrigV0          = (*mvaNonTrigV0_handle.product()).get(index);
-
+    */
 
 
     /*********** MVA input variables **********************/
@@ -2736,20 +2736,6 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
     */
     /************ end of MVA variables ***************************/
     
-    
-
-
-    myW    = myEvent->addW();
-
-    //  W reconstruction
-    //  for each electron, one W candidate is reconstructed. 
-    const TLorentzVector P4(electron->px(), electron->py(), electron->pz(), electron->energy());
-    double delta = 0;
-    myW->leptonIndex = myEvent->electronNum -1;
-    myW->leptonType = PDG_ID_ELECTRON;
-    myW->delta   = delta;
-    myW->recoWy1 = P4.Eta() + delta;
-    myW->recoWy2 = P4.Eta() - delta; 
 
     index ++;
   }

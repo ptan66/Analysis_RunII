@@ -217,6 +217,7 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
  
  
   // initialize PDF packages for some calculation
+  /*
   lhaPDFPath = getenv("LHAPATH");
   std::string pdfSet(lhaPDFPath);    pdfSet.append("/");     pdfSet.append(pdf); 
   initpdfset_((char *)pdfSet.data(), pdfSet.size());        initpdf_(subset);
@@ -230,8 +231,9 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
     std::cout  << "        PDF initialized" << std::endl;
     std::cout << "**************************************" << std::endl;
   }
-  if (_is_debug) std::cout  << "check point ... create output file - " << out.c_str() << std::endl;
+  */
 
+  if (_is_debug) std::cout  << "check point ... create output file - " << out.c_str() << std::endl;
 
 
   // Define output file and ntuple
@@ -498,25 +500,27 @@ Handle<bool> CSCTightHaloFilterHandle;
   iEvent.getByLabel("allConversions",                 convCol);
 
 
+
+
+  // regression electron calibration
+  /*  NOTE74: comment out for now Oct. 19, 2015
   iEvent.getByLabel(edm::InputTag("calibratedElectrons","calibratedGsfElectrons"), calibratedElectrons);
-  //iEvent.getByLabel(edm::InputTag("calibratedElectrons","eneRegForGsfEle"), regEne_handle);
   iEvent.getByLabel(edm::InputTag("eleRegressionEnergy","eneRegForGsfEle"), regEne_handle);
   iEvent.getByLabel(edm::InputTag("eleRegressionEnergy","eneErrorRegForGsfEle"), regErr_handle);
-
 
 
   iEvent.getByLabel("mvaTrigV0", mvaTrigV0_handle);
   iEvent.getByLabel("mvaNonTrigV0", mvaNonTrigV0_handle);
 
+  if (_is_debug) {
+    for (reco::GsfElectronCollection::const_iterator electron = (*calibratedElectrons.product()).begin(); electron != (*calibratedElectrons.product()).end(); electron ++) {
+      
+      std::cout << electron->pt() << ", " << electron->eta() << ", " << electron->phi() << ", " << electron->superCluster()->rawEnergy() << std::endl;
+      
+    }
+  }
 
-
-  for (reco::GsfElectronCollection::const_iterator electron = (*calibratedElectrons.product()).begin(); electron != (*calibratedElectrons.product()).end(); electron ++) {
-
-    
-
-    //   std::cout << electron->pt() << ", " << electron->eta() << ", " << electron->phi() << ", " << electron->superCluster()->rawEnergy() << std::endl;
-
- }
+  */
 
 
   // btagging 
@@ -888,14 +892,14 @@ WZEdmAnalyzer::displayConfig(void)
 
   std::cout << std::endl;
   std::cout <<setw(12) <<""<< "   configuration settings    "         << std::endl;
-  std::cout <<setw(12) <<""<< "*****************************"         << std::endl;
-  std::cout <<setw(15) <<""<< "Debug flag ------ " << _is_debug       << std::endl;
-  std::cout <<setw(15) <<""<< "Data  flag ------ " << _is_data        << std::endl;
-  std::cout <<setw(15) <<""<< "Signal MC flag -- " << _mc_signal      << std::endl;
-  std::cout <<setw(15) <<""<< "Gen event flag -- " << _gen_only       << std::endl;
-  std::cout <<setw(15) <<""<< "Vertexing flag -- " << _vertexing      << std::endl;
-  std::cout <<setw(15) <<""<< "Reco flag- " << _reco_selection.data() << std::endl;
-  std::cout <<setw(12) <<""<< "*****************************"         << std::endl;
+  std::cout <<setw(12) <<"*"<< "******************************"         << "*" << std::endl;
+  std::cout <<right<< setw(12) <<"*"<<setw(25)<< left<< "  Debug flag ------ "<< setw(5)<< _is_debug    <<"*"<< std::endl;
+  std::cout <<right<< setw(12) <<"*"<<setw(25)<< left<< "  Data  flag ------ "<< setw(5)<< _is_data     <<"*"<< std::endl;
+  std::cout <<right<< setw(12) <<"*"<<setw(25)<< left<< "  Signal MC flag -- "  << setw(5)<< _mc_signal   <<"*"<< std::endl;
+  std::cout <<right<< setw(12) <<"*"<<setw(25)<< left<< "  Gen event flag -- "  << setw(5)<< _gen_only    <<"*"<< std::endl;
+  std::cout <<right<< setw(12) <<"*"<<setw(25)<< left<< "  Vertexing flag -- "  << setw(5)<< _vertexing   <<"*"<< std::endl;
+  std::cout <<right<< setw(12) <<"*"<<setw(15)<< left<< "  Reco flag- " << right<< setw(15)<< _reco_selection.data() <<"*"<< std::endl;
+  std::cout <<right<< setw(12) <<"*"<< "******************************"         <<"*"<< std::endl;
 
   return;
 }

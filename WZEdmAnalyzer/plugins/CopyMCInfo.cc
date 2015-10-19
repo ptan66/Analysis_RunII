@@ -1517,6 +1517,8 @@ WZEdmAnalyzer::fillMCInfo( Handle<edm::HepMCProduct> &mcTruth, _mc_process_ *mc)
 
 
     // calculate the mistag rate for Z/gamma process
+    // NOTE74 comment this out
+    /*
     if (_is_debug) std::cout << "check point ...  getMCInfo() (mistag Z/gamma*)" << std::endl;
     double wx1 = 0, wx2 = 0;
     wx1 = pdf_x1( mc->dileptonMass, mc->dileptonRap);
@@ -1557,32 +1559,8 @@ WZEdmAnalyzer::fillMCInfo( Handle<edm::HepMCProduct> &mcTruth, _mc_process_ *mc)
       }
     }
   
+    */
 
-
-    // for W production,
-    if (_is_debug) std::cout << "check point ...  getMCInfo() (W)" << std::endl;
-    if ( abs(daug1->pdg_id())    == 11 
-	 || abs(daug1->pdg_id()) == 13
-	 || abs(daug1->pdg_id()) == 15) {
-      mc->metX = (*p)->momentum().x() - daug1->momentum().x();
-      mc->metY = (*p)->momentum().y() - daug1->momentum().y();
-
-      TVector3 met(mc->metX , mc->metY, 0);
-      TLorentzVector mu(daug1->momentum().x(), daug1->momentum().y(),  daug1->momentum().z(),  daug1->momentum().t()); 
-
-      mc->delta   = solveWdy(mu, met, PDG_W_MASS);
-
-
-    } else if (abs(daug2->pdg_id())    == 11 
-	       || abs(daug2->pdg_id()) == 13
-	       || abs(daug2->pdg_id()) == 15) {
-      
-      mc->metX = (*p)->momentum().x() - daug2->momentum().x();
-      mc->metY = (*p)->momentum().y() - daug2->momentum().y();
-      TVector3 met(mc->metX , mc->metY, 0);
-      TLorentzVector mu(daug2->momentum().x(), daug2->momentum().y(),  daug2->momentum().z(),  daug2->momentum().t()); 
-      mc->delta   = solveWdy(muonplus, met, PDG_W_MASS);
-    }
 
     break;
   }  // end of the loop

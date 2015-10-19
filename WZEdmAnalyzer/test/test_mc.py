@@ -14,14 +14,20 @@ process.MessageLogger.cerr.FwkReport = cms.untracked.PSet(
 #------------------------------------------
 process.load('Configuration/StandardSequences/MagneticField_AutoFromDBCurrent_cff')
 
-process.load('Configuration/Geometry/GeometryIdeal_cff')
+#process.load('Configuration/Geometry/GeometryIdeal_cff')
 process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
 
 
 
-
-process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
-process.GlobalTag.globaltag = 'MCRUN2_74_V9::All'
+## global tag for MC
+process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
+from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
+process.GlobalTag.globaltag = 'MCRUN2_74_V9'
+#process.GlobalTag.globaltag = '74X_mcRun2_asymptotic_v2'
+## global tag for 2015C
+#process.GlobalTag.globaltag = '74X_dataRun2_Prompt_v1'
+## global tag for 2015D
+#process.GlobalTag.globaltag = '74X_dataRun2_Prompt_v2'
 
 
 process.load("Configuration/StandardSequences/RawToDigi_Data_cff")
@@ -31,6 +37,8 @@ process.load('Configuration/EventContent/EventContent_cff')
 process.load("SimTracker.TrackAssociation.TrackAssociatorByChi2_cfi")
 process.load("SimTracker.TrackAssociation.TrackAssociatorByHits_cfi")
 process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
+
+
 
 
 process.maxEvents = cms.untracked.PSet(  input = cms.untracked.int32(100) )
@@ -108,18 +116,21 @@ process.logErrorTooManyClusters.forcedValue = cms.untracked.bool(False)
 
 
 ###############################################################
+from RecoJets.Configuration.RecoPFJets_cff import *
+from JetMETCorrections.Configuration.JetCorrectionProducersAllAlgos_cff import *
+from JetMETCorrections.Configuration.JetCorrectionServicesAllAlgos_cff import *
+from JetMETCorrections.Configuration.DefaultJEC_cff import *
+#from JetMETCorrections.Configuration.JetCorrectors_cff import *
 
 
-#do I still need this in 52x?
-process.load('JetMETCorrections.Configuration.DefaultJEC_cff')
-process.load('RecoJets.Configuration.RecoPFJets_cff')
 
+#process.myjecs = cms.Sequence(
+#    process.ak4PFJetsL1FastL2L3
+#)
 
 #for isolation purpose???
 process.kt6PFJetsForIso = process.kt4PFJets.clone( rParam = 0.6, doRhoFastjet = True )
 process.kt6PFJetsForIso.Rho_EtaMax = cms.double(2.5)
-
-
 
 
 # calculate rho within tracker coverager. 
@@ -145,25 +156,25 @@ process.kt6PFJetsForCh2p4 =  process.kt6PFJets.clone(
 
 
 
-
-process.load("JetMETCorrections.Type1MET.correctionTermsPfMetType0PFCandidate_cff")
-process.load("JetMETCorrections.Type1MET.correctedMet_cff")
-process.load("JetMETCorrections.Type1MET.correctionTermsPfMetType1Type2_cff")
-process.load("JetMETCorrections.Type1MET.correctionTermsPfMetShiftXY_cff")
-process.corrPfMetType1.jetCorrLabel = cms.InputTag('ak4PFL1FastL2L3')
-process.corrPfMetType1.src='ak4PFJets'
-process.corrPfMetType1.skipMuons=False
-process.mymets=cms.Sequence(    
-    process.corrPfMetType1 +
-    process.correctionTermsPfMetType0PFCandidate + 
-    process.correctionTermsPfMetShiftXY +
-    process.pfMetT0pc +
-    process.pfMetT0pcT1 +
-    process.pfMetT0pcTxy +
-    process.pfMetT0pcT1Txy +
-    process.pfMetT1 +
-    process.pfMetT1Txy
-)
+#NOTE74
+#process.load("JetMETCorrections.Type1MET.correctionTermsPfMetType0PFCandidate_cff")
+#process.load("JetMETCorrections.Type1MET.correctedMet_cff")
+#process.load("JetMETCorrections.Type1MET.correctionTermsPfMetType1Type2_cff")
+#process.load("JetMETCorrections.Type1MET.correctionTermsPfMetShiftXY_cff")
+#process.corrPfMetType1.jetCorrLabel = cms.InputTag('ak4PFCHSL1FastL2L3')
+#process.corrPfMetType1.src='ak4PFJetsCHS'
+#process.corrPfMetType1.skipMuons=False
+#process.mymets=cms.Sequence(    
+#    process.corrPfMetType1 +
+#    process.correctionTermsPfMetType0PFCandidate + 
+#    process.correctionTermsPfMetShiftXY +
+#    process.pfMetT0pc +
+#    process.pfMetT0pcT1 +
+#    process.pfMetT0pcTxy +
+#    process.pfMetT0pcT1Txy +
+#    process.pfMetT1 +
+#    process.pfMetT1Txy
+#)
 
 
 
@@ -348,26 +359,28 @@ process.superClusters = cms.EDProducer("SuperClusterMerger",
 
 
 
+#NOTE74
+#process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
+#    calibratedElectrons = cms.PSet(
+#        initialSeed = cms.untracked.uint32(1),
+#        engineName = cms.untracked.string('TRandom3')
+#    ),
+#)
 
-process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
-    calibratedElectrons = cms.PSet(
-        initialSeed = cms.untracked.uint32(1),
-        engineName = cms.untracked.string('TRandom3')
-    ),
-)
-
-process.load("EgammaAnalysis.ElectronTools.calibratedElectrons_cfi")
+#process.load("EgammaAnalysis.ElectronTools.calibratedElectrons_cfi")
 
 # dataset to correct
-process.calibratedElectrons.isMC = cms.bool(True)
-process.calibratedElectrons.inputDataset = cms.string("Summer12_LegacyPaper")
-process.calibratedElectrons.updateEnergyError = cms.bool(True)
-process.calibratedElectrons.correctionsType = cms.int32(2)
-process.calibratedElectrons.combinationType = cms.int32(3)
-process.calibratedElectrons.lumiRatio = cms.double(0.607)
-process.calibratedElectrons.verbose = cms.bool(False)
-process.calibratedElectrons.synchronization = cms.bool(False)
+#process.calibratedElectrons.isMC = cms.bool(True)
+#process.calibratedElectrons.inputDataset = cms.string("Summer12_LegacyPaper")
+#process.calibratedElectrons.updateEnergyError = cms.bool(True)
+#process.calibratedElectrons.correctionsType = cms.int32(2)
+#process.calibratedElectrons.combinationType = cms.int32(3)
+#process.calibratedElectrons.lumiRatio = cms.double(0.607)
+#process.calibratedElectrons.verbose = cms.bool(False)
+#process.calibratedElectrons.synchronization = cms.bool(False)
 
+
+# this was commnented out
 #if (isRealData):
 #  process.calibratedElectrons.isMC = cms.bool(False)
 #  process.calibratedElectrons.inputDataset = cms.string("22Jan2013ReReco")
@@ -377,18 +390,18 @@ process.calibratedElectrons.synchronization = cms.bool(False)
 
 
 
-process.load('EgammaAnalysis.ElectronTools.electronRegressionEnergyProducer_cfi')
-process.eleRegressionEnergy.inputElectronsTag = cms.InputTag('gsfElectrons')
-process.eleRegressionEnergy.inputCollectionType = cms.uint32(0)
-process.eleRegressionEnergy.useRecHitCollections = cms.bool(True)
-process.eleRegressionEnergy.produceValueMaps = cms.bool(True)
-process.eleRegressionEnergy.regressionInputFile = cms.string("EgammaAnalysis/ElectronTools/data/eleEnergyRegWeights_WithSubClusters_VApr15.root")
-process.eleRegressionEnergy.energyRegressionType = cms.uint32(2)
+#process.load('EgammaAnalysis.ElectronTools.electronRegressionEnergyProducer_cfi')
+#process.eleRegressionEnergy.inputElectronsTag = cms.InputTag('gsfElectrons')
+#process.eleRegressionEnergy.inputCollectionType = cms.uint32(0)
+#process.eleRegressionEnergy.useRecHitCollections = cms.bool(True)
+#process.eleRegressionEnergy.produceValueMaps = cms.bool(True)
+#process.eleRegressionEnergy.regressionInputFile = cms.string("EgammaAnalysis/ElectronTools/data/eleEnergyRegWeights_WithSubClusters_VApr15.root")
+#process.eleRegressionEnergy.energyRegressionType = cms.uint32(2)
 
 
 
 
-process.load('EgammaAnalysis/ElectronTools/electronIdMVAProducer_cfi')
+#process.load('EgammaAnalysis/ElectronTools/electronIdMVAProducer_cfi')
 
 
 
@@ -478,19 +491,18 @@ process.p = cms.Path(
                      process.flavourByRefGenJet*
                      process.flavourByValGenJet*
                      process.pfPileUpAllChargedParticlesClone*process.kt6PFJetsForCh*process.kt6PFJetsForCh2p4*
-
                      process.kt6PFJetsForIso*
                      #process.pfiso*
 #                     process.type0PFMEtCorrection*
 #                     process.producePFMETCorrections*
 #		     process.metMuonJESCorAK4*
-                     process.mymets*
+#                     process.mymets*
                      process.superClusters*
                      process.myBTaggers*process.myCaloBTaggers*
  #                   process.QuarkGluonTagger*	
  #                    process.recoPuJetId * process.recoPuJetMva*
-                     process.eleRegressionEnergy * process.calibratedElectrons*
-                     process.mvaTrigV0  * process.mvaNonTrigV0*
+#                     process.eleRegressionEnergy * process.calibratedElectrons*
+#                     process.mvaTrigV0  * process.mvaNonTrigV0*
                      process.analyzer)
 
 
