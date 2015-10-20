@@ -132,6 +132,7 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   _kvfPSet(                    iConfig.getParameter<edm::ParameterSet>("KVFParameters")),
   _reco(                       iConfig.getParameter<bool>("RECO")),
   _reco_selection(             iConfig.getParameter<std::string>("RECOSELECTION")),
+  BeamSpotTags_(               iConfig.getParameter<edm::InputTag>("BeamSpot")), 
   Vertices_(                   iConfig.getParameter<std::string>("Vertices")),
   MuonCollectionTags_(         iConfig.getParameter<std::string>("Muons")),
   ElectronCollectionTags_(     iConfig.getParameter<std::string>("Electrons")),
@@ -348,7 +349,6 @@ WZEdmAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
 
 
   // -- event filters;
-
   edm::Handle<bool> trackingFailure;
   iEvent.getByLabel("trackingFailureFilter", trackingFailure);
   myEvent->getEventFilterBit()->trackingFailureFilter =  *(trackingFailure);
@@ -387,9 +387,6 @@ Handle<bool> CSCTightHaloFilterHandle;
 
 
 
-  // std::cout << *(trackingFailure) << std::endl;
-
-
 
   // -- Magnetic field
   ESHandle<MagneticField> MF;
@@ -399,10 +396,14 @@ Handle<bool> CSCTightHaloFilterHandle;
   bField =  fabs(theMagneticField->inTesla(GlobalPoint(0,0,0)).z());
 
 
-  iEvent.getByLabel("offlineBeamSpot", recoBeamSpotHandle);              
-  if (recoBeamSpotHandle.isValid() ) vertexBeamSpot = recoBeamSpotHandle.product();
- 
+  iEvent.getByLabel(BeamSpotTags_, recoBeamSpotHandle);              
+  if (recoBeamSpotHandle.isValid() ) {
+    vertexBeamSpot = recoBeamSpotHandle.product();
+  } else {
+    vertexBeamSpot = 0;
+  } 
 
+  // (++). Acess the jet ID value map
   iEvent.getByToken(jetID_ValueMapToken_,jetID_ValueMap_Handle);
 
 
@@ -425,20 +426,46 @@ Handle<bool> CSCTightHaloFilterHandle;
 
   // get the rho values from fast jet 
   //edm::Handle<double> rhoHandle;
-
+  // default rho value for ak4PFjet
+  // NOTE74
+  
   iEvent.getByLabel(RhoSrcLabel_,          rhoHandle);         
   iEvent.getByLabel(SigmaSrcLabel_,        sigmaHandle);         
+  if (rhoHandle.isValid() && sigmaHandle.isValid() ) {
+    myEvent->rho      = *rhoHandle;
+    myEvent->sigma    = *sigmaHandle;
+  }
 
+  // default rho value for ak4PFjetCHS
+  iEvent.getByLabel(RhoSrcLabelCHS_,          rhoHandleCHS);         
+  iEvent.getByLabel(SigmaSrcLabelCHS_,        sigmaHandleCHS);  
+  if (rhoHandleCHS.isValid() && sigmaHandleCHS.isValid() ) {
 
-  myEvent->rho      = *rhoHandle;
-  myEvent->sigma    = *sigmaHandle;
+    myEvent->rhoCHS      = *rhoHandleCHS;
+    myEvent->sigmaCHS    = *sigmaHandleCHS;
+  }
 
+  
+  // default rho value for ak4CaloJet
+  iEvent.getByLabel(RhoSrcLabelCalo_,          rhoHandleCalo);         
+  iEvent.getByLabel(SigmaSrcLabelCalo_,        sigmaHandleCalo);         
+  if (rhoHandleCalo.isValid() && sigmaHandleCalo.isValid() ) {
 
+    myEvent->rhoCalo      = *rhoHandleCalo;
+    myEvent->sigmaCalo    = *sigmaHandleCalo;
+  }
 
+  // default rho value for track jet
+  iEvent.getByLabel(RhoSrcLabelTrack_,          rhoHandleTrack);         
+  iEvent.getByLabel(SigmaSrcLabelTrack_,        sigmaHandleTrack);         
+  if (rhoHandleTrack.isValid() && sigmaHandleTrack.isValid() ) {
+    myEvent->rhoTrack      = *rhoHandleTrack;
+    myEvent->sigmaTrack    = *sigmaHandleTrack;
+  }
+
+  // others
   iEvent.getByLabel(RhoIsoSrcLabel_,       rhoIsoHandle);   
   iEvent.getByLabel(SigmaIsoSrcLabel_,     sigmaIsoHandle);   
-
-
   myEvent->rhoIso   = *rhoIsoHandle;
   myEvent->sigmaIso = *sigmaIsoHandle;
 
@@ -446,8 +473,6 @@ Handle<bool> CSCTightHaloFilterHandle;
 
   iEvent.getByLabel(RhoChSrcLabel_,       rhoChHandle);   
   iEvent.getByLabel(SigmaChSrcLabel_,     sigmaChHandle);   
-
-
   myEvent->rhoCh   = *rhoChHandle;
   myEvent->sigmaCh = *sigmaChHandle;
 
@@ -456,16 +481,9 @@ Handle<bool> CSCTightHaloFilterHandle;
   // eta up to 2.4
   iEvent.getByLabel(RhoCh2p4SrcLabel_,       rhoCh2p4Handle);   
   iEvent.getByLabel(SigmaCh2p4SrcLabel_,     sigmaCh2p4Handle);   
-
-
   myEvent->rhoCh2p4   = *rhoCh2p4Handle;
   myEvent->sigmaCh2p4 = *sigmaCh2p4Handle;
 
-
-  //  std::cout << " a new event ... " << std::endl;
-  // std::cout << (*rhoHandle) << "+/-" <<  (*sigmaHandle) << std::endl;
-  // std::cout << (*rhoIsoHandle) << "+/-" <<  (*sigmaIsoHandle) << std::endl;
-  // std::cout << (*rhoChHandle) << "+/-" <<  (*sigmaChHandle) << std::endl;
 
 
   // (++). Setup for vertex
@@ -494,7 +512,6 @@ Handle<bool> CSCTightHaloFilterHandle;
   iEvent.getByLabel(CaloJetTags_,                     caloJets);
   iEvent.getByLabel(JPTJetTags_,                      jptJets);
   iEvent.getByLabel(PFJetTags_,                       pfJets);
-  iEvent.getByLabel( "towerMaker",                    towers );
   iEvent.getByLabel(PhotonCollectionTags_,            photons);
   iEvent.getByLabel("superClusters",                  superclusters);
   iEvent.getByLabel("allConversions",                 convCol);
@@ -582,7 +599,7 @@ Handle<bool> CSCTightHaloFilterHandle;
   recoTracks       =   tracks.product();
   recoMuons        =   muons.product();
   recoJets         =   jets.product();
-  caloTowers       =   towers.product();
+  //  caloTowers       =   towers.product();
   recoPhotons      =   photons.product();
   recoPhotons      =   photons.product(); 
   recoElectrons    =   electrons.product(); 

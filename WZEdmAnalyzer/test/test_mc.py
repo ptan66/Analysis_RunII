@@ -13,8 +13,13 @@ process.MessageLogger.cerr.FwkReport = cms.untracked.PSet(
 # Load standard sequences.
 #------------------------------------------
 process.load('Configuration/StandardSequences/MagneticField_AutoFromDBCurrent_cff')
+process.load('Configuration.StandardSequences.GeometryDB_cff')
+process.load("Configuration/StandardSequences/RawToDigi_Data_cff")
+process.load("Configuration/StandardSequences/Reconstruction_cff")
+process.load('Configuration/EventContent/EventContent_cff')
+process.load('Configuration.StandardSequences.Services_cff')
 
-#process.load('Configuration/Geometry/GeometryIdeal_cff')
+
 process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
 
 
@@ -30,9 +35,6 @@ process.GlobalTag.globaltag = 'MCRUN2_74_V9'
 #process.GlobalTag.globaltag = '74X_dataRun2_Prompt_v2'
 
 
-process.load("Configuration/StandardSequences/RawToDigi_Data_cff")
-process.load("Configuration/StandardSequences/Reconstruction_cff")
-process.load('Configuration/EventContent/EventContent_cff')
 
 process.load("SimTracker.TrackAssociation.TrackAssociatorByChi2_cfi")
 process.load("SimTracker.TrackAssociation.TrackAssociatorByHits_cfi")
@@ -116,11 +118,19 @@ process.logErrorTooManyClusters.forcedValue = cms.untracked.bool(False)
 
 
 ###############################################################
-from RecoJets.Configuration.RecoPFJets_cff import *
+#
+#
+#  jet correction
+#
+###############################################################
+process.load('RecoJets.Configuration.RecoPFJets_cff')
+process.load('JetMETCorrections.Configuration.DefaultJEC_cff')
+#from RecoJets.Configuration.RecoPFJets_cff import *
+#from JetMETCorrections.Configuration.DefaultJEC_cff import *
+
 from JetMETCorrections.Configuration.JetCorrectionProducersAllAlgos_cff import *
 from JetMETCorrections.Configuration.JetCorrectionServicesAllAlgos_cff import *
-from JetMETCorrections.Configuration.DefaultJEC_cff import *
-#from JetMETCorrections.Configuration.JetCorrectors_cff import *
+from JetMETCorrections.Configuration.JetCorrectors_cff import *
 
 
 
@@ -423,9 +433,10 @@ process.analyzer = cms.EDAnalyzer(
     RECO                      = cms.bool(False),
     RECOSELECTION             = cms.string("DILEPTON"),
 #choice among "BTAG", "DILEPTON", etc.
-    Vertices                  = cms.string("offlinePrimaryVertices"),
-    Muons                     = cms.string("muons"),
-    Electrons                 = cms.string("gsfElectrons"),
+    BeamSpot                  = cms.InputTag("offlineBeamSpot"), 
+    Vertices                  = cms.string(  "offlinePrimaryVertices"),
+    Muons                     = cms.string(  "muons"),
+    Electrons                 = cms.string(  "gedGsfElectrons"),
     ElectronIsoVals	      = cms.VInputTag(cms.InputTag('elPFIsoValueCharged03PFIdPFIso'),
                                             cms.InputTag('elPFIsoValueGamma03PFIdPFIso'),
                                             cms.InputTag('elPFIsoValueNeutral03PFIdPFIso')),
@@ -440,9 +451,15 @@ process.analyzer = cms.EDAnalyzer(
     CaloJetCorrectionService  = cms.string('ak4CaloL1FastL2L3'),
     JPTJetCorrectionService   = cms.string('ak4JPTL1FastL2L3'),
     PFJetCorrectionService    = cms.string('ak4PFL1FastL2L3'),
-    RhoSrc                    = cms.InputTag('kt6PFJets', 'rho'),
-    SigmaSrc                  = cms.InputTag('kt6PFJets', 'sigma'),
-   #"kt6PFJetsForIsolation", "rho"
+    RhoSrc                    = cms.InputTag('ak4PFJets', 'rho'),
+    SigmaSrc                  = cms.InputTag('ak4PFJets', 'sigma'),
+    RhoSrcCHS                 = cms.InputTag('ak4PFJetsCHS', 'rho'),
+    SigmaSrcCHS               = cms.InputTag('ak4PFJetsCHS', 'sigma'),
+    RhoSrcCalo                = cms.InputTag('ak4CaloJets', 'rho'),
+    SigmaSrcCalo              = cms.InputTag('ak4CaloJets', 'sigma'),
+    RhoSrcTrack               = cms.InputTag('ak4TrackJets', 'rho'),
+    SigmaSrcTrack             = cms.InputTag('ak4TrackJets', 'sigma'),
+
     RhoIsoSrc                 = cms.InputTag('kt6PFJetsForIso', 'rho'),
     SigmaIsoSrc               = cms.InputTag('kt6PFJetsForIso', 'sigma'),
     RhoChSrc                  = cms.InputTag('kt6PFJetsForCh',  'rho'),
@@ -492,6 +509,7 @@ process.p = cms.Path(
                      process.flavourByValGenJet*
                      process.pfPileUpAllChargedParticlesClone*process.kt6PFJetsForCh*process.kt6PFJetsForCh2p4*
                      process.kt6PFJetsForIso*
+                     process.ak4CaloJetsL1FastL2L3*
                      #process.pfiso*
 #                     process.type0PFMEtCorrection*
 #                     process.producePFMETCorrections*

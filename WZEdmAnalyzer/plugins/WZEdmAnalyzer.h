@@ -322,6 +322,8 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   float              avgInstLumi;
 
   double             bField;
+
+  edm::InputTag      BeamSpotTags_;
   std::string        Vertices_;
   edm::InputTag      MuonCollectionTags_;
   edm::InputTag      ElectronCollectionTags_;
@@ -378,6 +380,27 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::InputTag              SigmaSrcLabel_;
   edm::Handle<double>        sigmaHandle;
 
+  // CHS
+  edm::InputTag              RhoSrcLabelCHS_;
+  edm::Handle<double>        rhoHandleCHS;
+
+  edm::InputTag              SigmaSrcLabelCHS_;
+  edm::Handle<double>        sigmaHandleCHS;
+
+  // Calo
+  edm::InputTag              RhoSrcLabelCalo_;
+  edm::Handle<double>        rhoHandleCalo;
+
+  edm::InputTag              SigmaSrcLabelCalo_;
+  edm::Handle<double>        sigmaHandleCalo;
+
+
+  // Track
+  edm::InputTag              RhoSrcLabelTrack_;
+  edm::Handle<double>        rhoHandleTrack;
+
+  edm::InputTag              SigmaSrcLabelTrack_;
+  edm::Handle<double>        sigmaHandleTrack;
 
 
   // isolation rho and sigma

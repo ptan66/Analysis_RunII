@@ -3150,7 +3150,7 @@ namespace {
     };
     static const char* includePaths[] = {
 "/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/root/6.02.00-odfocd7/include",
-"/uscms_data/d2/ptan/work/sl6/CMSSW_7_4_14/src/Analysis_RunII/WZEdmAnalyzer/src/",
+"/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_4_14/src/Analysis_RunII/WZEdmAnalyzer/plugins/",
 0
     };
     static const char* fwdDeclCode = 

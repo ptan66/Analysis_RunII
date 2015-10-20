@@ -1232,6 +1232,9 @@ class _event_ : public TObject{
   Float_t             sigma, sigmaIso, sigmaCh, sigmaCh2p4;
 
 
+  Float_t             rhoCHS,   rhoCalo,   rhoTrack;
+  Float_t             sigmaCHS, sigmaCalo, sigmaTrack;
+
   Int_t               simTrackNum;
 
   Int_t               vertexNum;

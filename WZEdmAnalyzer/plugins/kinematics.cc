@@ -1763,9 +1763,12 @@ void _event_::reset() {
   rho = 0;
   rhoIso = 0;
 
-  rhoIso          = 0; sigmaIso = 0;
-  rhoCh           = 0; sigmaCh  = 0;
-  rhoCh2p4        = 0; sigmaCh2p4  = 0;
+  rhoIso            = 0; sigmaIso     = 0;
+  rhoCh             = 0; sigmaCh      = 0;
+  rhoCh2p4          = 0; sigmaCh2p4   = 0;
+
+  rhoCHS            = 0; rhoCalo      = 0; rhoTrack         = 0;
+  sigmaCHS          = 0; sigmaCalo    = 0; sigmaTrack       = 0;
 
 
   mcVertexNumTruth  = 0;
@@ -1855,6 +1858,8 @@ void _event_::Clear() {
   rhoCh           = 0; sigmaCh  = 0;
   rhoCh2p4        = 0; sigmaCh2p4  = 0;
 
+  rhoCHS            = 0; rhoCalo      = 0; rhoTrack         = 0;
+  sigmaCHS          = 0; sigmaCalo    = 0; sigmaTrack       = 0;
 
 
   mcVertexNumTruth= 0;
