@@ -420,7 +420,7 @@ process.superClusters = cms.EDProducer("SuperClusterMerger",
 process.analyzer = cms.EDAnalyzer(
     "WZEdmAnalyzer",
     #parameters
-    DEBUG                     = cms.bool(False),
+    DEBUG                     = cms.bool(True),
     DATA                      = cms.bool(False),
     GEN_ONLY                  = cms.bool(False),
     MC_SIGNAL                 = cms.bool(True),
@@ -482,6 +482,7 @@ process.analyzer = cms.EDAnalyzer(
     HLTTriggerElectrons       = cms.vstring("", "HLT_Ele27_WP80_v10", "HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v17"), 
 
     GeneratorLevelTag         = cms.string("generator"),
+    LHEEventProductTag         = cms.InputTag("externalLHEProducer"),
     GenJets                   = cms.string("ak4GenJets"),
     akGenJets                 = cms.string("ak4GenJets"),
     GenJetMinPt               = cms.double(5),

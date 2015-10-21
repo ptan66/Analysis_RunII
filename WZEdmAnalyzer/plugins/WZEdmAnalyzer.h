@@ -478,6 +478,7 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
 
 
   edm::InputTag      GeneratorLevelTag_;
+  edm::InputTag      LHEEventProductTag_;
 
   edm::InputTag              GenJetAlgorithmTags_;
   edm::InputTag              akGenJetAlgorithmTags_;

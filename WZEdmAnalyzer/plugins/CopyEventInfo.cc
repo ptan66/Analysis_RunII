@@ -745,7 +745,7 @@ WZEdmAnalyzer::copyPFJetInfo(       const edm::Event& iEvent,
   myJet->area                        = jet->jetArea();
 
   myJet->L                           = -9999;
-  if (jet->jetArea()>0 && (*rhoChHandle)) myJet->L  = (jet->jetArea() * (*rhoHandle)) * log(  scale * jet->pt()/ (jet->jetArea() * (*rhoHandle)) );
+  if (jet->jetArea()>0 && (*rhoChHandle)) myJet->L  = (jet->jetArea() * (*rhoChHandle)) * log(  scale * jet->pt()/ (jet->jetArea() * (*rhoChHandle)) );
 
 
   //  std::cout << "a jet " << std::endl;
@@ -2136,10 +2136,10 @@ void WZEdmAnalyzer::copyMET(const edm::Event& iEvent, const char *mettype, _met_
     amet.MuonEtFraction = 0;
     amet.InvisibleEtFraction = 0;
 
-  } else if (!mymet.compare("corMetGlobalMuons") ) {
+  } else if (!mymet.compare("caloMet") ) {
     
     edm::Handle< CaloMETCollection >     muCorrMEThandle;
-    iEvent.getByLabel("corMetGlobalMuons",              muCorrMEThandle);
+    iEvent.getByLabel("caloMet",              muCorrMEThandle);
 
 
     amet.pt  = (muCorrMEThandle->front() ).et();
@@ -2148,21 +2148,6 @@ void WZEdmAnalyzer::copyMET(const edm::Event& iEvent, const char *mettype, _met_
     amet.e_longitudinal = (muCorrMEThandle->front() ).e_longitudinal();
     amet.HadronicEtFraction = (muCorrMEThandle->front() ).etFractionHadronic();
     amet.EMEtFraction = (muCorrMEThandle->front() ).emEtFraction();
-    amet.MuonEtFraction = 0;
-    amet.InvisibleEtFraction = 0;
-
-  } else if (!mymet.compare("met") ) {
-
-
-    edm::Handle< CaloMETCollection >     rawMEThandle;
-    iEvent.getByLabel("met",                            rawMEThandle);
-
-    amet.pt  = (rawMEThandle->front() ).et();
-    amet.phi = (rawMEThandle->front() ).phi();
-    amet.sumEt = (rawMEThandle->front() ).sumEt();
-    amet.e_longitudinal = (rawMEThandle->front() ).e_longitudinal();
-    amet.HadronicEtFraction = (rawMEThandle->front() ).etFractionHadronic();
-    amet.EMEtFraction = (rawMEThandle->front() ).emEtFraction();
     amet.MuonEtFraction = 0;
     amet.InvisibleEtFraction = 0;
 
@@ -2384,26 +2369,20 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
 
 
 
-  this->copyMET(iEvent, "met", myEvent->getMETs()->rawMET);
-  this->copyMET(iEvent, "corMetGlobalMuons", myEvent->getMETs()->caloMET);
-  this->copyMET(iEvent, "tcMet", myEvent->getMETs()->tcMET);
+  this->copyMET(iEvent, "caloMet", myEvent->getMETs()->caloMET);
+  // this->copyMET(iEvent, "corMetGlobalMuons", myEvent->getMETs()->caloMET);
+  //  this->copyMET(iEvent, "tcMet", myEvent->getMETs()->tcMET);
   this->copyMET(iEvent, "pfMet", myEvent->getMETs()->pfMET);
+  /*
   this->copyMET(iEvent, "pfType1CorrectedMet", myEvent->getMETs()->pfType1CorrectedMet);
   this->copyMET(iEvent, "pfType1p2CorrectedMet", myEvent->getMETs()->pfType1p2CorrectedMet);
-
-
-  //pfType1p2CorrectedMet
-
-  //  this->copyMET(iEvent, "pfchsMETcorr", myEvent->getMETs()->pfMetT0pc);
-  //  this->copyMET(iEvent, "pfType1CorrectedMet", myEvent->getMETs()->pfMetT1);
-
   this->copyMET(iEvent, "pfMetT0pc", myEvent->getMETs()->pfMetT0pc);
   this->copyMET(iEvent, "pfMetT0pcT1", myEvent->getMETs()->pfMetT0pcT1);
   this->copyMET(iEvent, "pfMetT0pcTxy", myEvent->getMETs()->pfMetT0pcTxy);
   this->copyMET(iEvent, "pfMetT0pcT1Txy", myEvent->getMETs()->pfMetT0pcT1Txy);
   this->copyMET(iEvent, "pfMetT1", myEvent->getMETs()->pfMetT1);
   this->copyMET(iEvent, "pfMetT1Txy", myEvent->getMETs()->pfMetT1Txy);
-
+  */
 
   //  this->copyMETs(myEvent->getMETs());
   //  this->copyDiLeadingJets(myEvent->getDiLeadingJets());
@@ -2531,9 +2510,10 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
     if (QGTagsHandleMLP.isValid()) myjet->quarkGluonMLP =   (*QGTagsHandleMLP)[jetRef];
     if (QGTagsHandleLikelihood.isValid())  myjet->quarkGluonLikelihood = (*QGTagsHandleLikelihood)[jetRef];
 
+    // NOTE74
     // pujet ID
-    //        for(unsigned int i = 0; i < jets.size(); i++){
-// jet ID
+    // jet ID
+    continue;
     int    idflag = (*puJetIdFlag)[ jetRef ];
     myjet->puIDFlag   = idflag;
     myjet->puIDMva    =  (*puJetIdMva)[ jetRef ];
@@ -2562,19 +2542,10 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
        muon ++) {
     
     myMuon = myEvent->addMuon();
-    myW    = myEvent->addW();
+    //    myW    = myEvent->addW();
     this->copyMuonInfo(muon, myMuon);
 
 
-    //  W reconstruction
-    //  for each muon, one W candidate is reconstructed. 
-    const TLorentzVector P4(muon->px(), muon->py(), muon->pz(), muon->energy());
-    double delta = 0;
-    myW->leptonIndex = myEvent->muonNum -1;
-    myW->leptonType = PDG_ID_MUON;
-    myW->delta   = delta;
-    myW->recoWy1 = P4.Eta() + delta;
-    myW->recoWy2 = P4.Eta() - delta;      
   }
   if (!_reco_selection.compare("BTAG") ) return;
 
@@ -2611,6 +2582,8 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
   int index = 0;
   for (reco::GsfElectronCollection::const_iterator electron = (*recoElectrons).begin(); electron != (*recoElectrons).end(); electron ++) {
 
+    //NOTE74
+    continue;
     
     myElectron = myEvent->addElectron(); 
     reco::GsfElectronRef electronRef(electrons, index);

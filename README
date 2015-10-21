@@ -7,10 +7,32 @@ Oct. 08, 2015: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentifi
 
 
 useful commands:
+================
 
 copy file over, no matter where it is located, 
+---------------------------------------------
 
 xrdcp root://cmsxrootd-site.fnal.gov//store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/AODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/002F7FDD-BA13-E511-AA63-0026189437F5.root .
+
+
+json file location:
+------------------
+
+/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/
+
+luminosity calculation:
+----------------------
+
+version of software: brilconda-1.0.3
+
+example command:
+brilcalc lumi --normtag /afs/cern.ch/user/c/cmsbril/public/normtag_json/OfflineNormtagV1.json  --byls switch -u /pb -i [JSON from running over the PD]
+
+--hltpath HLTPATH
+
+HLTPATH is hlt path name or pattern. The string pattern uses the file system convention fnmatch. *, ? ,[seq], [!seq] operators are recognised. In order not to confuse with the file system, please double quote the hltpath string if there are special char *, ?, [] !
+
+
 
 
 

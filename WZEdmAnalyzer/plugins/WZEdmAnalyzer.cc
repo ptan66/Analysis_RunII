@@ -176,6 +176,7 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   //  HLTTriggerElectron_(         iConfig.getParameter<std::string>("HLTTriggerElectron")),
   //  HLTTriggerElectronL_(        iConfig.getParameter<std::string>("HLTTriggerElectronL")),
   GeneratorLevelTag_(          iConfig.getParameter<std::string>("GeneratorLevelTag")),
+  LHEEventProductTag_(         iConfig.getParameter<edm::InputTag>("LHEEventProductTag")),
   GenJetAlgorithmTags_(        iConfig.getParameter<std::string>("GenJets")),
   akGenJetAlgorithmTags_(      iConfig.getParameter<std::string>("akGenJets")),
   genJetMinPt(                 iConfig.getParameter<double>("GenJetMinPt")),
@@ -325,7 +326,7 @@ WZEdmAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
 
       iEvent.getByLabel( "genParticles",        genParticles );
       bool hasLHE = //iEvent.getByType( lheEventInfo );
-	iEvent.getByLabel( "source",lheEventInfo );
+	iEvent.getByLabel( LHEEventProductTag_, lheEventInfo );
 
       this->fillMCInfo(genParticles,            myMCTruth);
       this->fillGenWZ(genParticles,             myGenWZ);
@@ -710,7 +711,7 @@ Handle<bool> CSCTightHaloFilterHandle;
     iEvent.getByLabel ("flavourByValGenJet" ,                theGenTag);
     iEvent.getByLabel ("flavourByValPF",                     theRecoPFTag);
     iEvent.getByLabel ("flavourByValCalo",                   theRecoCaloTag);
-    iEvent.getRun().getByLabel("source",                     runInfo); 
+    //    iEvent.getRun().getByLabel("source",                     runInfo); 
     iEvent.getByLabel("generator",                           genEventInfo);
 
     myEvent->setEventWeight(genEventInfo->weight());
