@@ -1232,7 +1232,8 @@ WZEdmAnalyzer::copyPhotonInfo( reco::PhotonCollection::const_iterator photon, _p
 void
 WZEdmAnalyzer::copyElectronInfo( reco::GsfElectronCollection::const_iterator electron, 
 				 _electron_ *myElectron, 
-				 reco::GsfElectronRef electronRef) 
+				 reco::GsfElectronRef electronRef, 
+				 int ele_index) 
 {
 
   // copy gsf electron information
@@ -1401,6 +1402,7 @@ WZEdmAnalyzer::copyElectronInfo( reco::GsfElectronCollection::const_iterator ele
   
 
   // apply to neutrals
+  /*
   Double_t iso_ch =  (*electronIsoValsCh)[electronRef];
   Double_t iso_photon =  (*electronIsoValsPhoton)[electronRef];
   Double_t iso_neutral =  (*electronIsoValsNeutral)[electronRef];
@@ -1419,7 +1421,7 @@ WZEdmAnalyzer::copyElectronInfo( reco::GsfElectronCollection::const_iterator ele
   myElectron->pfIsoNeutral = iso_neutral;
   myElectron->effArea = effArea;
 
-
+  */
 
 
  // Shower Shape
@@ -1454,58 +1456,26 @@ WZEdmAnalyzer::copyElectronInfo( reco::GsfElectronCollection::const_iterator ele
   myElectron ->ooemoop                   = (1.0/electron->ecalEnergy() - electron->eSuperClusterOverP()/electron->ecalEnergy());
 
 
-
-  //  edm::Handle<reco::ConversionCollection> conversions_h;
-  // iEvent.getByLabel(conversionsInputTag_, conversions_h);
-
  
+  // Oct. 22, 2015
+  // new cut-based electron implementation
+  unsigned int pass_loose   = (*loose_id_decisions)[electronRef];
+  unsigned int pass_medium  = (*medium_id_decisions)[electronRef];
 
-  // cut-based electron ID mask
-  double myRhoIso;
-  myRhoIso = *rhoIsoHandle;
-  EgammaCutBasedEleId::WorkingPoint myworkingPoint;
-
-  myworkingPoint = EgammaCutBasedEleId::LOOSE;
-  unsigned int pass_loose = EgammaCutBasedEleId::PassWP(myworkingPoint, electronRef, convCol, *vertexBeamSpot, recVtxs, 
-					    iso_ch, iso_photon, iso_neutral, 
-							myRhoIso, EAtarget);
-
-  myworkingPoint = EgammaCutBasedEleId::MEDIUM;
-  unsigned int pass_medium = EgammaCutBasedEleId::PassWP(myworkingPoint, electronRef, convCol, *vertexBeamSpot, recVtxs, 
-					    iso_ch, iso_photon, iso_neutral, 
-							 myRhoIso, EAtarget);
+  unsigned int pass_tight   = (*tight_id_decisions)[electronRef];
 
 
-  myworkingPoint = EgammaCutBasedEleId::TIGHT;
-  unsigned int pass_tight = EgammaCutBasedEleId::PassWP(myworkingPoint, electronRef, convCol, *vertexBeamSpot, recVtxs, 
-					    iso_ch, iso_photon, iso_neutral, 
-							myRhoIso, EAtarget);
-
-
-  unsigned int pass_eoverpcuts = EgammaCutBasedEleId::PassEoverPCuts(electronRef);
-    // EgammaCutBasedEleId::PassEoverPCuts(electron->superCluster()->eta(), electron->eSuperClusterOverP(),  electron->fbrem());
-
-
-
-  // cuts to match tight trigger requirements
-  bool trigtight = EgammaCutBasedEleId::PassTriggerCuts(EgammaCutBasedEleId::TRIGGERTIGHT, electronRef);
-
-        // for 2011 WP70 trigger
-        bool trigwp70 = EgammaCutBasedEleId::PassTriggerCuts(EgammaCutBasedEleId::TRIGGERWP70, electronRef);
-
-
-	myElectron -> idBitMap = (trigwp70<<5) + (trigtight<<4) + (pass_eoverpcuts<<3)+(pass_tight<<2) + (pass_medium<<1) +(pass_loose<<0);
-
-  // std::cout << hex << mask << dec << std::endl; 
-  //   = EgammaCutBasedEleId::TestWP(WorkingPoint::MEDIUM, 
-  //				 electronRef, 
+  unsigned int trigwp70         = 0;
+  unsigned int trigtight        = 0;
+  unsigned int pass_eoverpcuts = 0;
+  myElectron -> idBitMap = (trigwp70<<5) + (trigtight<<4) + (pass_eoverpcuts<<3)+(pass_tight<<2) + (pass_medium<<1) +(pass_loose<<0);
 					 
 
-	//const edm::ValueMap<double> ele_regEne = (*regEne_handle.product());
-
-	//    edm::Handle<edm::ValueMap<double>> regErr_handle;
-	//  iEvent.getByLabel(edm::InputTag("eleRegressionEnergy","eneErrorRegForGsfEle"), regErr_handle);
-	//  const edm::ValueMap<double> ele_regErr = (*regErr_handle.product());
+  //const edm::ValueMap<double> ele_regEne = (*regEne_handle.product());
+  
+  //    edm::Handle<edm::ValueMap<double>> regErr_handle;
+  //  iEvent.getByLabel(edm::InputTag("eleRegressionEnergy","eneErrorRegForGsfEle"), regErr_handle);
+  //  const edm::ValueMap<double> ele_regErr = (*regErr_handle.product());
 
 
   if (_is_debug) {std::cout << "finish copying electron iformation " << std::endl;}
@@ -2580,14 +2550,14 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
 
   if (_is_debug) std::cout << "copy gsf electron information ..." << std::endl;
   int index = 0;
-  for (reco::GsfElectronCollection::const_iterator electron = (*recoElectrons).begin(); electron != (*recoElectrons).end(); electron ++) {
+  for (reco::GsfElectronCollection::const_iterator electron = (*recoElectrons).begin(); electron != (*recoElectrons).end(); electron ++, index ++) {
 
     //NOTE74
-    continue;
+
     
     myElectron = myEvent->addElectron(); 
     reco::GsfElectronRef electronRef(electrons, index);
-    this->copyElectronInfo(electron, myElectron, electronRef);      
+    this->copyElectronInfo(electron, myElectron, electronRef, electron - (*recoElectrons).begin() );      
 
     
     //    std::cout << setw(20) << (*regEne_handle.product()).get(index) * TMath::Sin( 2* TMath::ATan( TMath::Exp( - ((*calibratedElectrons.product())[index]).eta()  ) ) ) 
@@ -2708,9 +2678,6 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
     }
     */
     /************ end of MVA variables ***************************/
-    
-
-    index ++;
   }
 
   //  std::cout << std::endl;

@@ -291,7 +291,8 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
 			     _photon_ *myPhoton);
   void   copyElectronInfo(   reco::GsfElectronCollection::const_iterator electron,
 			     _electron_ *myElectron,
-			     reco::GsfElectronRef electronRef);
+			     reco::GsfElectronRef electronRef, 
+			     int ele_index = -1);
   void   copyVertexInfo(     const reco::VertexCollection::const_iterator vertex,   const reco::MuonCollection *muons,  int leadingMuonIndex,  
 			     _vertex_ *myVertex);
   void   copyTrgBits(        const edm::Event& iEvent, 
@@ -327,6 +328,15 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   std::string        Vertices_;
   edm::InputTag      MuonCollectionTags_;
   edm::InputTag      ElectronCollectionTags_;
+
+  edm::EDGetTokenT<edm::ValueMap<bool> > EleLooseIdMapToken_;
+  edm::EDGetTokenT<edm::ValueMap<bool> > EleMediumIdMapToken_;
+  edm::EDGetTokenT<edm::ValueMap<bool> > EleTightIdMapToken_;
+  
+  edm::Handle<edm::ValueMap<bool> > loose_id_decisions;
+  edm::Handle<edm::ValueMap<bool> > medium_id_decisions;
+  edm::Handle<edm::ValueMap<bool> > tight_id_decisions; 
+  
 
   ElectronEffectiveArea::ElectronEffectiveAreaTarget EAtarget;
 

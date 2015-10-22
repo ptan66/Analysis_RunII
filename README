@@ -33,6 +33,35 @@ brilcalc lumi --normtag /afs/cern.ch/user/c/cmsbril/public/normtag_json/OfflineN
 HLTPATH is hlt path name or pattern. The string pattern uses the file system convention fnmatch. *, ? ,[seq], [!seq] operators are recognised. In order not to confuse with the file system, please double quote the hltpath string if there are special char *, ?, [] !
 
 
+triggers:
+
+HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v* (e.g., v1 for MC; v2 for data)
+HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v*
+
+HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v*
+
+
+JEC:
+
+MC:   74X_mcRun2_asymptotic_v2
+Data: 74X_dataRun2_Prompt_v4
+
+MET fitlers:
+
+•  at least one good PV
+•  HBHENoiseFilter loose
+•  HBHEIsoNoiseFilter
+•  eeBadScFilter
+•  CSCTightHalo2015Filter
+
+
+
+Daily logs:
+==========
+
+Oct. 22, 2015
+
+implemented cut-based electron ID, and code was tested to run on MC simulation
 
 
 
@@ -72,3 +101,45 @@ access the jet ID value map for jet ID related variables
  InputJetIDValueMap         = cms.InputTag("ak4JetID"), 
 
 !!!!! need check for missing hits for track/electronID/electron MVA id/cocktail muon/
+
+
+
+
+
+email from Ilya regarding electron ID
++++++++++++++++++++++++++++++++++++++
+
+
+  As part of my EGM work, I am providing a set of demos for electron and photon usage
+for all PAGs. Specifically for 25ns Spring15 samples, for the approved cut-based electron ID:
+
+My example demo ntupler (note that it runs universally on AOD and miniAOD):
+with full cut-based ID:
+   https://github.com/ikrav/EgammaWork/blob/ntupler_and_VID_demos_7.4.12/ElectronNtupler/plugins/ElectronNtuplerVIDDemo.cc
+just ntupler, no EGM ID embedded:
+   https://github.com/ikrav/EgammaWork/blob/ntupler_and_VID_demos_7.4.12/ElectronNtupler/plugins/SimpleElectronNtupler.cc
+
+The matching configs for cmsRun, respectively:
+   https://github.com/ikrav/EgammaWork/blob/ntupler_and_VID_demos_7.4.12/ElectronNtupler/test/runElectrons_VID_CutBased_Spring15_25ns_demo.py
+and
+   https://github.com/ikrav/EgammaWork/blob/ntupler_and_VID_demos_7.4.12/ElectronNtupler/test/runElectrons.py
+
+In both of the above you will find exactly the objects from the AOD and miniAOD
+event record (electron collection names, etc) in the python configuration for the ntupler.
+
+If you’d like to read more about these examples where I explain what line does what,
+and the advice on using the EGM-certified ID, it is here: 
+   https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Working_points_for_Spring15_MC_s
+(see “Recipes for regular user for 7.4.12+”).
+
+You can pull the whole example (after setting up the release and doing cms-merge-topic with 
+the IDs code, if you plan to use it) as
+  … you are in CMSSW_7_4_12/src/
+  git clone https://github.com/ikrav/EgammaWork.git
+  cd EgammaWork
+  git checkout ntupler_and_VID_demos_7.4.12
+  scram build
+
+Let me know if you have questions.
+Regards,
+Ilya

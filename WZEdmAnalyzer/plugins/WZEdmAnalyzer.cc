@@ -136,6 +136,9 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   Vertices_(                   iConfig.getParameter<std::string>("Vertices")),
   MuonCollectionTags_(         iConfig.getParameter<std::string>("Muons")),
   ElectronCollectionTags_(     iConfig.getParameter<std::string>("Electrons")),
+  EleLooseIdMapToken_(consumes<edm::ValueMap<bool> >(  iConfig.getParameter<edm::InputTag>("EleLooseIdMap"))),
+  EleMediumIdMapToken_(consumes<edm::ValueMap<bool> >( iConfig.getParameter<edm::InputTag>("EleMediumIdMap"))),
+  EleTightIdMapToken_(consumes<edm::ValueMap<bool> >(  iConfig.getParameter<edm::InputTag>("EleTightIdMap"))),
   ElectronIsoValsTags_(        iConfig.getParameter< std::vector<edm::InputTag> >("ElectronIsoVals")),   
   JetTags_(                    iConfig.getParameter<std::string>("Jets")),
   CaloJetTags_(                iConfig.getParameter<std::string>("CaloJets")),
@@ -518,6 +521,11 @@ Handle<bool> CSCTightHaloFilterHandle;
   iEvent.getByLabel("allConversions",                 convCol);
 
 
+
+  // access cut-based electron ID value map
+  iEvent.getByToken(EleLooseIdMapToken_ ,             loose_id_decisions);
+  iEvent.getByToken(EleMediumIdMapToken_,             medium_id_decisions);
+  iEvent.getByToken(EleTightIdMapToken_,              tight_id_decisions);
 
 
   // regression electron calibration

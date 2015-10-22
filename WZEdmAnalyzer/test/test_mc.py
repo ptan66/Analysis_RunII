@@ -1,6 +1,8 @@
 import FWCore.ParameterSet.Config as cms
 import string
 
+
+
 process = cms.Process("asym")
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
 #process.MessageLogger.destinations = cms.untracked.vstring("./mymessage.log")
@@ -40,6 +42,12 @@ process.load("SimTracker.TrackAssociation.TrackAssociatorByChi2_cfi")
 process.load("SimTracker.TrackAssociation.TrackAssociatorByHits_cfi")
 process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
+#######################################################################
+#
+#  global control flag
+#
+#######################################################################
+useAOD = True
 
 
 
@@ -369,6 +377,35 @@ process.superClusters = cms.EDProducer("SuperClusterMerger",
 
 
 
+###################################################################
+#
+#   set up cut-based electron ID, using code from Ilya Kravchenko
+#
+#
+###################################################################
+from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
+# turn on VID producer, indicate data format  to be
+# DataFormat.AOD or DataFormat.MiniAOD, as appropriate 
+if useAOD == True :
+    dataFormat = DataFormat.AOD
+else :
+    dataFormat = DataFormat.MiniAOD
+
+switchOnVIDElectronIdProducer(process, dataFormat)
+
+# define which IDs we want to produce
+my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Spring15_25ns_V1_cff',
+                 'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff']
+
+#add them to the VID producer
+for idmod in my_id_modules:
+    setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection)
+
+
+
+
+
+
 #NOTE74
 #process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
 #    calibratedElectrons = cms.PSet(
@@ -437,6 +474,10 @@ process.analyzer = cms.EDAnalyzer(
     Vertices                  = cms.string(  "offlinePrimaryVertices"),
     Muons                     = cms.string(  "muons"),
     Electrons                 = cms.string(  "gedGsfElectrons"),
+    EleLooseIdMap             = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-loose"),
+    EleMediumIdMap            = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-medium"),
+    EleTightIdMap             = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight"),
+
     ElectronIsoVals	      = cms.VInputTag(cms.InputTag('elPFIsoValueCharged03PFIdPFIso'),
                                             cms.InputTag('elPFIsoValueGamma03PFIdPFIso'),
                                             cms.InputTag('elPFIsoValueNeutral03PFIdPFIso')),
@@ -482,7 +523,7 @@ process.analyzer = cms.EDAnalyzer(
     HLTTriggerElectrons       = cms.vstring("", "HLT_Ele27_WP80_v10", "HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v17"), 
 
     GeneratorLevelTag         = cms.string("generator"),
-    LHEEventProductTag         = cms.InputTag("externalLHEProducer"),
+    LHEEventProductTag        = cms.InputTag("externalLHEProducer"),
     GenJets                   = cms.string("ak4GenJets"),
     akGenJets                 = cms.string("ak4GenJets"),
     GenJetMinPt               = cms.double(5),
@@ -522,6 +563,7 @@ process.p = cms.Path(
  #                    process.recoPuJetId * process.recoPuJetMva*
 #                     process.eleRegressionEnergy * process.calibratedElectrons*
 #                     process.mvaTrigV0  * process.mvaNonTrigV0*
+                     process.egmGsfElectronIDSequence*
                      process.analyzer)
 
 
