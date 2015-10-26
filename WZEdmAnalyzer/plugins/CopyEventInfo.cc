@@ -1398,30 +1398,29 @@ WZEdmAnalyzer::copyElectronInfo( reco::GsfElectronCollection::const_iterator ele
  
 
   // pf isolation
-  // effective area for isolation
-  
+  GsfElectron::PflowIsolationVariables pfIso = electron -> pfIsolationVariables();
+  Double_t isoChargedHadrons_ = pfIso.sumChargedHadronPt ;
+  Double_t isoNeutralHadrons_ = pfIso.sumNeutralHadronEt ;
+  Double_t isoPhotons_        = pfIso.sumPhotonEt ;
+  Double_t isoChargedFromPU_  = pfIso.sumPUPt ;
+    
+  double area =  _effectiveAreas.getEffectiveArea( std::abs( electron-> superCluster()->eta() ) );
 
-  // apply to neutrals
-  /*
-  Double_t iso_ch =  (*electronIsoValsCh)[electronRef];
-  Double_t iso_photon =  (*electronIsoValsPhoton)[electronRef];
-  Double_t iso_neutral =  (*electronIsoValsNeutral)[electronRef];
-  //  Float_t pfRelIsoR03, effArea, pfIsoCh, pfIsoNeutral, pfIsoPhoton;
+  float relIsoWithEA_ = ( pfIso.sumChargedHadronPt + max(0.0, pfIso.sumNeutralHadronEt + pfIso.sumPhotonEt - (*fixGridRhoHandle) * area ) )/electron->pt();
+    
+  // Compute isolation with delta beta correction for PU
+  float absiso        = pfIso.sumChargedHadronPt + max(0.0 , pfIso.sumNeutralHadronEt + pfIso.sumPhotonEt - 0.5 * isoChargedFromPU_ );
+  float relIsoWithDBeta_ = absiso/electron->pt();
+    
 
-  //  double electron_eta = eletron->eta;
-  Double_t  effArea = ElectronEffectiveArea::GetElectronEffectiveArea(ElectronEffectiveArea::kEleGammaAndNeutralHadronIso03, electron->eta(), ElectronEffectiveArea::kEleEAData2011);
-  float rhoPrime = std::max(*rhoIsoHandle, 0.0);
-  float iso_n = std::max(iso_neutral + iso_photon - rhoPrime * effArea, 0.0);
+  myElectron->pfRelIsoR03    = relIsoWithDBeta_;
+  myElectron->pfIsoCh        = isoChargedHadrons_;
+  myElectron->pfIsoPhoton    = isoPhotons_;
+  myElectron->pfIsoNeutral   = isoNeutralHadrons_;
+  myElectron->pfIsoSumPUPt   = isoChargedFromPU_;
+  myElectron->effArea        = area;
 
-   // compute final isolation
-  //  double iso = (iso_n + iso_ch) / pt;
-  myElectron->pfRelIsoR03 =(iso_n + iso_ch) / electron->pt() ;
-  myElectron->pfIsoCh = iso_ch;
-  myElectron->pfIsoPhoton  = iso_photon;
-  myElectron->pfIsoNeutral = iso_neutral;
-  myElectron->effArea = effArea;
-
-  */
+  myElectron->pfRelIsoR03EA  = relIsoWithEA_;
 
 
  // Shower Shape
@@ -1469,6 +1468,8 @@ WZEdmAnalyzer::copyElectronInfo( reco::GsfElectronCollection::const_iterator ele
   unsigned int trigtight        = 0;
   unsigned int pass_eoverpcuts = 0;
   myElectron -> idBitMap = (trigwp70<<5) + (trigtight<<4) + (pass_eoverpcuts<<3)+(pass_tight<<2) + (pass_medium<<1) +(pass_loose<<0);
+
+
 					 
 
   //const edm::ValueMap<double> ele_regEne = (*regEne_handle.product());

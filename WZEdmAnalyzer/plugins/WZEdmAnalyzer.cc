@@ -136,10 +136,10 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   Vertices_(                   iConfig.getParameter<std::string>("Vertices")),
   MuonCollectionTags_(         iConfig.getParameter<std::string>("Muons")),
   ElectronCollectionTags_(     iConfig.getParameter<std::string>("Electrons")),
+  _effectiveAreas(            (iConfig.getParameter<edm::FileInPath>("EffAreasConfigFile")).fullPath()),
   EleLooseIdMapToken_(consumes<edm::ValueMap<bool> >(  iConfig.getParameter<edm::InputTag>("EleLooseIdMap"))),
   EleMediumIdMapToken_(consumes<edm::ValueMap<bool> >( iConfig.getParameter<edm::InputTag>("EleMediumIdMap"))),
   EleTightIdMapToken_(consumes<edm::ValueMap<bool> >(  iConfig.getParameter<edm::InputTag>("EleTightIdMap"))),
-  ElectronIsoValsTags_(        iConfig.getParameter< std::vector<edm::InputTag> >("ElectronIsoVals")),   
   JetTags_(                    iConfig.getParameter<std::string>("Jets")),
   CaloJetTags_(                iConfig.getParameter<std::string>("CaloJets")),
   JPTJetTags_(                 iConfig.getParameter<std::string>("JPTJets")),
@@ -152,6 +152,7 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   caloJetCorrectionService(    iConfig.getParameter<std::string>("CaloJetCorrectionService") ), 
   jptJetCorrectionService(     iConfig.getParameter<std::string>("JPTJetCorrectionService") ), 
   pfJetCorrectionService(      iConfig.getParameter<std::string>("PFJetCorrectionService") ), 
+  FixGridRhoToken_(consumes<double> ( iConfig.getParameter<edm::InputTag>("FixGridRho"))), 
   RhoSrcLabel_(                iConfig.getParameter<edm::InputTag>("RhoSrc")), 
   SigmaSrcLabel_(              iConfig.getParameter<edm::InputTag>("SigmaSrc")), 
   RhoIsoSrcLabel_(             iConfig.getParameter<edm::InputTag>("RhoIsoSrc")), 
@@ -194,12 +195,6 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
 
   // for accessing trigger information
   TriggerProcess_ = TriggerResultsLabel_.process();
-
-
-  // Q-G likelihood calculator
-  //std::string qgtemplate("");
-  // qgtemplate.append("QG_QCD_Pt-15to3000_TuneZ2_Flat_7TeV_pythia6_Summer11-PU_S3_START42_V11-v2.root");
-  // qgLikelihoodCal = new QGLikelihoodCalculator(qgtemplate);
 
 
   if (!_gen_only) {
@@ -432,7 +427,9 @@ Handle<bool> CSCTightHaloFilterHandle;
   //edm::Handle<double> rhoHandle;
   // default rho value for ak4PFjet
   // NOTE74
-  
+
+  iEvent.getByToken(FixGridRhoToken_, fixGridRhoHandle);  
+
   iEvent.getByLabel(RhoSrcLabel_,          rhoHandle);         
   iEvent.getByLabel(SigmaSrcLabel_,        sigmaHandle);         
   if (rhoHandle.isValid() && sigmaHandle.isValid() ) {
@@ -588,9 +585,9 @@ Handle<bool> CSCTightHaloFilterHandle;
 
   
   // electron pf isolations
-  iEvent.getByLabel(ElectronIsoValsTags_[0] ,         electronIsoValsCh);
-  iEvent.getByLabel(ElectronIsoValsTags_[1] ,         electronIsoValsPhoton);
-  iEvent.getByLabel(ElectronIsoValsTags_[2] ,         electronIsoValsNeutral); 
+  //  iEvent.getByLabel(ElectronIsoValsTags_[0] ,         electronIsoValsCh);
+  //  iEvent.getByLabel(ElectronIsoValsTags_[1] ,         electronIsoValsPhoton);
+  //  iEvent.getByLabel(ElectronIsoValsTags_[2] ,         electronIsoValsNeutral); 
 
   //  edm::Handle<reco::ConversionCollection> conversions_h;
   // iEvent.getByLabel("allConversions", conversions_h);

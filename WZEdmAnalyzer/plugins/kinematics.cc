@@ -809,6 +809,9 @@ _electron_::_electron_():_track_() {
    pfIsoCh                      =0; 
    pfIsoNeutral                 =0;
    pfIsoPhoton                  =0;
+   pfIsoSumPUPt                 =0;
+
+   pfRelIsoR03EA                =0;
 
 
   // shower shape variables

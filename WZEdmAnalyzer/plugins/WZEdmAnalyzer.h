@@ -63,8 +63,10 @@
 // electrons
 #include "DataFormats/EgammaCandidates/interface/GsfElectron.h"
 #include "DataFormats/EgammaCandidates/interface/GsfElectronFwd.h"
-#include "DataFormats/RecoCandidate/interface/IsoDeposit.h"
-#include "EgammaAnalysis/ElectronTools/interface/ElectronEffectiveArea.h"
+#include "RecoEgamma/EgammaTools/interface/EffectiveAreas.h"
+
+//#include "DataFormats/RecoCandidate/interface/IsoDeposit.h"
+//#include "EgammaAnalysis/ElectronTools/interface/ElectronEffectiveArea.h"
 
 
 // btagging
@@ -188,6 +190,19 @@ using namespace edm;
 using namespace reco;
 using namespace std;
 
+
+  
+// Effective areas for electrons from Giovanni P. and Cristina
+// distributed as private slides in Jan 2015, derived for PHYS14
+//namespace EffectiveAreas {
+//  const int nEtaBins = 5;
+//  const float etaBinLimits[nEtaBins+1] = {
+//    0.0, 0.8, 1.3, 2.0, 2.2, 2.5};
+//  const float effectiveAreaValues[nEtaBins] = {
+//    0.1013, 0.0988, 0.0572, 0.0842, 0.1530};
+//}
+
+
 class WZEdmAnalyzer : public edm::EDAnalyzer {
 
 
@@ -201,8 +216,8 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
 
 
 
-  typedef std::vector< edm::Handle< edm::ValueMap<reco::IsoDeposit> > > IsoDepositMaps;
-  typedef std::vector< edm::Handle< edm::ValueMap<double> > >           IsoDepositVals;
+  //  typedef std::vector< edm::Handle< edm::ValueMap<reco::IsoDeposit> > > IsoDepositMaps;
+  // typedef std::vector< edm::Handle< edm::ValueMap<double> > >           IsoDepositVals;
 
   
   explicit WZEdmAnalyzer(const edm::ParameterSet&);
@@ -329,6 +344,9 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::InputTag      MuonCollectionTags_;
   edm::InputTag      ElectronCollectionTags_;
 
+  EffectiveAreas _effectiveAreas;
+
+
   edm::EDGetTokenT<edm::ValueMap<bool> > EleLooseIdMapToken_;
   edm::EDGetTokenT<edm::ValueMap<bool> > EleMediumIdMapToken_;
   edm::EDGetTokenT<edm::ValueMap<bool> > EleTightIdMapToken_;
@@ -336,17 +354,10 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::Handle<edm::ValueMap<bool> > loose_id_decisions;
   edm::Handle<edm::ValueMap<bool> > medium_id_decisions;
   edm::Handle<edm::ValueMap<bool> > tight_id_decisions; 
-  
 
-  ElectronEffectiveArea::ElectronEffectiveAreaTarget EAtarget;
-
-  // pf isolation
-  std::vector<edm::InputTag>                      ElectronIsoValsTags_;   
-  edm::Handle< edm::ValueMap<reco::IsoDeposit> >  electronIsoDepsCh, electronIsoDepsPhoton, electronIsoDepsNeutral; 
-  edm::Handle< edm::ValueMap<double> >            electronIsoValsCh, electronIsoValsPhoton, electronIsoValsNeutral; 
 
    edm::Handle<reco::ConversionCollection> conversions_h;
-   //    iEvent.getByLabel(conversionsInputTag_, conversions_h);
+
 
  
   
@@ -384,6 +395,10 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::ESHandle<JetCorrectorParametersCollection> pfJetCorParColl;
 
   // default rho and sigma
+  edm::EDGetTokenT<double>   FixGridRhoToken_;
+  edm::Handle<double>        fixGridRhoHandle;
+
+
   edm::InputTag              RhoSrcLabel_;
   edm::Handle<double>        rhoHandle;
 

@@ -744,7 +744,8 @@ class _electron_ : public _track_ {
   // isolation variables
   Float_t dr03TkSumPt, dr03EcalRecHitSumEt, dr03HcalDepth1TowerSumEt, dr03HcalDepth2TowerSumEt, dr03HcalTowerSumEt;
   Float_t dr04TkSumPt, dr04EcalRecHitSumEt, dr04HcalDepth1TowerSumEt, dr04HcalDepth2TowerSumEt, dr04HcalTowerSumEt;
-  Float_t pfRelIsoR03, effArea, pfIsoCh, pfIsoNeutral, pfIsoPhoton;
+  Float_t pfRelIsoR03, effArea, pfIsoCh, pfIsoNeutral, pfIsoPhoton, pfIsoSumPUPt;
+  Float_t pfRelIsoR03EA;
 
 
   // shower shape variables

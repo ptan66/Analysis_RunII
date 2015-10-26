@@ -20,6 +20,7 @@ json file location:
 
 /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/
 
+
 luminosity calculation:
 ----------------------
 
@@ -53,6 +54,11 @@ MET fitlers:
 •  HBHEIsoNoiseFilter
 •  eeBadScFilter
 •  CSCTightHalo2015Filter
+
+location of pile up
+-------------------
+
+/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/PileUp/pileup_latest.txt
 
 
 

@@ -62,15 +62,15 @@ process.source = cms.Source("PoolSource",
 
 
 # Output definition
-#process.output = cms.OutputModule("PoolOutputModule",
-#    splitLevel = cms.untracked.int32(0),
-#    fileName = cms.untracked.string('step2_RAW2DIGI_L1Reco_RECO_PU.root'),
-#    dataset = cms.untracked.PSet(
-#        dataTier = cms.untracked.string('AOD'),
-#        filterName = cms.untracked.string('')
-#    )
-#)
-#process.out_step = cms.EndPath(process.output)
+process.output = cms.OutputModule("PoolOutputModule",
+    splitLevel = cms.untracked.int32(0),
+    fileName = cms.untracked.string('step2_RAW2DIGI_L1Reco_RECO_PU.root'),
+    dataset = cms.untracked.PSet(
+        dataTier = cms.untracked.string('AOD'),
+        filterName = cms.untracked.string('')
+    )
+)
+process.out_step = cms.EndPath(process.output)
 
 
 
@@ -403,6 +403,48 @@ for idmod in my_id_modules:
 
 
 
+# electron isolation
+from RecoEgamma.EgammaIsolationAlgos.egmGedGsfElectronPFIsolation_cfi import *
+
+process.load("CommonTools.ParticleFlow.pfNoPileUpIso_cff")
+process.load("CommonTools.ParticleFlow.pfParticleSelection_cff")
+
+process.pfNoPileUpCandidates = process.pfAllChargedHadrons.clone()
+process.pfNoPileUpCandidates.pdgId.extend(process.pfAllNeutralHadronsAndPhotons.pdgId)
+
+process.ElectronIsolation = cms.EDProducer("CITKPFIsolationSumProducer",
+                                           srcToIsolate = cms.InputTag("gedGsfElectrons"),
+                                           srcForIsolationCone = cms.InputTag('pfNoPileUpCandidates'),
+                                           isolationConeDefinitions = cms.VPSet(
+        cms.PSet( isolationAlgo = cms.string('ElectronPFIsolationWithConeVeto'), 
+                  coneSize = cms.double(0.3),
+                  VetoConeSizeEndcaps = cms.double(0.015),
+                  VetoConeSizeBarrel = cms.double(0.0),
+                  isolateAgainst = cms.string('h+'),
+                  miniAODVertexCodes = cms.vuint32(1,2,3) ),
+        cms.PSet( isolationAlgo = cms.string('ElectronPFIsolationWithConeVeto'), 
+                  coneSize = cms.double(0.3),
+                  VetoConeSizeEndcaps = cms.double(0.0),
+                  VetoConeSizeBarrel = cms.double(0.0),
+                  isolateAgainst = cms.string('h0'),
+                  miniAODVertexCodes = cms.vuint32(1,2,3) ),
+        cms.PSet( isolationAlgo = cms.string('ElectronPFIsolationWithConeVeto'), 
+                  coneSize = cms.double(0.3),
+                  VetoConeSizeEndcaps = cms.double(0.08),
+                  VetoConeSizeBarrel = cms.double(0.0),
+                  isolateAgainst = cms.string('gamma'),
+                  miniAODVertexCodes = cms.vuint32(2,3) )
+        )
+)
+                                           
+process.particleFlowTmpPtrs = cms.EDProducer("PFCandidateFwdPtrProducer",
+                                             src = cms.InputTag('particleFlow')
+)
+
+
+process.electronIsolation = cms.Sequence(process.particleFlowTmpPtrs + process.pfParticleSelectionSequence + process.pfNoPileUpCandidates + process.ElectronIsolation)
+
+
 
 
 
@@ -457,7 +499,7 @@ for idmod in my_id_modules:
 process.analyzer = cms.EDAnalyzer(
     "WZEdmAnalyzer",
     #parameters
-    DEBUG                     = cms.bool(True),
+    DEBUG                     = cms.bool(False),
     DATA                      = cms.bool(False),
     GEN_ONLY                  = cms.bool(False),
     MC_SIGNAL                 = cms.bool(True),
@@ -474,13 +516,10 @@ process.analyzer = cms.EDAnalyzer(
     Vertices                  = cms.string(  "offlinePrimaryVertices"),
     Muons                     = cms.string(  "muons"),
     Electrons                 = cms.string(  "gedGsfElectrons"),
+    EffAreasConfigFile        = cms.FileInPath("RecoEgamma/ElectronIdentification/data/Spring15/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt"),
     EleLooseIdMap             = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-loose"),
     EleMediumIdMap            = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-medium"),
     EleTightIdMap             = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight"),
-
-    ElectronIsoVals	      = cms.VInputTag(cms.InputTag('elPFIsoValueCharged03PFIdPFIso'),
-                                            cms.InputTag('elPFIsoValueGamma03PFIdPFIso'),
-                                            cms.InputTag('elPFIsoValueNeutral03PFIdPFIso')),
     Jets                      = cms.string("ak4CaloJets"),
     CaloJets                  = cms.string("ak4CaloJets"),
     JPTJets                   = cms.string("JetPlusTrackZSPCorJetAntiKt4"),
@@ -492,6 +531,7 @@ process.analyzer = cms.EDAnalyzer(
     CaloJetCorrectionService  = cms.string('ak4CaloL1FastL2L3'),
     JPTJetCorrectionService   = cms.string('ak4JPTL1FastL2L3'),
     PFJetCorrectionService    = cms.string('ak4PFL1FastL2L3'),
+    FixGridRho                = cms.InputTag('fixedGridRhoFastjetAll'),
     RhoSrc                    = cms.InputTag('ak4PFJets', 'rho'),
     SigmaSrc                  = cms.InputTag('ak4PFJets', 'sigma'),
     RhoSrcCHS                 = cms.InputTag('ak4PFJetsCHS', 'rho'),
@@ -511,7 +551,7 @@ process.analyzer = cms.EDAnalyzer(
     TrackMinPtWithMCTruth     = cms.double(10),
     LeptonMinPtForComposition = cms.double(15),
     JetTagCollection          = cms.string("trackCountingHighEffBJetTags"),
-    PhotonCollection          = cms.string("photons"),
+    PhotonCollection          = cms.string("gedPhotons"),
     L1ParticleMapCollection   = cms.string("l1extraParticleMap"),
     L1GTReadoutRecordLabel    = cms.InputTag('gtDigis'),
     HLTL1GTObjectMapLabel     = cms.InputTag('hltL1GtObjectMap'), 
@@ -564,6 +604,7 @@ process.p = cms.Path(
 #                     process.eleRegressionEnergy * process.calibratedElectrons*
 #                     process.mvaTrigV0  * process.mvaNonTrigV0*
                      process.egmGsfElectronIDSequence*
+#process.electronIsolation*
                      process.analyzer)
 
 
