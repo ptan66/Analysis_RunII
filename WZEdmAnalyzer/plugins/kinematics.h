@@ -847,7 +847,7 @@ class _muon_ : public _track_ {
   //  Int_t isHighPtMuon;
 
 
-  Int_t   isTightMuon;
+  Int_t   isSoftMuon, isTightMuon, isGlobalMuon;
   Int_t   isPFMuon;
   Float_t bestMuonBestTrackDxy;
   Float_t bestMuonBestTrackDz;

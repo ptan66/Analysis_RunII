@@ -1088,7 +1088,9 @@ _muon_::_muon_ ():_track_() {
   //isHighPtMuon =0;
 
 
+  isSoftMuon              = 0;
   isTightMuon              = 0;
+  isGlobalMuon              = 0;
   isPFMuon                 = 0;
   bestMuonBestTrackDxy     = 9999;
   bestMuonBestTrackDz      = 9999;

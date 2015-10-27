@@ -319,8 +319,10 @@ WZEdmAnalyzer::copyMuonInfo(  reco::MuonCollection::const_iterator fwMuon,  _muo
      // pmcTrack = muon::tevOptimized(*fwMuon, tevMap1, tevMap2, tevMap3).first;//FOR VERSIN GREATER THAN 5_X_X
 
      // NOTE74: for 74x release
-     pmcTrack = muon::tevOptimized(*fwMuon).first;
+     //     pmcTrack = muon::tevOptimized(*fwMuon).first;
      // tevMap1, tevMap2, tevMap3).first;//FOR VERSIN GREATER THAN 5_X_X
+     // add in Oct. 27, 2015
+     pmcTrack = fwMuon->tunePMuonBestTrack();
 
      myMuon->refitCharge     = (Int_t) pmcTrack->charge();
      myMuon->refitPt         = pmcTrack->pt();
@@ -493,9 +495,12 @@ WZEdmAnalyzer::copyMuonInfo(  reco::MuonCollection::const_iterator fwMuon,  _muo
   myMuon->improvedMuonBestTrackEta =0;
   myMuon->improvedMuonBestTrackPhi =0;
   myMuon->improvedMuonBestTrackCharge =0;
-  myMuon->isHighPtMuon = 0;
+  // myMuon->isHighPtMuon = isHighPtMuon(*fwMuon, *(*recVtxs).begin());
+
 
   myMuon->isPFMuon = fwMuon->isPFMuon();
+  myMuon->isSoftMuon = isSoftMuon(*fwMuon, *(*recVtxs).begin());
+  myMuon->isGlobalMuon = fwMuon->isGlobalMuon();
   myMuon->isTightMuon =  isTightMuon( *fwMuon, *(*recVtxs).begin() );;
   myMuon->bestMuonBestTrackPt = (*(fwMuon->muonBestTrack())).pt();
   myMuon->bestMuonBestTrackPtError =(*(fwMuon->muonBestTrack())).ptError();
@@ -505,8 +510,6 @@ WZEdmAnalyzer::copyMuonInfo(  reco::MuonCollection::const_iterator fwMuon,  _muo
   
   myMuon->bestMuonBestTrackDxy  = (*(fwMuon->muonBestTrack())).dxy( (*recVtxs.product())[0].position() );
  myMuon->bestMuonBestTrackDz  = (*(fwMuon->muonBestTrack())).dz( (*recVtxs.product())[0].position() );
-
-  // pfIsolationR04 = fwMuon->pfIsolationR04();
 
   const MuonPFIsolation pfIso = fwMuon->pfIsolationR04();
   
