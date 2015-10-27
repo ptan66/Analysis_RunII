@@ -359,8 +359,20 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
    edm::Handle<reco::ConversionCollection> conversions_h;
 
 
- 
-  
+   // MVA values and categories (optional)
+   edm::EDGetTokenT<edm::ValueMap<float> > TrigMvaValuesMapToken_;
+   edm::EDGetTokenT<edm::ValueMap<int> >   TrigMvaCategoriesMapToken_;
+
+   edm::EDGetTokenT<edm::ValueMap<float> > NonTrigMvaValuesMapToken_;
+   edm::EDGetTokenT<edm::ValueMap<int> >   NonTrigMvaCategoriesMapToken_;
+
+   edm::Handle<edm::ValueMap<float> >      trigMvaValues;
+   edm::Handle<edm::ValueMap<int> >        trigMvaCategories;
+   edm::Handle<edm::ValueMap<float> >      nonTrigMvaValues;
+   edm::Handle<edm::ValueMap<int> >        nonTrigMvaCategories;
+   
+
+
 
 
 

@@ -749,7 +749,7 @@ class _electron_ : public _track_ {
 
 
   // shower shape variables
-  Float_t sigmaEtaEta, sigmaIetaIeta, e1x5, e2x5Max, e5x5, hcalDepth1OverEcal, hcalDepth2OverEcal, hcalOverEcal,  hadronicOverEm;
+  Float_t sigmaEtaEta, sigmaIetaIeta, full5x5_sigmaIetaIeta, e1x5, e2x5Max, e5x5, hcalDepth1OverEcal, hcalDepth2OverEcal, hcalOverEcal,  hadronicOverEm;
 
 
   // preselection info
@@ -776,6 +776,7 @@ class _electron_ : public _track_ {
   Float_t calibratedSCEt, calibratedSCEta, calibratedSCPhi, calibratedEnergy;
   Float_t calibratedPt, calibratedEta, calibratedPhi;
   Float_t mvaTrigV0, mvaNonTrigV0;
+  Float_t mvaTrigV0Cat, mvaNonTrigV0Cat;
 
   _electron_();
   _electron_(const _electron_ & orig);

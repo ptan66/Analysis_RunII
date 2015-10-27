@@ -137,9 +137,14 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   MuonCollectionTags_(         iConfig.getParameter<std::string>("Muons")),
   ElectronCollectionTags_(     iConfig.getParameter<std::string>("Electrons")),
   _effectiveAreas(            (iConfig.getParameter<edm::FileInPath>("EffAreasConfigFile")).fullPath()),
-  EleLooseIdMapToken_(consumes<edm::ValueMap<bool> >(  iConfig.getParameter<edm::InputTag>("EleLooseIdMap"))),
-  EleMediumIdMapToken_(consumes<edm::ValueMap<bool> >( iConfig.getParameter<edm::InputTag>("EleMediumIdMap"))),
-  EleTightIdMapToken_(consumes<edm::ValueMap<bool> >(  iConfig.getParameter<edm::InputTag>("EleTightIdMap"))),
+  EleLooseIdMapToken_(consumes<edm::ValueMap<bool> >(          iConfig.getParameter<edm::InputTag>("EleLooseIdMap"))),
+  EleMediumIdMapToken_(consumes<edm::ValueMap<bool> >(         iConfig.getParameter<edm::InputTag>("EleMediumIdMap"))),
+  EleTightIdMapToken_(consumes<edm::ValueMap<bool> >(          iConfig.getParameter<edm::InputTag>("EleTightIdMap"))), 
+  TrigMvaValuesMapToken_(consumes<edm::ValueMap<float> >(      iConfig.getParameter<edm::InputTag>("TrigMvaValuesMap"))),
+  TrigMvaCategoriesMapToken_(consumes<edm::ValueMap<int> >(    iConfig.getParameter<edm::InputTag>("TrigMvaCategoriesMap"))),
+  NonTrigMvaValuesMapToken_(consumes<edm::ValueMap<float> >(   iConfig.getParameter<edm::InputTag>("NonTrigMvaValuesMap"))),
+  NonTrigMvaCategoriesMapToken_(consumes<edm::ValueMap<int> >( iConfig.getParameter<edm::InputTag>("NonTrigMvaCategoriesMap"))),
+
   JetTags_(                    iConfig.getParameter<std::string>("Jets")),
   CaloJetTags_(                iConfig.getParameter<std::string>("CaloJets")),
   JPTJetTags_(                 iConfig.getParameter<std::string>("JPTJets")),
@@ -523,6 +528,13 @@ Handle<bool> CSCTightHaloFilterHandle;
   iEvent.getByToken(EleLooseIdMapToken_ ,             loose_id_decisions);
   iEvent.getByToken(EleMediumIdMapToken_,             medium_id_decisions);
   iEvent.getByToken(EleTightIdMapToken_,              tight_id_decisions);
+
+
+  iEvent.getByToken(TrigMvaValuesMapToken_,        trigMvaValues);
+  iEvent.getByToken(TrigMvaCategoriesMapToken_,    trigMvaCategories);
+
+  iEvent.getByToken(NonTrigMvaValuesMapToken_,     nonTrigMvaValues);
+  iEvent.getByToken(NonTrigMvaCategoriesMapToken_, nonTrigMvaCategories);
 
 
   // regression electron calibration

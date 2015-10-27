@@ -20,121 +20,6 @@
 
 
 
-// #include <memory>
-// #include <string>
-// #include <iostream>
-// #include "math.h"
-// 
-// // user include files
-// #include "DataFormats/Math/interface/Point3D.h"
-// 
-// #include "FWCore/Framework/interface/Frameworkfwd.h"
-// #include "FWCore/Framework/interface/EDAnalyzer.h"
-// 
-// #include "FWCore/Framework/interface/Event.h"
-// #include "FWCore/Framework/interface/Run.h"
-// #include "FWCore/Framework/interface/MakerMacros.h"
-// 
-// #include "FWCore/ParameterSet/interface/ParameterSet.h"
-// 
-// #include "DataFormats/L1Trigger/interface/L1ParticleMap.h"
-// #include "DataFormats/L1Trigger/interface/L1EmParticle.h"
-// #include "DataFormats/L1Trigger/interface/L1JetParticle.h"
-// #include "DataFormats/L1Trigger/interface/L1MuonParticle.h"
-// #include "DataFormats/L1Trigger/interface/L1EtMissParticle.h"
-// #include "DataFormats/L1GlobalTrigger/interface/L1GlobalTriggerReadoutRecord.h"
-// 
-////#include "DataFormats/JetReco/interface/CaloJetCollection.h"
-////#include "DataFormats/JetReco/interface/Jet.h"
-// 
-// #include "TrackingTools/TransientTrack/interface/TransientTrack.h"
-// #include "DataFormats/TrackingRecHit/interface/TrackingRecHitFwd.h"
-// #include "DataFormats/TrackingRecHit/interface/TrackingRecHit.h"
-// 
-// #include "DataFormats/TrackReco/interface/Track.h"
-// #include "DataFormats/TrackReco/interface/TrackFwd.h"
-// #include "DataFormats/TrackReco/interface/TrackExtraFwd.h"
-////#include "DataFormats/SiStripDetId/interface/SiStripDetId.h"
-// 
-// #include "DataFormats/GsfTrackReco/interface/GsfTrack.h"
-// #include "DataFormats/GsfTrackReco/interface/GsfTrackFwd.h"
-// 
-// #include "DataFormats/EgammaCandidates/interface/Photon.h"
-// #include "DataFormats/EgammaCandidates/interface/PhotonFwd.h"
-// 
-// #include "DataFormats/EgammaCandidates/interface/GsfElectron.h"
-// #include "DataFormats/EgammaCandidates/interface/GsfElectronFwd.h"
-// 
-////#include "SimDataFormats/Track/interface/SimTrack.h"
-////#include "SimDataFormats/Track/interface/SimTrackContainer.h"
-// 
-// //#include "DataFormats/MuonReco/interface/Muon.h"
-// //#include "DataFormats/MuonReco/interface/MuonFwd.h"
-// #include "DataFormats/JetReco/interface/JetTracksAssociation.h"
-// #include "DataFormats/Candidate/interface/Candidate.h"
-// #include "DataFormats/CaloTowers/interface/CaloTowerCollection.h"
-// #include "DataFormats/Math/interface/Vector3D.h"
-// #include "DataFormats/Common/interface/TriggerResults.h"
-////#include "FWCore/Common/interface/TriggerNames.h"
-// 
-// #include "DataFormats/METReco/interface/CaloMETCollection.h"
-// #include "DataFormats/METReco/interface/CaloMET.h"
-// #include "DataFormats/HLTReco/interface/TriggerEvent.h"
-// #include "DataFormats/HLTReco/interface/TriggerObject.h"
-// #include "DataFormats/HLTReco/interface/TriggerTypeDefs.h"
-// 
-// // Math
-// #include "Math/GenVector/VectorUtil.h"
-// #include "Math/GenVector/PxPyPzE4D.h"
-// 
-// // MC truth matching
-// //#include "RecoBTag/MCTools/interface/JetFlavour.h"
-// //#include "RecoBTag/MCTools/interface/JetFlavourIdentifier.h"
-// #include <SimDataFormats/Track/interface/SimTrack.h>
-// #include <SimDataFormats/Track/interface/SimTrackContainer.h>
-// #include "HepMC/GenEvent.h"
-// 
-// #include "DataFormats/BTauReco/interface/JetTag.h"
-// //#include "DataFormats/BTauReco/interface/JetTagFwd.h"
-////#include "DataFormats/ParticleFlowCandidate/interface/PFCandidate.h"
-// 
-// #include "Geometry/Records/interface/TrackerDigiGeometryRecord.h"
-// #include "Geometry/TrackerGeometryBuilder/interface/TrackerGeometry.h"
-// #include "Geometry/CommonDetUnit/interface/GeomDet.h"
-// 
-// 
-// #include "DataFormats/EcalRecHit/interface/EcalRecHitCollections.h"
-// #include "RecoLocalCalo/EcalRecAlgos/interface/EcalSeverityLevelAlgo.h"
-////#include "RecoEgamma/EgammaTools/interface/ConversionFinder.h"
-// #include "RecoEgamma/EgammaTools/interface/ConversionInfo.h"
-////#include "RecoEcal/EgammaCoreTools/interface/EcalClusterTools.h"
-// 
-// #include "JetMETCorrections/Objects/interface/JetCorrector.h"
-// #include "RecoJets/JetProducers/interface/JetIDHelper.h"
-// 
-// 
-// // For root
-// #include "TTree.h"
-// #include "TNtuple.h"
-// #include "TFile.h"
-// #include "TH1F.h"
-// #include "TH2F.h"
-// #include "TVector3.h"
-// #include "TLorentzVector.h"
-// #include "TF1.h"
-// #include "TRandom.h"
-// 
-// #include "kinematics.h"
-// #include "AnalysisTools.h"
-// #include "lhapdfcc.h"
-
-
-// using namespace std;
-// 
-// using namespace edm;
-// using namespace reco;
-// using namespace l1extra ;
-
 
 /**************************************************************************
  *
@@ -1141,6 +1026,7 @@ WZEdmAnalyzer::copyPhotonInfo( reco::PhotonCollection::const_iterator photon, _p
   myPhoton->hasConversionTracks      = photon->hasConversionTracks();
   myPhoton->sigmaEtaEta      = photon->sigmaEtaEta();
   myPhoton->sigmaIetaIeta      = photon->sigmaIetaIeta();
+  //  myPhoton->sigmaIetaIeta      = photon->sigmaIetaIeta();
   myPhoton->e1x5      = photon->e1x5();
   myPhoton->e2x5      = photon->e2x5();
   myPhoton->e3x3      = photon->e3x3();
@@ -1259,24 +1145,6 @@ WZEdmAnalyzer::copyElectronInfo( reco::GsfElectronCollection::const_iterator ele
   myElectron->trackerDrivenSeed = electron->trackerDrivenSeed();
 
 
-  // spike remove
-  /*
-  const EcalRecHitCollection *myRecHits =0;
-  if (_reco) {
-    if (electron->isEB()) {
-      
-      myRecHits = ecalEBRecHitHandle.product();
-    } else if (electron->isEE() ) {
-      myRecHits  = ecalEERecHitHandle.product();
-    }
-
-    //    const DetId seedId = electron->superCluster()->seed()->seed();
-    // EcalSeverityLevelAlgo severity;
-    //if (myRecHits) myElectron->swissCross = severity.swissCross(seedId, *myRecHits);
-    // else  myElectron->swissCross = -9999;
-  }
-  */
-
 
   // conversion rejection
   // old implementation 
@@ -1298,7 +1166,9 @@ WZEdmAnalyzer::copyElectronInfo( reco::GsfElectronCollection::const_iterator ele
   myElectron->vtxFitConversion = ConversionTools::hasMatchedConversion(*electron, convCol, vertexBeamSpot->position());
   
   //NOTE74: not in 74x?
-  //myElectron->mHits = electron->gsfTrack()->trackerExpectedHitsInner().numberOfHits(); 
+  myElectron->mHits = electron->gsfTrack()->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS);
+
+  //trackerExpectedHitsInner().numberOfHits(); 
   //myElectron->numberOfLostHits = electron->gsfTrack()->trackerExpectedHitsInner().numberOfLostHits(); 
 
 
@@ -1406,6 +1276,10 @@ WZEdmAnalyzer::copyElectronInfo( reco::GsfElectronCollection::const_iterator ele
     
   double area =  _effectiveAreas.getEffectiveArea( std::abs( electron-> superCluster()->eta() ) );
 
+  // std::cout << setw(20) <<  std::abs( electron-> superCluster()->eta() )
+  //	    << setw(20) << area
+  //	    << std::endl;
+
   float relIsoWithEA_ = ( pfIso.sumChargedHadronPt + max(0.0, pfIso.sumNeutralHadronEt + pfIso.sumPhotonEt - (*fixGridRhoHandle) * area ) )/electron->pt();
     
   // Compute isolation with delta beta correction for PU
@@ -1427,6 +1301,7 @@ WZEdmAnalyzer::copyElectronInfo( reco::GsfElectronCollection::const_iterator ele
   if (_is_debug) {std::cout << "electron shower variables " << std::endl;}
   myElectron->sigmaEtaEta               = electron->sigmaEtaEta();
   myElectron->sigmaIetaIeta             = electron->sigmaIetaIeta();
+  myElectron->full5x5_sigmaIetaIeta     = electron->full5x5_sigmaIetaIeta();
   myElectron->e1x5                      = electron->e1x5();
   myElectron->e2x5Max                   = electron->e2x5Max();
   myElectron->e5x5                      = electron->e5x5();
@@ -1466,11 +1341,16 @@ WZEdmAnalyzer::copyElectronInfo( reco::GsfElectronCollection::const_iterator ele
 
   unsigned int trigwp70         = 0;
   unsigned int trigtight        = 0;
-  unsigned int pass_eoverpcuts = 0;
-  myElectron -> idBitMap = (trigwp70<<5) + (trigtight<<4) + (pass_eoverpcuts<<3)+(pass_tight<<2) + (pass_medium<<1) +(pass_loose<<0);
+  unsigned int pass_eoverpcuts  = 0;
+  myElectron -> idBitMap        = (trigwp70<<5) + (trigtight<<4) + (pass_eoverpcuts<<3)+(pass_tight<<2) + (pass_medium<<1) +(pass_loose<<0);
 
 
-					 
+
+
+  myElectron->mvaTrigV0         = (*trigMvaValues)[electronRef];
+  myElectron->mvaTrigV0Cat      = (*trigMvaCategories)[electronRef];
+  myElectron->mvaNonTrigV0 	= (*nonTrigMvaValues)[electronRef]; 
+  myElectron->mvaNonTrigV0Cat   = (*nonTrigMvaCategories)[electronRef];
 
   //const edm::ValueMap<double> ele_regEne = (*regEne_handle.product());
   

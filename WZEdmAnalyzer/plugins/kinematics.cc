@@ -817,6 +817,7 @@ _electron_::_electron_():_track_() {
   // shower shape variables
    sigmaEtaEta                  =0; 
    sigmaIetaIeta                =0; 
+   full5x5_sigmaIetaIeta        =0;
    e1x5                         =0; 
    e2x5Max                      =0; 
    e5x5                         =0; 
@@ -864,6 +865,10 @@ _electron_::_electron_():_track_() {
    calibratedPhi                   =0;
    mvaTrigV0                       = -999;
    mvaNonTrigV0                    = -999;
+   mvaTrigV0Cat                    = -999;
+   mvaNonTrigV0Cat                 = -999;
+
+
 
 }
 _electron_::_electron_(const _electron_ & orig){}
