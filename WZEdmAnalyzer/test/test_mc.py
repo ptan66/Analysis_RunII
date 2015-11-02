@@ -62,15 +62,15 @@ process.source = cms.Source("PoolSource",
 
 
 # Output definition
-process.output = cms.OutputModule("PoolOutputModule",
-    splitLevel = cms.untracked.int32(0),
-    fileName = cms.untracked.string('step2_RAW2DIGI_L1Reco_RECO_PU.root'),
-    dataset = cms.untracked.PSet(
-        dataTier = cms.untracked.string('AOD'),
-        filterName = cms.untracked.string('')
-    )
-)
-process.out_step = cms.EndPath(process.output)
+#process.output = cms.OutputModule("PoolOutputModule",
+#    splitLevel = cms.untracked.int32(0),
+#    fileName = cms.untracked.string('step2_RAW2DIGI_L1Reco_RECO_PU.root'),
+#    dataset = cms.untracked.PSet(
+#        dataTier = cms.untracked.string('AOD'),
+#        filterName = cms.untracked.string('')
+#    )
+#)
+#process.out_step = cms.EndPath(process.output)
 
 
 
@@ -530,12 +530,19 @@ process.analyzer = cms.EDAnalyzer(
     GenJetMinPt               = cms.double(5),
     SimTracks                 = cms.string("g4SimHits"),
     DiLeptonMinMass           = cms.double(5),
-    out                       = cms.string("./test_mc.root"),
+    out                       = cms.string("./test.root"),
     open                      = cms.string("recreate"),
     pdf                       = cms.string("cteq66.LHgrid"),
     subset                    = cms.int32(0)
     )
 
+
+# rename output file
+process.TFileService = cms.Service("TFileService",
+                                    fileName = 
+                                   cms.string('testme.root' ),
+                                   closeFileFast = cms.untracked.bool(True)
+                                   )
 
 
 

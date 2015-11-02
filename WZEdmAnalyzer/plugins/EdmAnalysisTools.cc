@@ -328,7 +328,7 @@ void vertexActivites(reco::VertexCollection::const_iterator v, const reco::Muon 
   //  if (!muon) return;
 
   TVector3 muon_v3, track_v3;
-  muon_v3.SetPtEtaPhi(8000, 0, 0);
+  muon_v3.SetPtEtaPhi(6500, 0, 0);
   if (muon)   muon_v3.SetPtEtaPhi( muon->innerTrack()->pt(),muon->innerTrack()->eta(),muon->innerTrack()->phi()); 
 
   for (std::vector<TrackBaseRef >::const_iterator  it = v->tracks_begin(); it != v->tracks_end(); ++ it) { 

@@ -514,9 +514,7 @@ WZEdmAnalyzer::copyMuonInfo(  reco::MuonCollection::const_iterator fwMuon,  _muo
   const MuonPFIsolation pfIso = fwMuon->pfIsolationR04();
   
   Float_t pfIso_beta = pfIso.sumChargedHadronPt;
-  if (0 < pfIso.sumNeutralHadronEt + pfIso.sumPhotonEt - 0.5 * pfIso.sumPUPt ) 
-    pfIso_beta += pfIso.sumNeutralHadronEt + pfIso.sumPhotonEt - 0.5 * pfIso.sumPUPt;
-  
+  pfIso_beta += std::max(0., pfIso.sumNeutralHadronEt + pfIso.sumPhotonEt - 0.5*pfIso.sumPUPt);
   
   myMuon->pfIsolationR04beta = pfIso_beta;
   myMuon->pfIsolationR04     = pfIso.sumChargedHadronPt + pfIso.sumNeutralHadronEt + pfIso.sumPhotonEt;
@@ -1326,6 +1324,7 @@ WZEdmAnalyzer::copyElectronInfo( reco::GsfElectronCollection::const_iterator ele
   myElectron->numberOfBrems              = electron->numberOfBrems();
   //  myElectron->isMomentumCorrected = electron->isMomentumCorrected();
   myElectron->ecalEnergy                 = electron->ecalEnergy();
+  myElectron->correctedEcalEnergy        = electron->correctedEcalEnergy();
   myElectron->ecalEnergyError            = electron->ecalEnergyError();
   myElectron->trackMomentumError         = electron->trackMomentumError();
   myElectron->trackMomentumAtVtx         = electron->trackMomentumAtVtx().R();

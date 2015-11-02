@@ -38,5 +38,6 @@
 <use   name="RecoLocalCalo/EcalRecAlgos"/>
 <use   name="EgammaAnalysis/ElectronTools"/>
 <use   name="DataFormats/Luminosity"/>
+<use name="PhysicsTools/UtilAlgos"/>
 
 <flags   EDM_PLUGIN="1"/>

@@ -99,6 +99,8 @@
 
 
 // 
+#include "CommonTools/UtilAlgos/interface/TFileService.h"
+
 #include "TTree.h"
 #include "TNtuple.h"
 #include "TFile.h"
@@ -190,11 +192,13 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   akGenJetAlgorithmTags_(      iConfig.getParameter<std::string>("akGenJets")),
   genJetMinPt(                 iConfig.getParameter<double>("GenJetMinPt")),
   SimTrackTags_(               iConfig.getParameter<std::string>("SimTracks")),
-  diLeptonMinMass(             iConfig.getParameter<double>("DiLeptonMinMass")),
-  out(                         iConfig.getParameter<std::string>("out")),
-  open(                        iConfig.getParameter<std::string>("open")),
-  pdf(                         iConfig.getParameter<std::string>("pdf")),
-  subset(                      iConfig.getParameter<int>("subset")) {
+  diLeptonMinMass(             iConfig.getParameter<double>("DiLeptonMinMass")) {
+
+  //,
+  //  out(                         iConfig.getParameter<std::string>("out")),
+  //  open(                        iConfig.getParameter<std::string>("open")),
+  //  pdf(                         iConfig.getParameter<std::string>("pdf")),
+  //  subset(                      iConfig.getParameter<int>("subset")) {
 
 
 
@@ -238,12 +242,18 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   }
   */
 
-  if (_is_debug) std::cout  << "check point ... create output file - " << out.c_str() << std::endl;
+  //  if (_is_debug) std::cout  << "check point ... create output file - " << out.c_str() << std::endl;
 
 
-  // Define output file and ntuple
-  hFile  = new TFile( out.c_str(), open.c_str() );
-  ntuple = new TTree("ntuple", "");
+  // use TFile service?
+  //  edm::Service< TFileService > fs_;
+  ntuple = fs->make<TTree>("ntuple","ntuple");
+
+
+
+  // Define output file and ntuple without TFileService
+  //  hFile  = new TFile( out.c_str(), open.c_str() );
+  //  ntuple = new TTree("ntuple", "");
   
   myEvent = new _event_();
   ntuple->Branch("ewk_asym", "_event_", &myEvent, 32000, 99); 
@@ -882,10 +892,10 @@ WZEdmAnalyzer::endJob()
   //  write results into disk
   std::cout << "MY INFORMATION: total processed events " << totalProcessedEvts << std::endl;
   
-  hFile ->cd();
-  ntuple->Write();
-  hFile ->Write();
-  hFile ->Close();
+  //  hFile ->cd();
+  // ntuple->Write();
+  // hFile ->Write();
+  // hFile ->Close();
 
   return;
 }

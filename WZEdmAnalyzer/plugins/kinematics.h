@@ -764,11 +764,11 @@ class _electron_ : public _track_ {
 
   // 
   Int_t   isMomentumCorrected; 
-  Float_t ecalEnergy, trackMomentumAtVtx, ecalEnergyError, trackMomentumError, electronMomentumError;
+  Float_t ecalEnergy, correctedEcalEnergy, trackMomentumAtVtx, ecalEnergyError, trackMomentumError, electronMomentumError;
   Float_t ooemoop;
 
 
-  Int_t idBitMap;
+  Int_t idBitMap, mvaIdBitMap;
 
 
   Float_t regressionEnergy, regressionEnergyError;

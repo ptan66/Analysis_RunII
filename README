@@ -24,6 +24,14 @@ json file location:
 luminosity calculation:
 ----------------------
 
+commands:
+
+setenv PATH $HOME/.local/bin:/afs/cern.ch/cms/lumi/brilconda-1.0.3/bin:$PATH
+pip uninstall -y brilws
+pip install --install-option="--prefix=$HOME/.local" brilws
+
+
+
 version of software: brilconda-1.0.3
 
 example command:
@@ -59,6 +67,26 @@ location of pile up
 -------------------
 
 /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/PileUp/pileup_latest.txt
+
+
+pile up calculation
+
+pileupCalc.py -i 
+Cert_246908-258750_13TeV_PromptReco_Collisions15_25ns_JSON.txt 
+--inputLumiJSON 
+/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/PileUp/pileup_latest.txt
+--calcMode true --minBiasXsec 80000 --maxPileupBin 52 --numPileupBins 52 
+myhist.root
+
+from Jiyeon
+  I used the information of this link for my pileup calculation :
+https://twiki.cern.ch/twiki/bin/viewauth/CMS/PileupJSONFileforData
+(pileupCalc.py -i MyAnalysisJSON.txt --inputLumiJSON 
+pileup_JSON_2011_4_2_validation.txt --calcMode true --minBiasXsec 69400 
+--maxPileupBin 50 --numPileupBins 50 MyDataPileupHistogram.root)
+
+Especially, I used the section of "Calculating Your Pileup Distribution".
+with '--minBiasXsec = 73500' which is default value in CMSSW74x release.
 
 
 

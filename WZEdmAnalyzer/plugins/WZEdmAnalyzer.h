@@ -21,6 +21,9 @@
 #include "HepMC/GenEvent.h"
 #include "HepMC/SimpleVector.h"
 
+
+
+
 // L1 triggers
 #include "CondFormats/DataRecord/interface/L1GtTriggerMenuRcd.h"
 #include "CondFormats/L1TObjects/interface/L1GtTriggerMenu.h"
@@ -172,6 +175,10 @@
 
 
 // ROOT libraries and user defined
+#include "FWCore/ServiceRegistry/interface/Service.h"
+#include "CommonTools/UtilAlgos/interface/TFileService.h"
+#include "CommonTools/Utils/interface/TFileDirectory.h"
+
 #include "TTree.h"
 #include "TNtuple.h"
 #include "TFile.h"
@@ -192,15 +199,6 @@ using namespace std;
 
 
   
-// Effective areas for electrons from Giovanni P. and Cristina
-// distributed as private slides in Jan 2015, derived for PHYS14
-//namespace EffectiveAreas {
-//  const int nEtaBins = 5;
-//  const float etaBinLimits[nEtaBins+1] = {
-//    0.0, 0.8, 1.3, 2.0, 2.2, 2.5};
-//  const float effectiveAreaValues[nEtaBins] = {
-//    0.1013, 0.0988, 0.0572, 0.0842, 0.1530};
-//}
 
 
 class WZEdmAnalyzer : public edm::EDAnalyzer {
@@ -529,9 +527,9 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::InputTag              SimTrackTags_;
   double                     diLeptonMinMass;
 
-  std::string                out, open;
-  std::string                pdf;
-  int                        subset;
+  //  std::string                out, open;
+  // std::string                pdf;
+  // int                        subset;
   double                     xmin, xmax, qmin, qmax;
 
 
@@ -668,7 +666,8 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   
   // output data defintion/access
   // necessary global variables
-  TFile                    *hFile;
+  edm::Service< TFileService > fs;
+  //  TFile                    *hFile;
   TTree                    *ntuple;
   _event_                  *myEvent;        // event setup
   

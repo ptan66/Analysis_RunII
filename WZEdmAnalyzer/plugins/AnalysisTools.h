@@ -15,7 +15,7 @@
 #define PDG_Z_WIDTH 2.4952
 #define PDG_W_MASS  80.40
 #define PDG_W_WIDTH 2.118
-#define CM_ENERGY   8000.0
+#define CM_ENERGY   13000.0
 
 double calPtRel(TVector3 &muon, TVector3 &jet); 
 

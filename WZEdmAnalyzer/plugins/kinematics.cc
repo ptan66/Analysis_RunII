@@ -844,6 +844,7 @@ _electron_::_electron_():_track_() {
   // 
    isMomentumCorrected             =0; 
    ecalEnergy                      =0; 
+   correctedEcalEnergy             =0; 
    trackMomentumAtVtx              =0;
    ecalEnergyError                 =0; 
    trackMomentumError              =0; 
@@ -851,6 +852,7 @@ _electron_::_electron_():_track_() {
    ooemoop                         =0;
 
    idBitMap                        =0;
+   mvaIdBitMap                     =0;
 
    calibratedSCEt    = 0;
    calibratedSCEta   = 0;
