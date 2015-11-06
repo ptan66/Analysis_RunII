@@ -1,6 +1,14 @@
 import FWCore.ParameterSet.Config as cms
 import string
 
+#######################################################################
+#
+#  global control flag
+#
+#######################################################################
+useAOD   = True
+isData   = False # 0 MC; 1 data; 2 others; etc. 
+
 
 
 process = cms.Process("asym")
@@ -29,25 +37,17 @@ process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
 ## global tag for MC
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
-process.GlobalTag.globaltag = 'MCRUN2_74_V9'
-#process.GlobalTag.globaltag = '74X_mcRun2_asymptotic_v2'
-## global tag for 2015C
-#process.GlobalTag.globaltag = '74X_dataRun2_Prompt_v1'
-## global tag for 2015D
-#process.GlobalTag.globaltag = '74X_dataRun2_Prompt_v2'
 
+if isData == True :
+    process.GlobalTag.globaltag = '74X_dataRun2_Prompt_v2'
+else :
+    process.GlobalTag.globaltag = 'MCRUN2_74_V9'
 
 
 process.load("SimTracker.TrackAssociation.TrackAssociatorByChi2_cfi")
 process.load("SimTracker.TrackAssociation.TrackAssociatorByHits_cfi")
 process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
-#######################################################################
-#
-#  global control flag
-#
-#######################################################################
-useAOD = True
 
 
 
@@ -55,10 +55,13 @@ process.maxEvents = cms.untracked.PSet(  input = cms.untracked.int32(-1) )
 process.source = cms.Source("PoolSource", 
        	fileNames = cms.untracked.vstring(
         '/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/AODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/002F7FDD-BA13-E511-AA63-0026189437F5.root'
-
+#'/store/data/Run2015D/SingleMuon/AOD/PromptReco-v4/000/258/159/00000/0C2C8F20-246C-E511-B27C-02163E0143D6.root'
 
     )
 )
+
+
+
 
 
 # Output definition
@@ -284,53 +287,39 @@ process.myCaloBTaggers = cms.Sequence(
 
 # MC flavor identification
 process.myPartons = cms.EDProducer("PartonSelector",
-     withLeptons = cms.bool(False),
-     src         = cms.InputTag("genParticles")
-)
-
-
+                                   withLeptons = cms.bool(False),
+                                   src         = cms.InputTag("genParticles")
+                                   )
 #for reco pf jet
 process.flavourByRefPF = cms.EDProducer("JetPartonMatcher",
-     jets = cms.InputTag("ak4PFJets"),
-     coneSizeToAssociate = cms.double(0.3),
-     partons = cms.InputTag("myPartons")
- )
-
+                                        jets = cms.InputTag("ak4PFJets"),
+                                        coneSizeToAssociate = cms.double(0.3),
+                                        partons = cms.InputTag("myPartons")
+                                        )
 process.flavourByValPF = cms.EDProducer("JetFlavourIdentifier",
-     srcByReference = cms.InputTag("flavourByRefPF"),
-     physicsDefinition = cms.bool(False)
-)
-
-
-
-
+                                        srcByReference = cms.InputTag("flavourByRefPF"),
+                                        physicsDefinition = cms.bool(False)
+                                        )
 #for reco Calo jet
 process.flavourByRefCalo = cms.EDProducer("JetPartonMatcher",
-     jets = cms.InputTag("ak4CaloJets"),
-     coneSizeToAssociate = cms.double(0.3),
-     partons = cms.InputTag("myPartons")
- )
-
+                                          jets = cms.InputTag("ak4CaloJets"),
+                                          coneSizeToAssociate = cms.double(0.3),
+                                          partons = cms.InputTag("myPartons")
+                                          )
 process.flavourByValCalo = cms.EDProducer("JetFlavourIdentifier",
-     srcByReference = cms.InputTag("flavourByRefCalo"),
-     physicsDefinition = cms.bool(False)
-)
-
-
-
-
+                                          srcByReference = cms.InputTag("flavourByRefCalo"),
+                                          physicsDefinition = cms.bool(False)
+                                          )
 #gen jet flavor identification
 process.flavourByRefGenJet = cms.EDProducer("JetPartonMatcher",
-     jets = cms.InputTag("ak4GenJets"),
-     coneSizeToAssociate = cms.double(0.3),
-     partons = cms.InputTag("myPartons")
- )
- 
+                                            jets = cms.InputTag("ak4GenJets"),
+                                            coneSizeToAssociate = cms.double(0.3),
+                                            partons = cms.InputTag("myPartons")
+                                            )
 process.flavourByValGenJet = cms.EDProducer("JetFlavourIdentifier",
-     srcByReference = cms.InputTag("flavourByRefGenJet"),
-     physicsDefinition = cms.bool(False)
-)
-
+                                            srcByReference = cms.InputTag("flavourByRefGenJet"),
+                                            physicsDefinition = cms.bool(False)
+                                            )
 
 
 # data 
@@ -450,22 +439,19 @@ for idmod in my_id_modules:
 #process.load('EgammaAnalysis/ElectronTools/electronIdMVAProducer_cfi')
 
 
-
-
-
 process.analyzer = cms.EDAnalyzer(
     "WZEdmAnalyzer",
     #parameters
     DEBUG                     = cms.bool(False),
-    DATA                      = cms.bool(False),
+    DATA                      = cms.bool( isData ),
     GEN_ONLY                  = cms.bool(False),
-    MC_SIGNAL                 = cms.bool(True),
+    SAVE_ALLEVENTS            = cms.bool(True),
     VERTEXING                 = cms.bool(True),
     SMOOTHING                 = cms.bool(True),
     KVFParameters = cms.PSet(
-    maxDistance = cms.double(0.01),
-    maxNbrOfIterations = cms.int32(10)
-    ),
+        maxDistance = cms.double(0.01),
+        maxNbrOfIterations = cms.int32(10)
+        ),
     RECO                      = cms.bool(False),
     RECOSELECTION             = cms.string("DILEPTON"),
 #choice among "BTAG", "DILEPTON", etc.
@@ -501,7 +487,6 @@ process.analyzer = cms.EDAnalyzer(
     SigmaSrcCalo              = cms.InputTag('ak4CaloJets', 'sigma'),
     RhoSrcTrack               = cms.InputTag('ak4TrackJets', 'rho'),
     SigmaSrcTrack             = cms.InputTag('ak4TrackJets', 'sigma'),
-
     RhoIsoSrc                 = cms.InputTag('kt6PFJetsForIso', 'rho'),
     SigmaIsoSrc               = cms.InputTag('kt6PFJetsForIso', 'sigma'),
     RhoChSrc                  = cms.InputTag('kt6PFJetsForCh',  'rho'),
@@ -522,67 +507,89 @@ process.analyzer = cms.EDAnalyzer(
     HLTTriggerMuons           = cms.vstring("HLT_Mu40_vVERSION", "HLT_IsoMu24_v15", "HLT_Mu17_Mu8_v17"),
     HLTTriggerMuonElectrons   = cms.vstring("HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v7", ""),
     HLTTriggerElectrons       = cms.vstring("", "HLT_Ele27_WP80_v10", "HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v17"), 
-
     GeneratorLevelTag         = cms.string("generator"),
     LHEEventProductTag        = cms.InputTag("externalLHEProducer"),
     GenJets                   = cms.string("ak4GenJets"),
     akGenJets                 = cms.string("ak4GenJets"),
     GenJetMinPt               = cms.double(5),
     SimTracks                 = cms.string("g4SimHits"),
-    DiLeptonMinMass           = cms.double(5),
-    out                       = cms.string("./test.root"),
-    open                      = cms.string("recreate"),
-    pdf                       = cms.string("cteq66.LHgrid"),
-    subset                    = cms.int32(0)
+    DiLeptonMinMass           = cms.double(5)
     )
 
 
 # rename output file
 process.TFileService = cms.Service("TFileService",
-                                    fileName = 
+                                   fileName = 
                                    cms.string('testme.root' ),
                                    closeFileFast = cms.untracked.bool(True)
                                    )
 
 
 
-process.p = cms.Path(
-#process.noscraping*
-                     process.primaryVertexFilter*
-#                     process.HBHENoiseFilter*
-                     process.goodVertices * process.trackingFailureFilter *
-                     process.trkPOGFilters*
-                     process.myPartons*
-		     process.flavourByRefPF*process.flavourByValPF*
-		     process.flavourByRefCalo*process.flavourByValCalo*
-                     process.flavourByRefGenJet*
-                     process.flavourByValGenJet*
-                     process.pfPileUpAllChargedParticlesClone*process.kt6PFJetsForCh*process.kt6PFJetsForCh2p4*
-                     process.kt6PFJetsForIso*
-                     process.ak4CaloJetsL1FastL2L3*
-                     #process.pfiso*
-#                     process.type0PFMEtCorrection*
-#                     process.producePFMETCorrections*
-#		     process.metMuonJESCorAK4*
-#                     process.mymets*
-                     process.superClusters*
-                     process.myBTaggers*process.myCaloBTaggers*
- #                   process.QuarkGluonTagger*	
- #                    process.recoPuJetId * process.recoPuJetMva*
-#                     process.eleRegressionEnergy * process.calibratedElectrons*
-#                     process.mvaTrigV0  * process.mvaNonTrigV0*
-                     process.egmGsfElectronIDSequence*
+if isData == True :
 
-                     process.analyzer)
+    process.p = cms.Path(
+        #process.noscraping*
+        process.primaryVertexFilter*
+        #                     process.HBHENoiseFilter*
+        process.goodVertices * process.trackingFailureFilter *
+        process.trkPOGFilters*
+        process.pfPileUpAllChargedParticlesClone*process.kt6PFJetsForCh*process.kt6PFJetsForCh2p4*
+        process.kt6PFJetsForIso*
+        process.ak4CaloJetsL1FastL2L3*
+        #process.pfiso*
+        #                    process.type0PFMEtCorrection*
+        #                    process.producePFMETCorrections*
+        #		     process.metMuonJESCorAK4*
+        #                    process.mymets*
+        process.superClusters*
+        process.myBTaggers*process.myCaloBTaggers*
+        #                    process.QuarkGluonTagger*	
+        #                    process.recoPuJetId * process.recoPuJetMva*
+        #                    process.eleRegressionEnergy * process.calibratedElectrons*
+        #                    process.mvaTrigV0  * process.mvaNonTrigV0*
+        process.egmGsfElectronIDSequence*
+        #process.pfWeightedIsoSeq *
+        process.analyzer)
+    
+else : 
 
-
+    process.p = cms.Path(
+        #process.noscraping*
+        process.primaryVertexFilter*
+        #                     process.HBHENoiseFilter*
+        process.goodVertices * process.trackingFailureFilter *
+        process.trkPOGFilters*
+        process.myPartons*
+        process.flavourByRefPF*process.flavourByValPF*
+        process.flavourByRefCalo*process.flavourByValCalo*
+        process.flavourByRefGenJet*
+        process.flavourByValGenJet*
+        process.pfPileUpAllChargedParticlesClone*process.kt6PFJetsForCh*process.kt6PFJetsForCh2p4*
+        process.kt6PFJetsForIso*
+        process.ak4CaloJetsL1FastL2L3*
+        #process.pfiso*
+        #                    process.type0PFMEtCorrection*
+        #                    process.producePFMETCorrections*
+        #		     process.metMuonJESCorAK4*
+        #                    process.mymets*
+        process.superClusters*
+        process.myBTaggers*process.myCaloBTaggers*
+        #                    process.QuarkGluonTagger*	
+        #                    process.recoPuJetId * process.recoPuJetMva*
+        #                    process.eleRegressionEnergy * process.calibratedElectrons*
+        #                    process.mvaTrigV0  * process.mvaNonTrigV0*
+        process.egmGsfElectronIDSequence*
+        #process.pfWeightedIsoSeq *
+        process.analyzer)
+    
 
 
 
 
 process.options = cms.untracked.PSet(
- wantSummary = cms.untracked.bool(True)
-)
+    wantSummary = cms.untracked.bool(True)
+    )
 
 
 

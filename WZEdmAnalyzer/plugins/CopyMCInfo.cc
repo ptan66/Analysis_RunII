@@ -215,6 +215,45 @@ void WZEdmAnalyzer::fillGenEventInfo(edm::Handle<GenEventInfoProduct> &genEvtInf
 
 }
 
+
+void WZEdmAnalyzer::copyLHEweights(_event_ *myevt,  const LHEEventProduct * LHEevt) {
+  if (!LHEevt) return;
+
+  myevt->numOfWeights = LHEevt->weights().size();
+
+  for (unsigned int ii=0; ii< LHEevt->weights().size(); ii ++) {
+    myevt->weights[ii] =  LHEevt->weights()[ii].wgt;
+
+    // std::cout << setw(15) <<  myevt->weights[ii] ;
+  }
+
+  //  std::cout << LHEevt->weights()[scaleVariationsStartIndex()].id << std::endl;
+
+  //  std::cout << LHEevt->weights()[scaleVariationsStartIndex()].id << std::endl;
+  //  std::cout << LHEevt->weights()[nnpdf3VariationsStartIndex()].id << std::endl;
+  //  std::cout << LHEevt->weights()[nnpdf3AlphasVariationsStartIndex()].id << std::endl;
+
+  //  std::cout << LHEevt->weights()[ct10VariationsStartIndex()].id << std::endl;
+  //  std::cout << LHEevt->weights()[ct10AlphasVariationsStartIndex()].id << std::endl;
+
+
+  //  std::cout << LHEevt->weights()[mmht2014VariationsStartIndex()].id << std::endl;
+  //  std::cout << LHEevt->weights()[mmht2014AlphasVariationsStartIndex()].id << std::endl;
+
+
+  //  std::cout << LHEevt->weights()[ct14VariationsStartIndex()].id << std::endl;
+  //  std::cout << LHEevt->weights()[ct14AlphasVariationsStartIndex()].id << std::endl;
+
+
+  //  std::cout << LHEevt->weights()[sthw2VariationsStartIndex()].id << std::endl;
+
+
+  //  std::cout << std::endl;
+}
+
+
+
+
 void WZEdmAnalyzer::fillGenTTbar(Handle<reco::GenParticleCollection> &genParticles,  _gen_ttbar_ *genttbar) {
 
 

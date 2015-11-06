@@ -248,6 +248,7 @@ WZEdmAnalyzer::copyTrackInfo(const reco::Track *fwTrack, _track_ *myTrack)
   myTrack->pixelEndcapLayersWithMeasurement = fwTrack->hitPattern().pixelEndcapLayersWithMeasurement();
 
   myTrack->numberOfValidTrackerLayers       = fwTrack->hitPattern().trackerLayersWithMeasurement();
+  myTrack->trackerLayersWithMeasurement     = fwTrack->hitPattern().trackerLayersWithMeasurement();
 
 
   // hits pattern for conversion rejection

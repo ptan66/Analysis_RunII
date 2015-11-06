@@ -128,7 +128,7 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   _is_debug(                   iConfig.getParameter<bool>("DEBUG")),
   _is_data(                    iConfig.getParameter<bool>("DATA")),
   _gen_only(                   iConfig.getParameter<bool>("GEN_ONLY")),
-  _mc_signal(                  iConfig.getParameter<bool>("MC_SIGNAL")),
+  _save_allevents(             iConfig.getParameter<bool>("SAVE_ALLEVENTS")),
   _vertexing(                  iConfig.getParameter<bool>("VERTEXING")),
   _smoothing(                  iConfig.getParameter<bool>("SMOOTHING")),
   _kvfPSet(                    iConfig.getParameter<edm::ParameterSet>("KVFParameters")),
@@ -340,6 +340,9 @@ WZEdmAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
       iEvent.getByLabel( "genParticles",        genParticles );
       bool hasLHE = //iEvent.getByType( lheEventInfo );
 	iEvent.getByLabel( LHEEventProductTag_, lheEventInfo );
+
+      if (hasLHE)  copyLHEweights( myEvent, lheEventInfo.product() );
+
 
       this->fillMCInfo(genParticles,            myMCTruth);
       this->fillGenWZ(genParticles,             myGenWZ);
@@ -689,7 +692,7 @@ Handle<bool> CSCTightHaloFilterHandle;
     }
 
     _is_save = true;
-    if (!_is_save && !_mc_signal) return;
+    if (!_is_save && !_save_allevents) return;
   }
 
   */
@@ -772,6 +775,8 @@ Handle<bool> CSCTightHaloFilterHandle;
       bool hasLHE = iEvent.getByLabel("source", lheEventInfo );
       //    iEvent.getByLabel( "source", lheEventInfo );
        
+      if (hasLHE)  copyLHEweights( myEvent, lheEventInfo.product() );
+
       this->fillMCInfo(genParticles,                  myMCTruth);
       this->fillGenWZ(genParticles,                   myGenWZ);
       this->fillGenEventInfo(genEventInfo,            myEvent->getGenEventInfo() );
@@ -940,7 +945,7 @@ WZEdmAnalyzer::displayConfig(void)
   std::cout <<setw(12) <<"*"<< "******************************"         << "*" << std::endl;
   std::cout <<right<< setw(12) <<"*"<<setw(25)<< left<< "  Debug flag ------ "<< setw(5)<< _is_debug    <<"*"<< std::endl;
   std::cout <<right<< setw(12) <<"*"<<setw(25)<< left<< "  Data  flag ------ "<< setw(5)<< _is_data     <<"*"<< std::endl;
-  std::cout <<right<< setw(12) <<"*"<<setw(25)<< left<< "  Signal MC flag -- "  << setw(5)<< _mc_signal   <<"*"<< std::endl;
+  std::cout <<right<< setw(12) <<"*"<<setw(25)<< left<< "  Save all events - "  << setw(5)<< _save_allevents   <<"*"<< std::endl;
   std::cout <<right<< setw(12) <<"*"<<setw(25)<< left<< "  Gen event flag -- "  << setw(5)<< _gen_only    <<"*"<< std::endl;
   std::cout <<right<< setw(12) <<"*"<<setw(25)<< left<< "  Vertexing flag -- "  << setw(5)<< _vertexing   <<"*"<< std::endl;
   std::cout <<right<< setw(12) <<"*"<<setw(15)<< left<< "  Reco flag- " << right<< setw(15)<< _reco_selection.data() <<"*"<< std::endl;

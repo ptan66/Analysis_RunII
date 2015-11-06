@@ -245,6 +245,9 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
 
   void   fillGenEventInfo(edm::Handle<GenEventInfoProduct> &genEvtInfo, _gen_eventInfo_ *myGenEvtInfo);
 
+  void   copyLHEweights(_event_ *myevt,  const LHEEventProduct * LHEevt);
+
+
   void   fillMCInfo(Handle<edm::HepMCProduct>  &mcTruth,   _mc_process_ *mc);
   void   fillMCInfo(Handle<reco::GenParticleCollection> &genParticles,  _mc_process_ *mc);
   void   fillGenTTbar(Handle<reco::GenParticleCollection> &genParticles,  _gen_ttbar_ *genttbar);
@@ -322,7 +325,7 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   bool              _is_debug;  // output debug information
   bool              _is_data;   // data or MC
   bool              _gen_only;  // dealing with gen events only
-  bool              _mc_signal; // determine if it is signal MC
+  bool              _save_allevents; // determine if it is signal MC
   bool              _vertexing; // determine if performing vertex fitting
   bool              _smoothing; // determine if performing vertex fitting
   //double vertexingMaxDistance;
