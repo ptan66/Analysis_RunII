@@ -4,7 +4,7 @@ config = config()
 #config.General.requestName = 'testMC'
 config.General.workArea = 'crab_projects'
 config.General.transferOutputs = True
-config.General.transferLogs = False
+config.General.transferLogs = True
 
 config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'test_mc.py'
@@ -19,4 +19,7 @@ config.Data.publication = False
 
 
 config.Site.storageSite = 'T3_US_FNALLPC'
+config.Site.whitelist   = ['T3_US_FNALLPC', 'T1_US_FNAL']
+config.Debug.extraJDL = ['+CMS_ALLOW_OVERFLOW=False']
+
 #config.Site.whitelist   = T3_US_FNALLPC, T1_US_FNAL_Disk, T1_US_FNAL_MSS
