@@ -39,9 +39,11 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 
 if isData == True :
-    process.GlobalTag.globaltag = '74X_dataRun2_Prompt_v2'
+    process.GlobalTag.globaltag = '74X_dataRun2_v5'
+#    process.GlobalTag.globaltag = '74X_dataRun2_Prompt_v2'
 else :
-    process.GlobalTag.globaltag = 'MCRUN2_74_V9'
+#    process.GlobalTag.globaltag = 'MCRUN2_74_V9'
+    process.GlobalTag.globaltag = '74X_mcRun2_asymptotic_v4'
 
 
 process.load("SimTracker.TrackAssociation.TrackAssociatorByChi2_cfi")
@@ -51,7 +53,7 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 
 
-process.maxEvents = cms.untracked.PSet(  input = cms.untracked.int32(-1) )
+process.maxEvents = cms.untracked.PSet(  input = cms.untracked.int32(1000) )
 process.source = cms.Source("PoolSource", 
        	fileNames = cms.untracked.vstring(
         '/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/AODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/002F7FDD-BA13-E511-AA63-0026189437F5.root'
@@ -467,14 +469,14 @@ process.analyzer = cms.EDAnalyzer(
     TrigMvaCategoriesMap      = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig25nsV1Categories"),
     NonTrigMvaValuesMap       = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"),
     NonTrigMvaCategoriesMap   = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Categories"),
-    Jets                      = cms.string("ak4CaloJets"),
+    Jets                      = cms.string("ak4PFJetsCHS"),
     CaloJets                  = cms.string("ak4CaloJets"),
     JPTJets                   = cms.string("JetPlusTrackZSPCorJetAntiKt4"),
     PFJets                    = cms.string("ak4PFJets"),
     JetMinPt                  = cms.double(10),    
     LeptonThreshold           = cms.double(10),    
     InputJetIDValueMap         = cms.InputTag("ak4JetID"), 
-    JetCorrectionService      = cms.string('ak4CaloL1FastL2L3'),
+    JetCorrectionService      = cms.string('ak4PFCHSL1FastL2L3'),
     CaloJetCorrectionService  = cms.string('ak4CaloL1FastL2L3'),
     JPTJetCorrectionService   = cms.string('ak4JPTL1FastL2L3'),
     PFJetCorrectionService    = cms.string('ak4PFL1FastL2L3'),

@@ -431,15 +431,40 @@ Handle<bool> CSCTightHaloFilterHandle;
   pfJetCorr   = JetCorrector::getJetCorrector(pfJetCorrectionService,  iSetup);
 
 
+
   // (++) Access the uncertainty of the jet energy correction
-  iSetup.get<JetCorrectionsRecord>().get("AK5Calo",jetCorParColl);
-  jetUnc = new JetCorrectionUncertainty( (*jetCorParColl)["Uncertainty"]  );
+  // pf jet 
+
+  iSetup.get<JetCorrectionsRecord>().get("AK5PFCHS",jetCorParColl);
+  if ( jetCorParColl.isValid() ) {
+    jetUnc     = new JetCorrectionUncertainty( (*jetCorParColl)["Uncertainty"]  );
+ 
+  } else {
+
+    jetUnc = 0;
+  }
+
+  iSetup.get<JetCorrectionsRecord>().get("AK5Calo",caloJetCorParColl);
+  if (caloJetCorParColl.isValid()) {
+    caloJetUnc = new JetCorrectionUncertainty( (*caloJetCorParColl)["Uncertainty"]  );
+
+  } else {
+    caloJetUnc = 0;
+  }
+  //jpt jet 
+  jptJetUnc  = 0;
 
 
   // pf jet 
   iSetup.get<JetCorrectionsRecord>().get("AK5PF",pfJetCorParColl);
-  pfJetUnc = new JetCorrectionUncertainty( (*pfJetCorParColl)["Uncertainty"]  );
-  
+  if (pfJetCorParColl.isValid() ) {
+    pfJetUnc   = new JetCorrectionUncertainty( (*pfJetCorParColl)["Uncertainty"]  );
+  } else {
+
+    pfJetUnc = 0;
+  }
+
+
 
   // get the rho values from fast jet 
   //edm::Handle<double> rhoHandle;
@@ -630,7 +655,6 @@ Handle<bool> CSCTightHaloFilterHandle;
   recoTracks       =   tracks.product();
   recoMuons        =   muons.product();
   recoJets         =   jets.product();
-  //  caloTowers       =   towers.product();
   recoPhotons      =   photons.product();
   recoPhotons      =   photons.product(); 
   recoElectrons    =   electrons.product(); 
@@ -669,36 +693,7 @@ Handle<bool> CSCTightHaloFilterHandle;
    ************************************************************************/       
   _is_save = true;
 
-  /*
-  if (_is_data) {
-
-    _is_save = true; // no any filter this time
-
-  } else {  // MC background filter events with at least one electron or muon 
-
-    _is_save = false;
-    for (reco::GsfElectronCollection::const_iterator electron = (*recoElectrons).begin(); electron != (*recoElectrons).end(); electron ++) {
-      
-      if ( electron->energy() > leptonThreshold) _is_save = true;
-    }
-
-
-    for (reco::MuonCollection::const_iterator muon = (*recoMuons).begin(); 
-	 muon != (*recoMuons).end(); 
-	 muon ++) {
-      
-      if (muon->pt() > leptonThreshold) _is_save = true;
-
-    }
-
-    _is_save = true;
-    if (!_is_save && !_save_allevents) return;
-  }
-
-  */
-
-  
-  
+   
   // (++). Process Monte Carlo events  
   if (!_is_data)   { 
 
@@ -725,13 +720,10 @@ Handle<bool> CSCTightHaloFilterHandle;
 	
       }
     }
-
-
     
     myMCTruth        =  myEvent->getMCInfo();             
     myGenWZ          =  myEvent->getGenWZ();  
     
-
     hasGenJets = iEvent.getByLabel( GenJetAlgorithmTags_,    genJets );
     iEvent.getByLabel( akGenJetAlgorithmTags_,               akGenJets );    
     // iEvent.getByLabel( "genParticleCandidates",           genParticles );
@@ -741,11 +733,9 @@ Handle<bool> CSCTightHaloFilterHandle;
     iEvent.getByLabel ("flavourByValGenJet" ,                theGenTag);
     iEvent.getByLabel ("flavourByValPF",                     theRecoPFTag);
     iEvent.getByLabel ("flavourByValCalo",                   theRecoCaloTag);
-    //    iEvent.getRun().getByLabel("source",                     runInfo); 
     iEvent.getByLabel("generator",                           genEventInfo);
 
     myEvent->setEventWeight(genEventInfo->weight());
-
 
 
     iEvent.getByLabel("genMetTrue",                   genMEThandle);
@@ -818,8 +808,9 @@ Handle<bool> CSCTightHaloFilterHandle;
   if (_is_save)  ntuple->Fill();
 
 
-  delete jetUnc;
-  delete pfJetUnc;
+  if (jetUnc)      delete jetUnc;
+  if (caloJetUnc)  delete caloJetUnc;
+  if (pfJetUnc)    delete pfJetUnc;
   return;
 }
 
@@ -897,11 +888,6 @@ WZEdmAnalyzer::endJob()
   //  write results into disk
   std::cout << "MY INFORMATION: total processed events " << totalProcessedEvts << std::endl;
   
-  //  hFile ->cd();
-  // ntuple->Write();
-  // hFile ->Write();
-  // hFile ->Close();
-
   return;
 }
 

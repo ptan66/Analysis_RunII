@@ -272,33 +272,51 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   void   copyMuonInfo(       reco::MuonCollection::const_iterator fwMuon,  
 			     _muon_  *myMuon);
 
-  void   copyJetInfo(        const edm::Event& iEvent,
+  void   copyCaloJetInfo(    const edm::Event& iEvent,
 			     const edm::EventSetup& iSetup, 
 			     reco::CaloJetCollection::const_iterator jet,
-			     //edm::RefToBase<reco::Jet> &jetRef, 
-			      double scale, 
+			     JetCorrectionUncertainty *jetCorUnc, 
+			     double scale, 
 			     edm::Handle<reco::JetFlavourMatchingCollection> & theRecoTag, 
 			     edm::Handle<reco::JetTagCollection> & jetTags, 
 			     _jet_ *myJet);
 
-  void   copyJPTJetInfo(      const edm::Event& iEvent,
-			      const edm::EventSetup& iSetup, 
-			      reco::JPTJetCollection::const_iterator jet, 
-			      //edm::RefToBase<reco::Jet> &jetRef, 
-			      double scale, 
-			      edm::Handle<reco::JetFlavourMatchingCollection> & theRecoTag, 
-			      edm::Handle<reco::JetTagCollection> & jetTags, 
+  void   copyJPTJetInfo(     const edm::Event& iEvent,
+			     const edm::EventSetup& iSetup, 
+			     reco::JPTJetCollection::const_iterator jet, 
+			     JetCorrectionUncertainty *jetCorUnc, 
+			     double scale, 
+			     edm::Handle<reco::JetFlavourMatchingCollection> & theRecoTag, 
+			     edm::Handle<reco::JetTagCollection> & jetTags, 
 			     _jet_ *myJet);
 
-  void   copyPFJetInfo(       const edm::Event& iEvent,
-			      const edm::EventSetup& iSetup, 
-			      reco::PFJetCollection::const_iterator jet, 
-			      //edm::RefToBase<reco::Jet> &jetRef,
-			      double scale, 
-			      edm::Handle<reco::JetFlavourMatchingCollection> & theRecoTag, 
-			      edm::Handle<reco::JetTagCollection> & jetTags, 
-			      _jet_ *myJet);
 
+  void   copyPFCHSJetInfo(      const edm::Event& iEvent,
+				const edm::EventSetup& iSetup, 
+				reco::PFJetCollection::const_iterator jet, 
+				JetCorrectionUncertainty *jetCorUnc, 
+				double scale, 
+				edm::Handle<reco::JetFlavourMatchingCollection> & theRecoTag, 
+				edm::Handle<reco::JetTagCollection> & jetTags, 
+				_jet_ *myJet);
+
+  void   copyPFJetInfo(      const edm::Event& iEvent,
+			     const edm::EventSetup& iSetup, 
+			     reco::PFJetCollection::const_iterator jet, 
+			     JetCorrectionUncertainty *jetCorUnc, 
+			     double scale, 
+			     edm::Handle<reco::JetFlavourMatchingCollection> & theRecoTag, 
+			     edm::Handle<reco::JetTagCollection> & jetTags, 
+			     _jet_ *myJet);
+  void   copyPFJetInfoCommon(      const edm::Event& iEvent,
+				   const edm::EventSetup& iSetup, 
+				   reco::PFJetCollection::const_iterator jet, 
+				   JetCorrectionUncertainty *jetCorUnc, 
+				   double scale, 
+				   edm::Handle<reco::JetFlavourMatchingCollection> & theRecoTag, 
+				   //  edm::Handle<reco::JetTagCollection> & jetTags, 
+				   _jet_ *myJet);
+  
 
   void copySuperclusterInfo( reco::SuperClusterCollection::const_iterator supercluster, _supercluster_ *mySupercluster); 
 
@@ -407,6 +425,13 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::ESHandle<JetCorrectorParametersCollection> jptJetCorParColl;
   edm::ESHandle<JetCorrectorParametersCollection> pfJetCorParColl;
 
+
+  JetCorrectionUncertainty  *jetUnc;
+  JetCorrectionUncertainty  *caloJetUnc;
+  JetCorrectionUncertainty  *jptJetUnc;
+  JetCorrectionUncertainty  *pfJetUnc;
+
+
   // default rho and sigma
   edm::EDGetTokenT<double>   FixGridRhoToken_;
   edm::Handle<double>        fixGridRhoHandle;
@@ -467,11 +492,6 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::Handle<double>        sigmaCh2p4Handle;
 
 
-
-  JetCorrectionUncertainty  *jetUnc;
-  JetCorrectionUncertainty  *caloJetUnc;
-  JetCorrectionUncertainty  *jptJetUnc;
-  JetCorrectionUncertainty  *pfJetUnc;
 
 
 
@@ -568,10 +588,10 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
 
   Handle<GenJetCollection>                        genJets;
   Handle<GenJetCollection>                        akGenJets;
-  Handle<reco::CaloJetCollection>                 jets;
+  Handle<reco::PFJetCollection>                   jets;
   Handle<reco::CaloJetCollection>                 caloJets;
-  Handle<JPTJetCollection>                        jptJets;
-  Handle<PFJetCollection>                         pfJets;
+  Handle<reco::JPTJetCollection>                        jptJets;
+  Handle<reco::PFJetCollection>                         pfJets;
 
   Handle<edm::SimTrackContainer>                  simTracks;
   Handle<reco::TrackCollection>                   tracks;
@@ -638,7 +658,7 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   const reco::GsfElectronCollection    *recoElectrons;
   const reco::MuonCollection           *recoTrackerMuons;
   const edm::SimTrackContainer         *recoSimTracks;
-  const reco::CaloJetCollection        *recoJets;
+  const reco::PFJetCollection          *recoJets;
   const reco::JetTagCollection         *recoJetTags;
   const reco::PhotonCollection         *recoPhotons;
   //  const reco::modules::JetFlavourIdentifier     *jetFlavorIdentifier;

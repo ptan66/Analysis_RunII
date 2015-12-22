@@ -523,23 +523,89 @@ WZEdmAnalyzer::copyMuonInfo(  reco::MuonCollection::const_iterator fwMuon,  _muo
 }
 
 
+
+void
+WZEdmAnalyzer::copyCaloJetInfo(    const edm::Event& iEvent,
+				   const edm::EventSetup& iSetup, 
+				   reco::CaloJetCollection::const_iterator jet,
+				   JetCorrectionUncertainty *jetCorUnc, 
+				   double scale, 
+				   edm::Handle<reco::JetFlavourMatchingCollection> & theRecoTag, 
+				   edm::Handle<reco::JetTagCollection> & jetTags, 
+				   _jet_ *myJet) {
+
+  myJet->L2L3pt = scale * jet->pt();
+  myJet->L2L3scale = scale;
+  myJet->energy = scale * jet->energy();
+  myJet->mass  = jet->mass();
+  myJet->pt  = jet->pt();
+  myJet->eta = jet->eta();
+  myJet->phi = jet->phi();
+
+  if (jetCorUnc ) {
+    jetCorUnc->setJetEta(jet->eta());
+    jetCorUnc->setJetPt(jet->pt() * scale); // here you must use the CORRECTED jet pt
+    myJet->scaleUnc = jetCorUnc->getUncertainty(true);
+  } else {
+    myJet->scaleUnc = 0.0;
+
+  }
+
+  myJet->n60 = jet->n60();
+  myJet->n90 = jet->n90();
+  myJet->emEnergyInEE                = jet->emEnergyInEE();
+  myJet->emEnergyInHF                = jet->emEnergyInHF();
+  myJet->emEnergyInEB                = jet->emEnergyInEB();
+  myJet->hadEnergyInHB               = jet->hadEnergyInHB();
+  myJet->hadEnergyInHO               = jet->hadEnergyInHO();
+  myJet->hadEnergyInHF               = jet->hadEnergyInHF();
+  myJet->hadEnergyInHE               = jet->hadEnergyInHE();
+  myJet->emEnergyFraction            = jet->emEnergyFraction();
+  myJet->energyFractionHadronic      = jet->energyFractionHadronic();
+  myJet->maxEInEmTowers              = jet->maxEInEmTowers();
+  myJet->maxEInHadTowers             = jet->maxEInHadTowers();
+  myJet->nConstituent                = jet->getCaloConstituents().size();
+
+
+
+  // access via jet ID variables in the main jet loop.
+  myJet->fHPD = -9999;
+  myJet->fRBX = -9999;
+
+  // access btagging for calo jet
+  myJet->flavor[0]                   = btaggingAssociation( (reco::Jet)(*jet), jetTags.product());
+  myJet->flavor[1]                   = btaggingAssociation( (reco::Jet)(*jet), jetTagsCSV.product());
+
+  myJet->flavor[2]                   = btaggingAssociation( (reco::Jet)(*jet), myCaloJetTagsJP.product());
+  myJet->flavor[3]                   = btaggingAssociation( (reco::Jet)(*jet), myCaloJetTagsTCHP.product());
+  myJet->flavor[4]                   = btaggingAssociation( (reco::Jet)(*jet), myCaloJetTagsCSV.product());
+  
+  if (!_is_data) {
+
+    myJet->mc_flavor = mcflavorAssociation( (reco::Jet)(*jet), theRecoTag);
+  }
+}
+
+
+
+
 void
 WZEdmAnalyzer::copyJPTJetInfo(      const edm::Event& iEvent,
 				    const edm::EventSetup& iSetup, 
-				    reco::JPTJetCollection::const_iterator jet, 
-				    //edm::RefToBase<reco::Jet> &jetRef, 
+				    reco::JPTJetCollection::const_iterator jet,
+				    JetCorrectionUncertainty *jetCorUnc,  
 				    double scale, 
 				    edm::Handle<reco::JetFlavourMatchingCollection> & theRecoTag, 
 				    edm::Handle<reco::JetTagCollection> & jetTags, 
 				    _jet_ *myJet) {
 
-  myJet->L2L3pt = scale * jet->pt();
+  myJet->L2L3pt    = scale * jet->pt();
   myJet->L2L3scale = scale;
-  myJet->energy  = scale * jet->energy();
-  myJet->mass  = jet->mass();
-  myJet->pt  = jet->pt();
-  myJet->eta = jet->eta();
-  myJet->phi = jet->phi();
+  myJet->energy    = scale * jet->energy();
+  myJet->mass      = jet->mass();
+  myJet->pt        = jet->pt();
+  myJet->eta       = jet->eta();
+  myJet->phi       = jet->phi();
 
   myJet->chargedHadronEnergy         = jet->chargedHadronEnergy();
   myJet->neutralHadronEnergy         = jet->neutralHadronEnergy();
@@ -568,29 +634,71 @@ WZEdmAnalyzer::copyJPTJetInfo(      const edm::Event& iEvent,
 }
 
 
+
 void
-WZEdmAnalyzer::copyPFJetInfo(       const edm::Event& iEvent,
-				    const edm::EventSetup& iSetup, 
-				    reco::PFJetCollection::const_iterator jet, 
-				    //edm::RefToBase<reco::Jet> &jetRef,
-				    double scale, 
-				    edm::Handle<reco::JetFlavourMatchingCollection> & theRecoTag, 
-				    edm::Handle<reco::JetTagCollection> & jetTags, 
-				    _jet_ *myJet) {
+WZEdmAnalyzer::copyPFCHSJetInfo(   const edm::Event& iEvent,
+				   const edm::EventSetup& iSetup, 
+				   reco::PFJetCollection::const_iterator jet,
+				   JetCorrectionUncertainty *jetCorUnc, 
+				   double scale, 
+				   edm::Handle<reco::JetFlavourMatchingCollection> & theRecoTag, 
+				   edm::Handle<reco::JetTagCollection> & jetTags, 
+				   _jet_ *myJet) {
 
-  myJet->L2L3pt = scale * jet->pt();
+
+  copyPFJetInfoCommon(iEvent, iSetup, jet, jetCorUnc, scale, theRecoTag, myJet);
+
+}
+
+void
+WZEdmAnalyzer::copyPFJetInfo(   const edm::Event& iEvent,
+				const edm::EventSetup& iSetup, 
+				reco::PFJetCollection::const_iterator jet,
+				JetCorrectionUncertainty *jetCorUnc, 
+				double scale, 
+				edm::Handle<reco::JetFlavourMatchingCollection> & theRecoTag, 
+				edm::Handle<reco::JetTagCollection> & jetTags, 
+				_jet_ *myJet) {
+
+
+  copyPFJetInfoCommon(iEvent, iSetup, jet, jetCorUnc, scale, theRecoTag, myJet);
+
+  myJet->flavor[0]                   = btaggingAssociation( (reco::Jet)(*jet), jetTags.product());
+  myJet->flavor[1]                   = btaggingAssociation( (reco::Jet)(*jet), jetTagsCSV.product());
+  
+  myJet->flavor[2]                   = btaggingAssociation( (reco::Jet)(*jet), myJetTagsJP.product());
+  myJet->flavor[3]                   = btaggingAssociation( (reco::Jet)(*jet), myJetTagsTCHP.product());
+  myJet->flavor[4]                   = btaggingAssociation( (reco::Jet)(*jet), myJetTagsCSV.product());
+
+}
+
+
+void
+WZEdmAnalyzer::copyPFJetInfoCommon(   const edm::Event& iEvent,
+				      const edm::EventSetup& iSetup, 
+				      reco::PFJetCollection::const_iterator jet,
+				      JetCorrectionUncertainty *jetCorUnc, 
+				      double scale, 
+				      edm::Handle<reco::JetFlavourMatchingCollection> & theRecoTag,
+				      //				edm::Handle<reco::JetTagCollection> & jetTags, 
+				      _jet_ *myJet) {
+
+  myJet->L2L3pt    = scale * jet->pt();
   myJet->L2L3scale = scale;
-  myJet->energy  = scale*jet->energy();
-  myJet->mass  = jet->mass();
-  myJet->pt  = jet->pt();
-  myJet->eta = jet->eta();
-  myJet->phi = jet->phi();
+  myJet->energy    = scale*jet->energy();
+  myJet->mass      = jet->mass();
+  myJet->pt        = jet->pt();
+  myJet->eta       = jet->eta();
+  myJet->phi       = jet->phi();
 
-  pfJetUnc->setJetEta((float)jet->eta());
-  pfJetUnc->setJetPt((float)( jet->pt() * scale)); // here you must use the CORRECTED jet pt
+  if (jetCorUnc) {
+    jetCorUnc->setJetEta((float)jet->eta());
+    jetCorUnc->setJetPt((float)( jet->pt() * scale)); // here you must use the CORRECTED jet pt
   // std::cout << pfJetUnc->getUncertainty(true) << std::endl;
-  myJet->scaleUnc = pfJetUnc->getUncertainty(true);
-
+    myJet->scaleUnc = pfJetUnc->getUncertainty(true);
+  } else {
+    myJet->scaleUnc = 0.0;
+  }
 
   myJet->chargedHadronEnergy         = jet->chargedHadronEnergy();
   myJet->neutralHadronEnergy         = jet->neutralHadronEnergy();
@@ -660,14 +768,6 @@ WZEdmAnalyzer::copyPFJetInfo(       const edm::Event& iEvent,
 
   myJet->quarkgluonLikelihood=  qgLikelihoodCal->computeQGLikelihoodPU(scale * jet->pt(), *rhoIsoHandle, jet->chargedHadronMultiplicity(), jet->neutralHadronMultiplicity() +jet->photonMultiplicity(), ptD );
   */
-
-
-  myJet->flavor[0]                   = btaggingAssociation( (reco::Jet)(*jet), jetTags.product());
-  myJet->flavor[1]                   = btaggingAssociation( (reco::Jet)(*jet), jetTagsCSV.product());
-
-  myJet->flavor[2]                   = btaggingAssociation( (reco::Jet)(*jet), myJetTagsJP.product());
-  myJet->flavor[3]                   = btaggingAssociation( (reco::Jet)(*jet), myJetTagsTCHP.product());
-  myJet->flavor[4]                   = btaggingAssociation( (reco::Jet)(*jet), myJetTagsCSV.product());
 
   //  if (jet->pt()>20)  std::cout<<  myJet->flavor[1] << "  : " << myJet->flavor[4]  << std::endl;
 
@@ -907,71 +1007,6 @@ WZEdmAnalyzer::copyPFJetInfo(       const edm::Event& iEvent,
     //    myJet->mc_flavor = -999;
   }
 
-}
-
-void
-WZEdmAnalyzer::copyJetInfo(        const edm::Event& iEvent,
-				   const edm::EventSetup& iSetup, 
-				   reco::CaloJetCollection::const_iterator jet,
-				   //edm::RefToBase<reco::Jet> &jetRef, 
-				   double scale, 
-				   edm::Handle<reco::JetFlavourMatchingCollection> & theRecoTag, 
-				   edm::Handle<reco::JetTagCollection> & jetTags, 
-				   _jet_ *myJet) {
-
-  myJet->L2L3pt = scale * jet->pt();
-  myJet->L2L3scale = scale;
-  myJet->energy = scale * jet->energy();
-  myJet->mass  = jet->mass();
-  myJet->pt  = jet->pt();
-  myJet->eta = jet->eta();
-  myJet->phi = jet->phi();
-
-  jetUnc->setJetEta(jet->eta());
-  jetUnc->setJetPt(jet->pt() * scale); // here you must use the CORRECTED jet pt
-  myJet->scaleUnc = jetUnc->getUncertainty(true);
-
-  //  std::cout << jetUnc->getUncertainty(true) << std::endl;
-
-
-
-  myJet->n60 = jet->n60();
-  myJet->n90 = jet->n90();
-  myJet->emEnergyInEE                = jet->emEnergyInEE();
-  myJet->emEnergyInHF                = jet->emEnergyInHF();
-  myJet->emEnergyInEB                = jet->emEnergyInEB();
-  myJet->hadEnergyInHB               = jet->hadEnergyInHB();
-  myJet->hadEnergyInHO               = jet->hadEnergyInHO();
-  myJet->hadEnergyInHF               = jet->hadEnergyInHF();
-  myJet->hadEnergyInHE               = jet->hadEnergyInHE();
-  myJet->emEnergyFraction            = jet->emEnergyFraction();
-  myJet->energyFractionHadronic      = jet->energyFractionHadronic();
-  myJet->maxEInEmTowers              = jet->maxEInEmTowers();
-  myJet->maxEInHadTowers             = jet->maxEInHadTowers();
-  myJet->nConstituent                = jet->getCaloConstituents().size();
-
-
-
-  // access via jet ID variables in the main jet loop.
-  myJet->fHPD = -9999;
-  myJet->fRBX = -9999;
-
-
-  myJet->flavor[0]                   = btaggingAssociation( (reco::Jet)(*jet), jetTags.product());
-  myJet->flavor[1]                   = btaggingAssociation( (reco::Jet)(*jet), jetTagsCSV.product());
-
-  myJet->flavor[2]                   = btaggingAssociation( (reco::Jet)(*jet), myCaloJetTagsJP.product());
-  myJet->flavor[3]                   = btaggingAssociation( (reco::Jet)(*jet), myCaloJetTagsTCHP.product());
-  myJet->flavor[4]                   = btaggingAssociation( (reco::Jet)(*jet), myCaloJetTagsCSV.product());
-
-
-  //  if (jet->pt()>20)  std::cout<< "calo -- " <<  myJet->flavor[1] << "  : " << myJet->flavor[4]  << std::endl;
-
-  if (!_is_data) {
-    // can't read jet flavor, need to fix this latter. 
-    myJet->mc_flavor = mcflavorAssociation( (reco::Jet)(*jet), theRecoTag);
-    //    myJet->mc_flavor = -999;
-  }
 }
 
 
@@ -2246,116 +2281,90 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
 
   /************************************************************************
    *
-   * for btag stuff only copy jets and muons. 
+   * PF CHS jet collection
    *
    ************************************************************************/
-  if (_is_debug) std::cout << "copy jet information ..." << std::endl;
-  for (reco::CaloJetCollection::const_iterator jet = (*recoJets).begin(); jet != (*recoJets).end(); jet ++) {
+  if (_is_debug) std::cout << "copy PF CHS jet information ..." << std::endl;
+  for (reco::PFJetCollection::const_iterator jet = ( *recoJets ).begin(); jet != ( *recoJets ).end(); jet ++) {
       
-    //CMSSW < 4_3_x
-    //int index = jet - recoJets->begin();
-    //edm::RefToBase<reco::Jet> jetRef(edm::Ref<CaloJetCollection>(recoJets, index));
-    //double jec = jetCorr->correction(*jet, jetRef, iEvent, iSetup);
-
-    //CMSSW >= 4_3_x
     double jec = jetCorr->correction(*jet, iEvent, iSetup);
-
+    //std::cout << "jet pt = " << jet->pt() << "afer " << std::endl;
+  
     if ( jec * jet->pt() < jetMinPt) continue;    
-    _jet_ * myjet = myEvent->addJet();
-//    this->copyJetInfo(iEvent, iSetup, jet, jetRef, jec, theRecoTag, jetTags, myjet);
-    this->copyJetInfo(iEvent, iSetup, jet, jec, theRecoCaloTag, jetTags, myjet);
+    _jet_ *myjet = myEvent->addJet();
+    this->copyPFCHSJetInfo(iEvent, iSetup, jet, jetUnc, jec, theRecoPFTag, jetTags, myjet);
   }
 
 
-  // calo jet collections
+  /*************************************************************************
+   *
+   *
+   * calo jet collections
+   *
+   *************************************************************************/
   for (reco::CaloJetCollection::const_iterator jet = ( *(caloJets.product()) ).begin(); jet != (  *(caloJets.product()) ).end(); jet ++) {
       
-    //CMSSW < 4_3_x
-    //int index = jet - caloJets->begin();
-    //edm::RefToBase<reco::Jet> jetRef(edm::Ref<CaloJetCollection>(caloJets, index));
-    //double jec = caloJetCorr->correction(*jet, jetRef, iEvent, iSetup);
 
-    //CMSSW >= 4_3_x
     double jec = caloJetCorr->correction(*jet, iEvent, iSetup);
-
+    
     if ( jec * jet->pt() < jetMinPt) continue;    
     _jet_ *myjet = myEvent->addCaloJet();
-    this->copyJetInfo(iEvent, iSetup, jet, jec, theRecoCaloTag, jetTags, myjet);
-
+    this->copyCaloJetInfo(iEvent, iSetup, jet, caloJetUnc, jec, theRecoCaloTag, jetTags, myjet);
+    
     // additional jet ID information
     reco::CaloJetRef calojetref(caloJets, jet - caloJets->begin() );
     reco::JetID jetID = (*jetID_ValueMap_Handle)[calojetref];
-
+    
     // myjet->n60  = jetID.n60Hits;
     myjet->n90  = jetID.n90Hits;
     myjet->fHPD = jetID.fHPD;
     myjet->fRBX = jetID.fRBX;
-
-
   }
 
-  // fixing for CMSSW 38x release
-  for (reco::JPTJetCollection::const_iterator jet = ( *(jptJets.product()) ).begin(); jet != (  *(jptJets.product()) ).end(); jet ++) {
+  /*************************************************************************
+   *
+   *
+   * jpt jet collections
+   * for this jet collection we check if it exists in the sample
+   *
+   *************************************************************************/
+  if (jptJets.isValid() ) {
+    for (reco::JPTJetCollection::const_iterator jet = ( *(jptJets.product()) ).begin(); jet != (  *(jptJets.product()) ).end(); jet ++) {
     
+      double jec = jptJetCorr->correction(*jet, iEvent, iSetup);
       
-    //CMSSW < 4_3_x
-    //int index = jet - jptJets->begin();
-    //edm::RefToBase<reco::Jet> jetRef(edm::Ref<JPTJetCollection>(jptJets, index));
-    //double jec = jptJetCorr->correction(*jet, jetRef, iEvent, iSetup);
-
-    //CMSSW >= 4_3_x
-    double jec = jptJetCorr->correction(*jet, iEvent, iSetup);
+      if ( jec * jet->pt() < jetMinPt) continue;    
+      _jet_ *myjet = myEvent->addJPTJet();
+      this->copyJPTJetInfo(iEvent, iSetup, jet, jptJetUnc, jec, theRecoCaloTag, jetTags, myjet);
+    }
+  }
 
 
-  
-    if ( jec * jet->pt() < jetMinPt) continue;    
-    _jet_ *myjet = myEvent->addJPTJet();
-    //this->copyJPTJetInfo(iEvent, iSetup, jet, jetRef, jec, theRecoTag, jetTags, myjet);
-    this->copyJPTJetInfo(iEvent, iSetup, jet, jec, theRecoCaloTag, jetTags, myjet);
-   }
-
-
-
-
-
+  /*************************************************************************
+   *
+   *
+   * pf jet collections
+   *
+   *************************************************************************/
   // iEvent.getByLabel("fullDiscriminant",puJetMva);
 
   //  Handle<ValueMap<int> > puJetIdFlag;
   // iEvent.getByLabel("fullId",puJetMva);
-
-
-
   Handle<ValueMap<int> > puJetIdFlag;
   iEvent.getByLabel("recoPuJetMva","fullId",puJetIdFlag);
-
 
   Handle<ValueMap<float> > puJetIdMva;
   iEvent.getByLabel("recoPuJetMva","fullDiscriminant",puJetIdMva);
 
-
-
-
-
   for (reco::PFJetCollection::const_iterator jet = ( *(pfJets.product()) ).begin(); jet != (  *(pfJets.product()) ).end(); jet ++) {
       
-    //CMSSW < 4_3_x   
-    // int index = jet - pfJets->begin();
-    // edm::RefToBase<reco::Jet> jetRef(edm::Ref<PFJetCollection>(pfJets, index));
-    //double jec = pfJetCorr->correction(*jet, jetRef, iEvent, iSetup);
-    
-    //CMSSW > 4_3_x
-
-    // std::cout << "jet pt = " << jet -> pt() << std::endl;
     double jec = pfJetCorr->correction(*jet, iEvent, iSetup);
     //std::cout << "jet pt = " << jet->pt() << "afer " << std::endl;
   
-
-
     if ( jec * jet->pt() < jetMinPt) continue;    
     _jet_ *myjet = myEvent->addPFJet();
     //this->copyPFJetInfo(iEvent, iSetup, jet, jetRef, jec, theRecoTag, jetTags, myjet);
-    this->copyPFJetInfo(iEvent, iSetup, jet, jec, theRecoPFTag, jetTags, myjet);
-
+    this->copyPFJetInfo(iEvent, iSetup, jet, pfJetUnc, jec, theRecoPFTag, jetTags, myjet);
 
     // Jun 10, 2014
     int index = jet - pfJets->begin();
@@ -2382,14 +2391,19 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
     // if( PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kLoose  ) ) std::cout << "pass loose" << std::endl; // loose id etc
     // if( PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kMedium ) )  std::cout <<"pass medium" << std::endl;
     //if( PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kTight  ) ) std::cout <<"pass tight" << std::endl;
-  
-
-
-
   }
 
 
 
+
+
+
+  /*************************************************************************
+   *
+   *
+   * muon collection
+   *
+   *************************************************************************/
   if (_is_debug) std::cout <<"copy muon list ... "<<std::endl;  
   for (reco::MuonCollection::const_iterator muon = (*recoMuons).begin(); 
        muon != (*recoMuons).end(); 
@@ -2398,15 +2412,14 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
     myMuon = myEvent->addMuon();
     //    myW    = myEvent->addW();
     this->copyMuonInfo(muon, myMuon);
-
-
+    
   }
   if (!_reco_selection.compare("BTAG") ) return;
 
 
   /************************************************************************
    *
-   * keep other stuff for others 
+   * keep additional objects for analysis purpose
    *
    ************************************************************************/
   if (_is_debug) std::cout << "copy photon information ..." << std::endl;
@@ -2424,11 +2437,11 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
 
     // keep 
     if ( (supercluster->energy() * sin( supercluster->position().theta() ) )<8) continue;
-
+    
     _supercluster_ *mySupercluster = myEvent->addSupercluster(); 
     this->copySuperclusterInfo(supercluster, mySupercluster);      
   }
-
+  
 
 
 
@@ -2437,8 +2450,7 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
   for (reco::GsfElectronCollection::const_iterator electron = (*recoElectrons).begin(); electron != (*recoElectrons).end(); electron ++, index ++) {
 
     //NOTE74
-
-    
+  
     myElectron = myEvent->addElectron(); 
     reco::GsfElectronRef electronRef(electrons, index);
     this->copyElectronInfo(electron, myElectron, electronRef, electron - (*recoElectrons).begin() );      
