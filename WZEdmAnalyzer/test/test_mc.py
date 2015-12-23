@@ -56,7 +56,8 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 process.maxEvents = cms.untracked.PSet(  input = cms.untracked.int32(1000) )
 process.source = cms.Source("PoolSource", 
        	fileNames = cms.untracked.vstring(
-        '/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/AODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/002F7FDD-BA13-E511-AA63-0026189437F5.root'
+       # '/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/AODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/002F7FDD-BA13-E511-AA63-0026189437F5.root'
+'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_4_14/src/Analysis_RunII/WZEdmAnalyzer/test/002F7FDD-BA13-E511-AA63-0026189437F5.root'
 #'/store/data/Run2015D/SingleMuon/AOD/PromptReco-v4/000/258/159/00000/0C2C8F20-246C-E511-B27C-02163E0143D6.root'
 
     )
@@ -287,43 +288,6 @@ process.myCaloBTaggers = cms.Sequence(
 
 
 
-# MC flavor identification
-process.myPartons = cms.EDProducer("PartonSelector",
-                                   withLeptons = cms.bool(False),
-                                   src         = cms.InputTag("genParticles")
-                                   )
-#for reco pf jet
-process.flavourByRefPF = cms.EDProducer("JetPartonMatcher",
-                                        jets = cms.InputTag("ak4PFJets"),
-                                        coneSizeToAssociate = cms.double(0.3),
-                                        partons = cms.InputTag("myPartons")
-                                        )
-process.flavourByValPF = cms.EDProducer("JetFlavourIdentifier",
-                                        srcByReference = cms.InputTag("flavourByRefPF"),
-                                        physicsDefinition = cms.bool(False)
-                                        )
-#for reco Calo jet
-process.flavourByRefCalo = cms.EDProducer("JetPartonMatcher",
-                                          jets = cms.InputTag("ak4CaloJets"),
-                                          coneSizeToAssociate = cms.double(0.3),
-                                          partons = cms.InputTag("myPartons")
-                                          )
-process.flavourByValCalo = cms.EDProducer("JetFlavourIdentifier",
-                                          srcByReference = cms.InputTag("flavourByRefCalo"),
-                                          physicsDefinition = cms.bool(False)
-                                          )
-#gen jet flavor identification
-process.flavourByRefGenJet = cms.EDProducer("JetPartonMatcher",
-                                            jets = cms.InputTag("ak4GenJets"),
-                                            coneSizeToAssociate = cms.double(0.3),
-                                            partons = cms.InputTag("myPartons")
-                                            )
-process.flavourByValGenJet = cms.EDProducer("JetFlavourIdentifier",
-                                            srcByReference = cms.InputTag("flavourByRefGenJet"),
-                                            physicsDefinition = cms.bool(False)
-                                            )
-
-
 # data 
 #SUPERCLUSTER_COLL_EB = "hybridSuperClusters"
 #SUPERCLUSTER_COLL_EE = "multi5x5SuperClustersWithPreshower"
@@ -439,6 +403,69 @@ for idmod in my_id_modules:
 
 
 #process.load('EgammaAnalysis/ElectronTools/electronIdMVAProducer_cfi')
+
+
+
+###################################################################
+#
+#    setup b-tagging MC truth, using hadron-based flavor identification
+#
+#
+###################################################################
+
+
+# MC flavor identification
+process.myPartons = cms.EDProducer("PartonSelector",
+                                   withLeptons = cms.bool(False),
+                                   src         = cms.InputTag("genParticles")
+                                   )
+#for reco pf jet
+process.flavourByRefPF = cms.EDProducer("JetPartonMatcher",
+                                        jets = cms.InputTag("ak4PFJets"),
+                                        coneSizeToAssociate = cms.double(0.3),
+                                        partons = cms.InputTag("myPartons")
+                                        )
+process.flavourByValPF = cms.EDProducer("JetFlavourIdentifier",
+                                        srcByReference = cms.InputTag("flavourByRefPF"),
+                                        physicsDefinition = cms.bool(False)
+                                        )
+#for reco Calo jet
+process.flavourByRefCalo = cms.EDProducer("JetPartonMatcher",
+                                          jets = cms.InputTag("ak4CaloJets"),
+                                          coneSizeToAssociate = cms.double(0.3),
+                                          partons = cms.InputTag("myPartons")
+                                          )
+process.flavourByValCalo = cms.EDProducer("JetFlavourIdentifier",
+                                          srcByReference = cms.InputTag("flavourByRefCalo"),
+                                          physicsDefinition = cms.bool(False)
+                                          )
+#gen jet flavor identification
+process.flavourByRefGenJet = cms.EDProducer("JetPartonMatcher",
+                                            jets = cms.InputTag("ak4GenJets"),
+                                            coneSizeToAssociate = cms.double(0.3),
+                                            partons = cms.InputTag("myPartons")
+                                            )
+process.flavourByValGenJet = cms.EDProducer("JetFlavourIdentifier",
+                                            srcByReference = cms.InputTag("flavourByRefGenJet"),
+                                            physicsDefinition = cms.bool(False)
+                                            )
+
+
+from PhysicsTools.JetMCAlgos.HadronAndPartonSelector_cfi import selectedHadronsAndPartons
+process.selectedHadronsAndPartons = selectedHadronsAndPartons.clone()
+
+from PhysicsTools.JetMCAlgos.AK4PFJetsMCFlavourInfos_cfi import ak4JetFlavourInfos
+process.myak4PFJetFlavourInfos = ak4JetFlavourInfos.clone(jets = cms.InputTag("ak4PFJets"))
+
+from PhysicsTools.JetMCAlgos.AK4PFJetsMCFlavourInfos_cfi import ak4JetFlavourInfos
+process.myak4PFJetCHSFlavourInfos = ak4JetFlavourInfos.clone(jets = cms.InputTag("ak4PFJetsCHS"))
+
+#from PhysicsTools.JetMCAlgos.AK4PFJetsMCFlavourInfos_cfi import ak4JetFlavourInfos
+#process.myak4CaloJetFlavourInfos = ak4JetFlavourInfos.clone(jets = cms.InputTag("ak4CaloJets"))
+
+from PhysicsTools.JetMCAlgos.AK4PFJetsMCFlavourInfos_cfi import ak4JetFlavourInfos
+process.myak4GenJetFlavourInfos = ak4JetFlavourInfos.clone(jets = cms.InputTag("ak4GenJets"))
+
 
 
 process.analyzer = cms.EDAnalyzer(
@@ -562,6 +589,8 @@ else :
         #                     process.HBHENoiseFilter*
         process.goodVertices * process.trackingFailureFilter *
         process.trkPOGFilters*
+        process.selectedHadronsAndPartons*
+        process.myak4PFJetFlavourInfos*process.myak4PFJetCHSFlavourInfos*process.myak4GenJetFlavourInfos*
         process.myPartons*
         process.flavourByRefPF*process.flavourByValPF*
         process.flavourByRefCalo*process.flavourByValCalo*
