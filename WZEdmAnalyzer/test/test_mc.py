@@ -7,7 +7,7 @@ import string
 #
 #######################################################################
 useAOD   = True
-isData   = False # 0 MC; 1 data; 2 others; etc. 
+isData   = False # True data; False MC
 
 
 
@@ -53,7 +53,7 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 
 
-process.maxEvents = cms.untracked.PSet(  input = cms.untracked.int32(1000) )
+process.maxEvents = cms.untracked.PSet(  input = cms.untracked.int32(-1) )
 process.source = cms.Source("PoolSource", 
        	fileNames = cms.untracked.vstring(
        # '/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/AODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/002F7FDD-BA13-E511-AA63-0026189437F5.root'
@@ -202,90 +202,6 @@ process.kt6PFJetsForCh2p4 =  process.kt6PFJets.clone(
 
 
 
-#btagging
-process.MyAk4PFJetTracksAssociatorAtVertex = cms.EDProducer("JetTracksAssociatorAtVertex",
-   process.j2tParametersVX,
-   jets = cms.InputTag("ak4PFJets")
-)
-process.MyImpactParameterPFTagInfos = process.impactParameterTagInfos.clone(
-  jetTracks = "MyAk4PFJetTracksAssociatorAtVertex"
-)
-# SV tag info, use IP tag info as input
-process.MySecondaryVertexTagInfos = process.secondaryVertexTagInfos.clone(
-  trackIPTagInfos = cms.InputTag("MyImpactParameterPFTagInfos"),
-)
-
-
-process.MyTrackCountingHighPurBJetTags = process.trackCountingHighPurBJetTags.clone(
-  tagInfos = cms.VInputTag(cms.InputTag("MyImpactParameterPFTagInfos"))
-)
-
-process.MyCombinedSecondaryVertexBJetTags = process.combinedSecondaryVertexBJetTags.clone(
-  tagInfos = cms.VInputTag(cms.InputTag("MyImpactParameterPFTagInfos"), 
-			cms.InputTag("MySecondaryVertexTagInfos")			
-	)
-)
-process.MyJetBProbabilityBJetTags = process.jetBProbabilityBJetTags.clone(
-  tagInfos = cms.VInputTag(cms.InputTag("MyImpactParameterPFTagInfos"))
-)
-
-process.myBTaggers = cms.Sequence(
-  process.MyAk4PFJetTracksAssociatorAtVertex *
-  process.MyImpactParameterPFTagInfos *
-  (
-     process.MyTrackCountingHighPurBJetTags +
-     process.MyJetBProbabilityBJetTags + 
-     (  process.MySecondaryVertexTagInfos *
-        process.MyCombinedSecondaryVertexBJetTags
-        )
-     )
-)
-
-
-
-
-
-#btagging with calojets
-process.MyAk4CaloJetTracksAssociatorAtVertex = cms.EDProducer("JetTracksAssociatorAtVertex",
-   process.j2tParametersVX,
-   jets = cms.InputTag("ak4CaloJets")
-)
-process.MyImpactParameterCaloTagInfos = process.impactParameterTagInfos.clone(
-  jetTracks = "MyAk4CaloJetTracksAssociatorAtVertex"
-)
-# SV tag info, use IP tag info as input
-process.MySecondaryVertexCaloTagInfos = process.secondaryVertexTagInfos.clone(
-  trackIPTagInfos = cms.InputTag("MyImpactParameterCaloTagInfos"),
-)
-
-
-process.MyTrackCountingHighPurCaloBJetTags = process.trackCountingHighPurBJetTags.clone(
-  tagInfos = cms.VInputTag(cms.InputTag("MyImpactParameterCaloTagInfos"))
-)
-
-process.MyCombinedSecondaryVertexCaloBJetTags = process.combinedSecondaryVertexBJetTags.clone(
-  tagInfos = cms.VInputTag(cms.InputTag("MyImpactParameterCaloTagInfos"), 
-			cms.InputTag("MySecondaryVertexCaloTagInfos")			
-	)
-)
-process.MyJetBProbabilityCaloBJetTags = process.jetBProbabilityBJetTags.clone(
-  tagInfos = cms.VInputTag(cms.InputTag("MyImpactParameterCaloTagInfos"))
-)
-
-process.myCaloBTaggers = cms.Sequence(
-  process.MyAk4CaloJetTracksAssociatorAtVertex *
-  process.MyImpactParameterCaloTagInfos *
-  (
-     process.MyTrackCountingHighPurCaloBJetTags +
-     process.MyJetBProbabilityCaloBJetTags + 
-     (  process.MySecondaryVertexCaloTagInfos *
-        process.MyCombinedSecondaryVertexCaloBJetTags
-        )
-     )
-)
-
-
-
 
 
 # data 
@@ -404,6 +320,16 @@ for idmod in my_id_modules:
 
 #process.load('EgammaAnalysis/ElectronTools/electronIdMVAProducer_cfi')
 
+from RecoJets.JetPlusTracks.JetPlusTrackCorrections_cff import *
+process.myJPTeidTight = process.JPTeidTight.clone()
+process.myak4JetTracksAssociatorAtVertexJPT = process.ak4JetTracksAssociatorAtVertexJPT.clone()
+process.myJetPlusTrackZSPCorJetAntiKt4 = process.JetPlusTrackZSPCorJetAntiKt4.clone()
+
+process.myJetPlusTrackCorrectionsAntiKt4 = cms.Sequence(
+     process.JPTeidTight*
+     process.ak4JetTracksAssociatorAtVertexJPT*
+     process.myJetPlusTrackZSPCorJetAntiKt4
+     )
 
 
 ###################################################################
@@ -439,6 +365,23 @@ process.flavourByValCalo = cms.EDProducer("JetFlavourIdentifier",
                                           srcByReference = cms.InputTag("flavourByRefCalo"),
                                           physicsDefinition = cms.bool(False)
                                           )
+
+
+#for jpt
+process.flavourByRefJPT = cms.EDProducer("JetPartonMatcher",
+                                          jets = cms.InputTag("myJetPlusTrackZSPCorJetAntiKt4"),
+                                          coneSizeToAssociate = cms.double(0.3),
+                                          partons = cms.InputTag("myPartons")
+                                          )
+process.flavourByValJPT = cms.EDProducer("JetFlavourIdentifier",
+                                          srcByReference = cms.InputTag("flavourByRefJPT"),
+                                          physicsDefinition = cms.bool(False)
+                                          )
+
+
+
+
+
 #gen jet flavor identification
 process.flavourByRefGenJet = cms.EDProducer("JetPartonMatcher",
                                             jets = cms.InputTag("ak4GenJets"),
@@ -465,6 +408,169 @@ process.myak4PFJetCHSFlavourInfos = ak4JetFlavourInfos.clone(jets = cms.InputTag
 
 from PhysicsTools.JetMCAlgos.AK4PFJetsMCFlavourInfos_cfi import ak4JetFlavourInfos
 process.myak4GenJetFlavourInfos = ak4JetFlavourInfos.clone(jets = cms.InputTag("ak4GenJets"))
+
+
+
+
+
+
+###################################################################
+#
+#   set up b-tagging sequence
+#
+#
+###################################################################
+#ak4pfCHS jet
+process.MyPFCHSImpactParameterTagInfos = process.pfImpactParameterTagInfos.clone(
+    jets = cms.InputTag("ak4PFJetsCHS") # use ak4PFJetsCHS stored in AOD as input
+)
+process.MyPFCHSSecondaryVertexTagInfos = process.pfInclusiveSecondaryVertexFinderTagInfos.clone(
+    trackIPTagInfos = cms.InputTag("MyPFCHSImpactParameterTagInfos") # use the above IP TagInfos as input
+)
+
+process.MyPFCHSTrackCountingHighPurBJetTags = process.pfTrackCountingHighPurBJetTags.clone(
+  tagInfos = cms.VInputTag(cms.InputTag("MyPFCHSImpactParameterTagInfos"))
+)
+
+process.MyPFCHSCombinedSecondaryVertexV2BJetTags = process.pfCombinedSecondaryVertexV2BJetTags.clone(
+  tagInfos = cms.VInputTag(cms.InputTag("MyPFCHSImpactParameterTagInfos"), 
+                           cms.InputTag("MyPFCHSSecondaryVertexTagInfos")			
+	)
+)
+process.MyPFCHSJetProbabilityBJetTags = process.pfJetProbabilityBJetTags.clone(
+  tagInfos = cms.VInputTag(cms.InputTag("MyPFCHSImpactParameterTagInfos"))
+)
+
+process.myPFCHSBTaggers = cms.Sequence(
+  process.MyPFCHSImpactParameterTagInfos *
+  (
+     process.MyPFCHSTrackCountingHighPurBJetTags +
+     process.MyPFCHSJetProbabilityBJetTags + 
+     (  process.MyPFCHSSecondaryVertexTagInfos *
+        process.MyPFCHSCombinedSecondaryVertexV2BJetTags
+        )
+     )
+)
+
+
+
+#pf jets
+process.MyPFImpactParameterTagInfos = process.pfImpactParameterTagInfos.clone(
+    jets = cms.InputTag("ak4PFJets") # use ak4PFJetsCHS stored in AOD as input
+)
+process.MyPFSecondaryVertexTagInfos = process.pfInclusiveSecondaryVertexFinderTagInfos.clone(
+    trackIPTagInfos = cms.InputTag("MyPFImpactParameterTagInfos") # use the above IP TagInfos as input
+)
+
+process.MyPFTrackCountingHighPurBJetTags = process.pfTrackCountingHighPurBJetTags.clone(
+  tagInfos = cms.VInputTag(cms.InputTag("MyPFImpactParameterTagInfos"))
+)
+
+process.MyPFCombinedSecondaryVertexV2BJetTags = process.pfCombinedSecondaryVertexV2BJetTags.clone(
+  tagInfos = cms.VInputTag(cms.InputTag("MyPFImpactParameterTagInfos"), 
+                           cms.InputTag("MyPFSecondaryVertexTagInfos")			
+	)
+)
+process.MyPFJetProbabilityBJetTags = process.pfJetProbabilityBJetTags.clone(
+  tagInfos = cms.VInputTag(cms.InputTag("MyPFImpactParameterTagInfos"))
+)
+
+process.myPFBTaggers = cms.Sequence(
+  process.MyPFImpactParameterTagInfos *
+  (
+     process.MyPFTrackCountingHighPurBJetTags +
+     process.MyPFJetProbabilityBJetTags + 
+     (  process.MyPFSecondaryVertexTagInfos *
+        process.MyPFCombinedSecondaryVertexV2BJetTags
+        )
+     )
+)
+
+
+
+#btagging with calojets
+process.MyAk4CaloJetTracksAssociatorAtVertex = cms.EDProducer("JetTracksAssociatorAtVertex",
+   process.j2tParametersVX,
+   jets = cms.InputTag("ak4CaloJets")
+)
+process.MyCaloImpactParameterTagInfos = process.impactParameterTagInfos.clone(
+  jetTracks = "MyAk4CaloJetTracksAssociatorAtVertex"
+)
+# SV tag info, use IP tag info as input
+process.MyCaloSecondaryVertexTagInfos = process.inclusiveSecondaryVertexFinderTagInfos.clone(
+  trackIPTagInfos = cms.InputTag("MyCaloImpactParameterTagInfos"),
+)
+
+
+process.MyCaloTrackCountingHighPurBJetTags = process.trackCountingHighPurBJetTags.clone(
+  tagInfos = cms.VInputTag(cms.InputTag("MyCaloImpactParameterTagInfos"))
+)
+
+process.MyCaloCombinedSecondaryVertexV2BJetTags = process.combinedSecondaryVertexV2BJetTags.clone(
+    tagInfos = cms.VInputTag(cms.InputTag("MyCaloImpactParameterTagInfos"), 
+                             cms.InputTag("MyCaloSecondaryVertexTagInfos")			
+                             )
+)
+process.MyCaloJetProbabilityBJetTags = process.jetProbabilityBJetTags.clone(
+  tagInfos = cms.VInputTag(cms.InputTag("MyCaloImpactParameterTagInfos"))
+)
+
+process.myCaloBTaggers = cms.Sequence(
+  process.MyAk4CaloJetTracksAssociatorAtVertex *
+  process.MyCaloImpactParameterTagInfos *
+  (
+     process.MyCaloTrackCountingHighPurBJetTags +
+     process.MyCaloJetProbabilityBJetTags + 
+     (  process.MyCaloSecondaryVertexTagInfos *
+        process.MyCaloCombinedSecondaryVertexV2BJetTags
+        )
+     )
+)
+
+
+
+
+
+
+
+#btagging with JPTjets
+process.MyAk4JPTJetTracksAssociatorAtVertex = cms.EDProducer("JetTracksAssociatorAtVertex",
+   process.j2tParametersVX,
+   jets = cms.InputTag("myJetPlusTrackZSPCorJetAntiKt4")
+)
+process.MyJPTImpactParameterTagInfos = process.impactParameterTagInfos.clone(
+  jetTracks = "MyAk4JPTJetTracksAssociatorAtVertex"
+)
+# SV tag info, use IP tag info as input
+process.MyJPTSecondaryVertexTagInfos = process.inclusiveSecondaryVertexFinderTagInfos.clone(
+  trackIPTagInfos = cms.InputTag("MyJPTImpactParameterTagInfos"),
+)
+
+
+process.MyJPTTrackCountingHighPurBJetTags = process.trackCountingHighPurBJetTags.clone(
+  tagInfos = cms.VInputTag(cms.InputTag("MyJPTImpactParameterTagInfos"))
+)
+
+process.MyJPTCombinedSecondaryVertexV2BJetTags = process.combinedSecondaryVertexV2BJetTags.clone(
+    tagInfos = cms.VInputTag(cms.InputTag("MyJPTImpactParameterTagInfos"), 
+                             cms.InputTag("MyJPTSecondaryVertexTagInfos")			
+                             )
+)
+process.MyJPTJetProbabilityBJetTags = process.jetProbabilityBJetTags.clone(
+  tagInfos = cms.VInputTag(cms.InputTag("MyJPTImpactParameterTagInfos"))
+)
+
+process.myJPTBTaggers = cms.Sequence(
+  process.MyAk4JPTJetTracksAssociatorAtVertex *
+  process.MyJPTImpactParameterTagInfos *
+  (
+     process.MyJPTTrackCountingHighPurBJetTags +
+     process.MyJPTJetProbabilityBJetTags + 
+     (  process.MyJPTSecondaryVertexTagInfos *
+        process.MyJPTCombinedSecondaryVertexV2BJetTags
+        )
+     )
+)
 
 
 
@@ -497,9 +603,18 @@ process.analyzer = cms.EDAnalyzer(
     NonTrigMvaValuesMap       = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"),
     NonTrigMvaCategoriesMap   = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Categories"),
     Jets                      = cms.string("ak4PFJetsCHS"),
+    JetFlavourInfos           = cms.InputTag("myak4PFJetCHSFlavourInfos"),
+    JetTagInfos               = cms.vstring("MyPFCHSTrackCountingHighPurBJetTags", "MyPFCHSJetProbabilityBJetTags", "MyPFCHSCombinedSecondaryVertexV2BJetTags"),
     CaloJets                  = cms.string("ak4CaloJets"),
-    JPTJets                   = cms.string("JetPlusTrackZSPCorJetAntiKt4"),
+    CaloJetFlavourInfos       = cms.InputTag("flavourByValCalo"), 
+    CaloJetTagInfos           = cms.vstring("MyCaloTrackCountingHighPurBJetTags", "MyCaloJetProbabilityBJetTags", "MyCaloCombinedSecondaryVertexV2BJetTags"),
+    JPTJets                   = cms.string("myJetPlusTrackZSPCorJetAntiKt4"),
+    JPTJetFlavourInfos        = cms.InputTag("flavourByValJPT"), 
+    JPTJetTagInfos            = cms.vstring("MyJPTTrackCountingHighPurBJetTags", "MyJPTJetProbabilityBJetTags", "MyJPTCombinedSecondaryVertexV2BJetTags"),
     PFJets                    = cms.string("ak4PFJets"),
+    PFJetFlavourInfos         = cms.InputTag("myak4PFJetFlavourInfos"),
+    PFJetTagInfos             = cms.vstring("MyPFTrackCountingHighPurBJetTags", "MyPFJetProbabilityBJetTags", "MyPFCombinedSecondaryVertexV2BJetTags"),
+    JetTagCollections         = cms.vstring("trackCountingHighEffBJetTags", "pfCombinedInclusiveSecondaryVertexV2BJetTags"),
     JetMinPt                  = cms.double(10),    
     LeptonThreshold           = cms.double(10),    
     InputJetIDValueMap         = cms.InputTag("ak4JetID"), 
@@ -525,7 +640,6 @@ process.analyzer = cms.EDAnalyzer(
     Tracks                    = cms.string("generalTracks"),
     TrackMinPtWithMCTruth     = cms.double(10),
     LeptonMinPtForComposition = cms.double(15),
-    JetTagCollection          = cms.string("trackCountingHighEffBJetTags"),
     PhotonCollection          = cms.string("gedPhotons"),
     L1ParticleMapCollection   = cms.string("l1extraParticleMap"),
     L1GTReadoutRecordLabel    = cms.InputTag('gtDigis'),
@@ -538,8 +652,9 @@ process.analyzer = cms.EDAnalyzer(
     HLTTriggerElectrons       = cms.vstring("", "HLT_Ele27_WP80_v10", "HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v17"), 
     GeneratorLevelTag         = cms.string("generator"),
     LHEEventProductTag        = cms.InputTag("externalLHEProducer"),
-    GenJets                   = cms.string("ak4GenJets"),
-    akGenJets                 = cms.string("ak4GenJets"),
+    GenJets                   = cms.string(  "ak4GenJets"),
+    akGenJets                 = cms.string(  "ak4GenJets"),
+    akGenJetFlavourInfos      = cms.InputTag("myak4GenJetFlavourInfos"),
     GenJetMinPt               = cms.double(5),
     SimTracks                 = cms.string("g4SimHits"),
     DiLeptonMinMass           = cms.double(5)
@@ -572,7 +687,8 @@ if isData == True :
         #		     process.metMuonJESCorAK4*
         #                    process.mymets*
         process.superClusters*
-        process.myBTaggers*process.myCaloBTaggers*
+        process.myJetPlusTrackCorrectionsAntiKt4*
+        process.myPFCHSBTaggers*process.myPFBTaggers*process.myCaloBTaggers*
         #                    process.QuarkGluonTagger*	
         #                    process.recoPuJetId * process.recoPuJetMva*
         #                    process.eleRegressionEnergy * process.calibratedElectrons*
@@ -605,7 +721,9 @@ else :
         #		     process.metMuonJESCorAK4*
         #                    process.mymets*
         process.superClusters*
-        process.myBTaggers*process.myCaloBTaggers*
+        process.myJetPlusTrackCorrectionsAntiKt4*
+        process.flavourByRefJPT*process.flavourByValJPT*
+        process.myPFCHSBTaggers*process.myPFBTaggers*process.myCaloBTaggers*process.myJPTBTaggers*
         #                    process.QuarkGluonTagger*	
         #                    process.recoPuJetId * process.recoPuJetMva*
         #                    process.eleRegressionEnergy * process.calibratedElectrons*

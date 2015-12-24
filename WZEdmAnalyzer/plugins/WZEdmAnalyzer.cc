@@ -148,9 +148,18 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   NonTrigMvaCategoriesMapToken_(consumes<edm::ValueMap<int> >( iConfig.getParameter<edm::InputTag>("NonTrigMvaCategoriesMap"))),
 
   JetTags_(                    iConfig.getParameter<std::string>("Jets")),
+  jetFlavourInfosToken_(       consumes<reco::JetFlavourInfoMatchingCollection>( iConfig.getParameter<edm::InputTag>("JetFlavourInfos") ) ), 
+  JetTagInfos_(                iConfig.getParameter<std::vector< std::string> >("JetTagInfos")), 
   CaloJetTags_(                iConfig.getParameter<std::string>("CaloJets")),
+  recoCaloTag_(                iConfig.getParameter<edm::InputTag>("CaloJetFlavourInfos")), 
+  CaloJetTagInfos_(            iConfig.getParameter<std::vector< std::string> >("CaloJetTagInfos")), 
   JPTJetTags_(                 iConfig.getParameter<std::string>("JPTJets")),
+  recoJPTTag_(                 iConfig.getParameter<edm::InputTag>("JPTJetFlavourInfos")), 
+  JPTJetTagInfos_(             iConfig.getParameter<std::vector< std::string> >("JPTJetTagInfos")), 
   PFJetTags_(                  iConfig.getParameter<std::string>("PFJets")),
+  pfJetFlavourInfosToken_(     consumes<reco::JetFlavourInfoMatchingCollection>( iConfig.getParameter<edm::InputTag>("PFJetFlavourInfos") ) ), 
+  PFJetTagInfos_(              iConfig.getParameter<std::vector< std::string> >("PFJetTagInfos")), 
+  JetTagCollectionTags_(       iConfig.getParameter<std::vector< std::string> >("JetTagCollections")),
   jetMinPt(                    iConfig.getParameter<double>("JetMinPt")),
   leptonThreshold(             iConfig.getParameter<double>("LeptonThreshold")),
   inputJetIDValueMap(          iConfig.getParameter<edm::InputTag>("InputJetIDValueMap")), 
@@ -171,7 +180,6 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   TrackCollectionTags_(        iConfig.getParameter<std::string>("Tracks")),
   trackMinPtWithMCTruth(       iConfig.getParameter<double>("TrackMinPtWithMCTruth")),
   leptonMinPtForComposition(   iConfig.getParameter<double>("LeptonMinPtForComposition")),
-  JetTagCollectionTags_(       iConfig.getParameter<std::string>("JetTagCollection")),
   PhotonCollectionTags_(       iConfig.getParameter<std::string>("PhotonCollection")),
   L1ParticleMapCollectionTags_(iConfig.getParameter<std::string>("L1ParticleMapCollection")),
   L1GTReadoutRecordLabel_(     iConfig.getParameter<edm::InputTag>("L1GTReadoutRecordLabel")),
@@ -190,6 +198,8 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   LHEEventProductTag_(         iConfig.getParameter<edm::InputTag>("LHEEventProductTag")),
   GenJetAlgorithmTags_(        iConfig.getParameter<std::string>("GenJets")),
   akGenJetAlgorithmTags_(      iConfig.getParameter<std::string>("akGenJets")),
+  genJetFlavourInfosToken_(    consumes<reco::JetFlavourInfoMatchingCollection>( iConfig.getParameter<edm::InputTag>("akGenJetFlavourInfos") ) ), 
+
   genJetMinPt(                 iConfig.getParameter<double>("GenJetMinPt")),
   SimTrackTags_(               iConfig.getParameter<std::string>("SimTracks")),
   diLeptonMinMass(             iConfig.getParameter<double>("DiLeptonMinMass")) {
@@ -597,17 +607,22 @@ Handle<bool> CSCTightHaloFilterHandle;
 
 
   // btagging 
-  iEvent.getByLabel(JetTagCollectionTags_,                   jetTags);
-  iEvent.getByLabel("combinedSecondaryVertexBJetTags",       jetTagsCSV);
+  iEvent.getByLabel(JetTagCollectionTags_[0],  jetTags);
+  iEvent.getByLabel(JetTagCollectionTags_[1],  jetTagsCSV);
 
-  iEvent.getByLabel("MyJetBProbabilityBJetTags",             myJetTagsJP);
-  iEvent.getByLabel("MyTrackCountingHighPurBJetTags",        myJetTagsTCHP);
-  iEvent.getByLabel("MyCombinedSecondaryVertexBJetTags",     myJetTagsCSV);
+  //  iEvent.getByLabel("MyJetProbabilityBJetTags",             myJetTagsJP);
+  // iEvent.getByLabel("MyTrackCountingHighPurBJetTags",        myJetTagsTCHP);
+  // iEvent.getByLabel("MyCombinedSecondaryVertexV2BJetTags",     myJetTagsCSV);
 
+  // ak4pfchs
+  iEvent.getByLabel(JetTagInfos_[0],           myJetTagsTCHP);
+  iEvent.getByLabel(JetTagInfos_[1],           myJetTagsJP);
+  iEvent.getByLabel(JetTagInfos_[2],           myJetTagsCSV);
 
-  iEvent.getByLabel("MyJetBProbabilityCaloBJetTags",         myCaloJetTagsJP);
-  iEvent.getByLabel("MyTrackCountingHighPurCaloBJetTags",    myCaloJetTagsTCHP);
-  iEvent.getByLabel("MyCombinedSecondaryVertexCaloBJetTags", myCaloJetTagsCSV);
+  // calo jet
+  iEvent.getByLabel(CaloJetTagInfos_[0],       myCaloJetTagsTCHP);
+  iEvent.getByLabel(CaloJetTagInfos_[1],       myCaloJetTagsJP);
+  iEvent.getByLabel(CaloJetTagInfos_[2],       myCaloJetTagsCSV);
 
 
   // quark gluon likelihood separator
@@ -732,8 +747,20 @@ Handle<bool> CSCTightHaloFilterHandle;
 
     iEvent.getByLabel ("flavourByValGenJet" ,                theGenTag);
     iEvent.getByLabel ("flavourByValPF",                     theRecoPFTag);
-    iEvent.getByLabel ("flavourByValCalo",                   theRecoCaloTag);
     iEvent.getByLabel("generator",                           genEventInfo);
+
+
+    /*************************************************************************
+     *
+     * jet flavor, for 74x
+     *
+     *************************************************************************/
+    iEvent.getByLabel( recoCaloTag_,                theRecoCaloTag);
+    iEvent.getByToken( jetFlavourInfosToken_,       theJetFlavourInfos );
+    iEvent.getByToken( pfJetFlavourInfosToken_,     thePFJetFlavourInfos);
+    iEvent.getByToken( genJetFlavourInfosToken_,    theGenJetFlavourInfos);
+
+
 
     myEvent->setEventWeight(genEventInfo->weight());
 

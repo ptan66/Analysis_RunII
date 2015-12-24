@@ -113,6 +113,7 @@
 // MC jet flavor truth matching
 #include "SimDataFormats/JetMatching/interface/JetFlavour.h"
 #include "SimDataFormats/JetMatching/interface/JetFlavourMatching.h"
+#include "SimDataFormats/JetMatching/interface/JetFlavourInfoMatching.h"
 #include "SimDataFormats/JetMatching/interface/MatchedPartons.h"
 #include "SimDataFormats/JetMatching/interface/JetMatchedPartons.h"
 
@@ -375,61 +376,83 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::Handle<edm::ValueMap<bool> > tight_id_decisions; 
 
 
-   edm::Handle<reco::ConversionCollection> conversions_h;
+  edm::Handle<reco::ConversionCollection> conversions_h;
 
 
-   // MVA values and categories (optional)
-   edm::EDGetTokenT<edm::ValueMap<float> > TrigMvaValuesMapToken_;
-   edm::EDGetTokenT<edm::ValueMap<int> >   TrigMvaCategoriesMapToken_;
+  // MVA values and categories (optional)
+  edm::EDGetTokenT<edm::ValueMap<float> > TrigMvaValuesMapToken_;
+  edm::EDGetTokenT<edm::ValueMap<int> >   TrigMvaCategoriesMapToken_;
+  
+  edm::EDGetTokenT<edm::ValueMap<float> > NonTrigMvaValuesMapToken_;
+  edm::EDGetTokenT<edm::ValueMap<int> >   NonTrigMvaCategoriesMapToken_;
+  
+  edm::Handle<edm::ValueMap<float> >      trigMvaValues;
+  edm::Handle<edm::ValueMap<int> >        trigMvaCategories;
+  edm::Handle<edm::ValueMap<float> >      nonTrigMvaValues;
+  edm::Handle<edm::ValueMap<int> >        nonTrigMvaCategories;
+   
 
-   edm::EDGetTokenT<edm::ValueMap<float> > NonTrigMvaValuesMapToken_;
-   edm::EDGetTokenT<edm::ValueMap<int> >   NonTrigMvaCategoriesMapToken_;
-
-   edm::Handle<edm::ValueMap<float> >      trigMvaValues;
-   edm::Handle<edm::ValueMap<int> >        trigMvaCategories;
-   edm::Handle<edm::ValueMap<float> >      nonTrigMvaValues;
-   edm::Handle<edm::ValueMap<int> >        nonTrigMvaCategories;
    
 
 
 
+  /*************************************************************************
+   *
+   * jet flavor, btagging, etc. for 74x
+   *
+   *************************************************************************/
+  edm::InputTag                                            JetTags_;
+  edm::EDGetTokenT<reco::JetFlavourInfoMatchingCollection> jetFlavourInfosToken_;
+  edm::Handle<reco::JetFlavourInfoMatchingCollection>      theJetFlavourInfos;
+  std::vector< std::string  >                              JetTagInfos_;
 
+  
+  edm::InputTag                                            CaloJetTags_;
+  edm::Handle<reco::JetFlavourMatchingCollection>          theRecoCaloTag;
+  edm::InputTag                                            recoCaloTag_;
+  std::vector< std::string  >                              CaloJetTagInfos_;
+   
+  
+  edm::InputTag                                            JPTJetTags_;
+  edm::Handle<reco::JetFlavourMatchingCollection>          theRecoJPTTag;
+  edm::InputTag                                            recoJPTTag_;
+  std::vector< std::string  >                              JPTJetTagInfos_;
+ 
+  
+  edm::InputTag                                            PFJetTags_; 
+  edm::EDGetTokenT<reco::JetFlavourInfoMatchingCollection> pfJetFlavourInfosToken_;
+  edm::Handle<reco::JetFlavourInfoMatchingCollection>      thePFJetFlavourInfos;
+  std::vector< std::string  >                              PFJetTagInfos_;
 
-  edm::InputTag      JetTags_;
-  edm::InputTag      CaloJetTags_;
-  edm::InputTag      JPTJetTags_;
-  edm::InputTag      PFJetTags_;
-
-  double             jetMinPt;
-  double             leptonThreshold;
+  std::vector< std::string  >                              JetTagCollectionTags_;
+   
+  double                                                   jetMinPt;
+  double                                                   leptonThreshold;
 
 
   // jet id
-  edm::InputTag inputJetIDValueMap;
-  edm::EDGetTokenT<edm::ValueMap <reco::JetID> > jetID_ValueMapToken_;
-  edm::Handle< edm::ValueMap<reco::JetID> >jetID_ValueMap_Handle;
-
-  //  edm::ParameterSet                               calojetIDHelperConfig;
-  // reco::helper::JetIDHelper                       calojetIDHelper;
+  edm::InputTag                                            inputJetIDValueMap;
+  edm::EDGetTokenT<edm::ValueMap <reco::JetID> >           jetID_ValueMapToken_;
+  edm::Handle< edm::ValueMap<reco::JetID> >                jetID_ValueMap_Handle;
 
 
-  std::string        jetCorrectionService;
-  std::string        caloJetCorrectionService;
-  std::string        jptJetCorrectionService;
-  std::string        pfJetCorrectionService;
+  std::string                                              jetCorrectionService;
+  std::string                                              caloJetCorrectionService;
+  std::string                                              jptJetCorrectionService;
+  std::string                                              pfJetCorrectionService;
 
 
   //  edm::ESHandle<JetCorrectorParametersCollection>
-  edm::ESHandle<JetCorrectorParametersCollection> jetCorParColl;
-  edm::ESHandle<JetCorrectorParametersCollection> caloJetCorParColl;
-  edm::ESHandle<JetCorrectorParametersCollection> jptJetCorParColl;
-  edm::ESHandle<JetCorrectorParametersCollection> pfJetCorParColl;
+  edm::ESHandle<JetCorrectorParametersCollection>          jetCorParColl;
+  edm::ESHandle<JetCorrectorParametersCollection>          caloJetCorParColl;
+  edm::ESHandle<JetCorrectorParametersCollection>          jptJetCorParColl;
+  edm::ESHandle<JetCorrectorParametersCollection>          pfJetCorParColl;
 
 
-  JetCorrectionUncertainty  *jetUnc;
-  JetCorrectionUncertainty  *caloJetUnc;
-  JetCorrectionUncertainty  *jptJetUnc;
-  JetCorrectionUncertainty  *pfJetUnc;
+  JetCorrectionUncertainty                                *jetUnc;
+  JetCorrectionUncertainty                                *caloJetUnc;
+  JetCorrectionUncertainty                                *jptJetUnc;
+  JetCorrectionUncertainty                                *pfJetUnc;
 
 
   // default rho and sigma
@@ -498,7 +521,6 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::InputTag      TrackCollectionTags_;
   double             trackMinPtWithMCTruth;
   double             leptonMinPtForComposition;
-  edm::InputTag      JetTagCollectionTags_;
   edm::InputTag      PhotonCollectionTags_;
   edm::InputTag      L1ParticleMapCollectionTags_;
   edm::InputTag      L1GTReadoutRecordLabel_;
@@ -540,6 +562,11 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
 
   edm::InputTag              GenJetAlgorithmTags_;
   edm::InputTag              akGenJetAlgorithmTags_;
+
+  edm::EDGetTokenT<reco::JetFlavourInfoMatchingCollection> genJetFlavourInfosToken_;
+  edm::Handle<reco::JetFlavourInfoMatchingCollection>      theGenJetFlavourInfos;
+
+
   double                     genJetMinPt;
   const JetCorrector*        jetCorr;
   const JetCorrector*        caloJetCorr;
@@ -666,7 +693,10 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
 
   edm::Handle<reco::JetFlavourMatchingCollection> theGenTag;
   edm::Handle<reco::JetFlavourMatchingCollection> theRecoPFTag;
-  edm::Handle<reco::JetFlavourMatchingCollection> theRecoCaloTag;
+
+
+
+
 
   // TeV Muon Refit
   Handle <reco::TrackToTrackMap>       tevMapH1;   
