@@ -435,6 +435,7 @@ class _hlt_info_ : public TObject {
   Bool_t HLT_NonIsoMuon;
   Bool_t HLT_Muon;
   Bool_t HLT_MuonL;
+  Bool_t HLT_MuonH;
 
   Bool_t HLT_MuonElectron;
   Bool_t HLT_ElectronMuon;
@@ -907,7 +908,7 @@ class _gen_jet_ : public TObject {
  public:
 
   Float_t pt, eta, phi, energy, mass;
-  Int_t   mc_flavor, nConstituent ;
+  Int_t   mc_flavor, mc_partonFlavor, nConstituent ;
 
   //Float_t 
 
@@ -974,7 +975,8 @@ class _jet_ : public TObject {
 
 
   // MC information
-  Float_t mc_flavor, mc_pt, mc_eta, mc_phi;
+  Int_t    mc_flavor, mc_partonFlavor;
+  Float_t  mc_pt, mc_eta, mc_phi;
 
   // btagging variables
   Float_t tag[EDM_MAX_LENGTH];
@@ -1310,6 +1312,17 @@ class _event_ : public TObject{
   TClonesArray       *hltMuonLleg2s; 
 
 
+  
+  Int_t               hltMuonHNum;      
+  TClonesArray       *hltMuonHs; 
+  Int_t               hltMuonHleg1Num;      
+  TClonesArray       *hltMuonHleg1s; 
+  Int_t               hltMuonHleg2Num;      
+  TClonesArray       *hltMuonHleg2s; 
+
+
+
+
 
   TClonesArray       *vertices;
   TClonesArray       *superclusters;
@@ -1383,6 +1396,13 @@ class _event_ : public TObject{
   TClonesArray       *getHLTMuonLleg1s()      {return hltMuonLleg1s;}
   TClonesArray       *getHLTMuonLleg2s()      {return hltMuonLleg2s;}
 
+
+  TClonesArray       *getHLTMuonHs()          {return hltMuonHs;}
+  TClonesArray       *getHLTMuonHleg1s()      {return hltMuonHleg1s;}
+  TClonesArray       *getHLTMuonHleg2s()      {return hltMuonHleg2s;}
+
+
+
   TClonesArray       *getVertices()        {return vertices;}
   TClonesArray       *getSuperclusters()   {return superclusters;}
   TClonesArray       *getPhotons()         {return photons;}
@@ -1430,6 +1450,10 @@ class _event_ : public TObject{
   _vec4_             *addHLTMuonL();
   _vec4_             *addHLTMuonLleg1();
   _vec4_             *addHLTMuonLleg2();
+
+  _vec4_             *addHLTMuonH();
+  _vec4_             *addHLTMuonHleg1();
+  _vec4_             *addHLTMuonHleg2();
 
 
 
@@ -1497,6 +1521,10 @@ _vec4_ *addHLTMuon(_event_ *aEvent);
 _vec4_ *addHLTMuonL(_event_ *aEvent);
 _vec4_ *addHLTMuonLleg1(_event_ *aEvent);
 _vec4_ *addHLTMuonLleg2(_event_ *aEvent);
+
+_vec4_ *addHLTMuonH(_event_ *aEvent);
+_vec4_ *addHLTMuonHleg1(_event_ *aEvent);
+_vec4_ *addHLTMuonHleg2(_event_ *aEvent);
 
 
 _vec4_ *addHLTMuonElectron(_event_ *aEvent);

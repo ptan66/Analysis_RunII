@@ -432,7 +432,7 @@ process.MyPFCHSTrackCountingHighPurBJetTags = process.pfTrackCountingHighPurBJet
   tagInfos = cms.VInputTag(cms.InputTag("MyPFCHSImpactParameterTagInfos"))
 )
 
-process.MyPFCHSCombinedSecondaryVertexV2BJetTags = process.pfCombinedSecondaryVertexV2BJetTags.clone(
+process.MyPFCHSCombinedSecondaryVertexV2BJetTags = process.pfCombinedInclusiveSecondaryVertexV2BJetTags.clone(
   tagInfos = cms.VInputTag(cms.InputTag("MyPFCHSImpactParameterTagInfos"), 
                            cms.InputTag("MyPFCHSSecondaryVertexTagInfos")			
 	)
@@ -466,7 +466,7 @@ process.MyPFTrackCountingHighPurBJetTags = process.pfTrackCountingHighPurBJetTag
   tagInfos = cms.VInputTag(cms.InputTag("MyPFImpactParameterTagInfos"))
 )
 
-process.MyPFCombinedSecondaryVertexV2BJetTags = process.pfCombinedSecondaryVertexV2BJetTags.clone(
+process.MyPFCombinedSecondaryVertexV2BJetTags = process.pfCombinedInclusiveSecondaryVertexV2BJetTags.clone(
   tagInfos = cms.VInputTag(cms.InputTag("MyPFImpactParameterTagInfos"), 
                            cms.InputTag("MyPFSecondaryVertexTagInfos")			
 	)
@@ -506,7 +506,7 @@ process.MyCaloTrackCountingHighPurBJetTags = process.trackCountingHighPurBJetTag
   tagInfos = cms.VInputTag(cms.InputTag("MyCaloImpactParameterTagInfos"))
 )
 
-process.MyCaloCombinedSecondaryVertexV2BJetTags = process.combinedSecondaryVertexV2BJetTags.clone(
+process.MyCaloCombinedSecondaryVertexV2BJetTags = process.combinedInclusiveSecondaryVertexV2BJetTags.clone(
     tagInfos = cms.VInputTag(cms.InputTag("MyCaloImpactParameterTagInfos"), 
                              cms.InputTag("MyCaloSecondaryVertexTagInfos")			
                              )
@@ -551,7 +551,7 @@ process.MyJPTTrackCountingHighPurBJetTags = process.trackCountingHighPurBJetTags
   tagInfos = cms.VInputTag(cms.InputTag("MyJPTImpactParameterTagInfos"))
 )
 
-process.MyJPTCombinedSecondaryVertexV2BJetTags = process.combinedSecondaryVertexV2BJetTags.clone(
+process.MyJPTCombinedSecondaryVertexV2BJetTags = process.combinedInclusiveSecondaryVertexV2BJetTags.clone(
     tagInfos = cms.VInputTag(cms.InputTag("MyJPTImpactParameterTagInfos"), 
                              cms.InputTag("MyJPTSecondaryVertexTagInfos")			
                              )
@@ -647,9 +647,9 @@ process.analyzer = cms.EDAnalyzer(
     TriggerResultsLabel       = cms.InputTag("TriggerResults","","HLT"),
     TriggerSummaryLabel       = cms.InputTag("hltTriggerSummaryAOD","","HLT"),
     TriggerRefPath            = cms.string("HLTriggerFinalPath"), 
-    HLTTriggerMuons           = cms.vstring("HLT_Mu40_vVERSION", "HLT_IsoMu24_v15", "HLT_Mu17_Mu8_v17"),
-    HLTTriggerMuonElectrons   = cms.vstring("HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v7", ""),
-    HLTTriggerElectrons       = cms.vstring("", "HLT_Ele27_WP80_v10", "HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v17"), 
+    HLTTriggerMuons           = cms.vstring("HLT_IsoTkMu20_v1", "HLT_IsoMu20_v1", "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v1", "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v1"),
+    HLTTriggerMuonElectrons   = cms.vstring("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v1", "HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v1"),
+    HLTTriggerElectrons       = cms.vstring("", "HLT_Ele23_WP75_Gsf_v1", "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v1"), 
     GeneratorLevelTag         = cms.string("generator"),
     LHEEventProductTag        = cms.InputTag("externalLHEProducer"),
     GenJets                   = cms.string(  "ak4GenJets"),

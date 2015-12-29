@@ -375,7 +375,7 @@ namespace ROOT {
       ::_mets_ *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_mets_ >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("_mets_", ::_mets_::Class_Version(), "kinematics.h", 456,
+         instance("_mets_", ::_mets_::Class_Version(), "kinematics.h", 457,
                   typeid(::_mets_), DefineBehavior(ptr, ptr),
                   &::_mets_::Dictionary, isa_proxy, 4,
                   sizeof(::_mets_) );
@@ -407,7 +407,7 @@ namespace ROOT {
       ::_dileadingjets_ *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_dileadingjets_ >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("_dileadingjets_", ::_dileadingjets_::Class_Version(), "kinematics.h", 474,
+         instance("_dileadingjets_", ::_dileadingjets_::Class_Version(), "kinematics.h", 475,
                   typeid(::_dileadingjets_), DefineBehavior(ptr, ptr),
                   &::_dileadingjets_::Dictionary, isa_proxy, 4,
                   sizeof(::_dileadingjets_) );
@@ -439,7 +439,7 @@ namespace ROOT {
       ::_run_info_ *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_run_info_ >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("_run_info_", ::_run_info_::Class_Version(), "kinematics.h", 500,
+         instance("_run_info_", ::_run_info_::Class_Version(), "kinematics.h", 501,
                   typeid(::_run_info_), DefineBehavior(ptr, ptr),
                   &::_run_info_::Dictionary, isa_proxy, 4,
                   sizeof(::_run_info_) );
@@ -471,7 +471,7 @@ namespace ROOT {
       ::_vertex_ *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_vertex_ >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("_vertex_", ::_vertex_::Class_Version(), "kinematics.h", 515,
+         instance("_vertex_", ::_vertex_::Class_Version(), "kinematics.h", 516,
                   typeid(::_vertex_), DefineBehavior(ptr, ptr),
                   &::_vertex_::Dictionary, isa_proxy, 4,
                   sizeof(::_vertex_) );
@@ -503,7 +503,7 @@ namespace ROOT {
       ::_l1_obj_ *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_l1_obj_ >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("_l1_obj_", ::_l1_obj_::Class_Version(), "kinematics.h", 547,
+         instance("_l1_obj_", ::_l1_obj_::Class_Version(), "kinematics.h", 548,
                   typeid(::_l1_obj_), DefineBehavior(ptr, ptr),
                   &::_l1_obj_::Dictionary, isa_proxy, 4,
                   sizeof(::_l1_obj_) );
@@ -535,7 +535,7 @@ namespace ROOT {
       ::_supercluster_ *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_supercluster_ >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("_supercluster_", ::_supercluster_::Class_Version(), "kinematics.h", 568,
+         instance("_supercluster_", ::_supercluster_::Class_Version(), "kinematics.h", 569,
                   typeid(::_supercluster_), DefineBehavior(ptr, ptr),
                   &::_supercluster_::Dictionary, isa_proxy, 4,
                   sizeof(::_supercluster_) );
@@ -567,7 +567,7 @@ namespace ROOT {
       ::_photon_ *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_photon_ >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("_photon_", ::_photon_::Class_Version(), "kinematics.h", 602,
+         instance("_photon_", ::_photon_::Class_Version(), "kinematics.h", 603,
                   typeid(::_photon_), DefineBehavior(ptr, ptr),
                   &::_photon_::Dictionary, isa_proxy, 4,
                   sizeof(::_photon_) );
@@ -599,7 +599,7 @@ namespace ROOT {
       ::_electron_ *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_electron_ >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("_electron_", ::_electron_::Class_Version(), "kinematics.h", 661,
+         instance("_electron_", ::_electron_::Class_Version(), "kinematics.h", 662,
                   typeid(::_electron_), DefineBehavior(ptr, ptr),
                   &::_electron_::Dictionary, isa_proxy, 4,
                   sizeof(::_electron_) );
@@ -631,7 +631,7 @@ namespace ROOT {
       ::_beam_spot_ *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_beam_spot_ >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("_beam_spot_", ::_beam_spot_::Class_Version(), "kinematics.h", 790,
+         instance("_beam_spot_", ::_beam_spot_::Class_Version(), "kinematics.h", 791,
                   typeid(::_beam_spot_), DefineBehavior(ptr, ptr),
                   &::_beam_spot_::Dictionary, isa_proxy, 4,
                   sizeof(::_beam_spot_) );
@@ -695,7 +695,7 @@ namespace ROOT {
       ::_muon_ *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_muon_ >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("_muon_", ::_muon_::Class_Version(), "kinematics.h", 812,
+         instance("_muon_", ::_muon_::Class_Version(), "kinematics.h", 813,
                   typeid(::_muon_), DefineBehavior(ptr, ptr),
                   &::_muon_::Dictionary, isa_proxy, 4,
                   sizeof(::_muon_) );
@@ -727,7 +727,7 @@ namespace ROOT {
       ::_jet_ *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_jet_ >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("_jet_", ::_jet_::Class_Version(), "kinematics.h", 923,
+         instance("_jet_", ::_jet_::Class_Version(), "kinematics.h", 924,
                   typeid(::_jet_), DefineBehavior(ptr, ptr),
                   &::_jet_::Dictionary, isa_proxy, 4,
                   sizeof(::_jet_) );
@@ -759,7 +759,7 @@ namespace ROOT {
       ::_di_jet_ *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_di_jet_ >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("_di_jet_", ::_di_jet_::Class_Version(), "kinematics.h", 1016,
+         instance("_di_jet_", ::_di_jet_::Class_Version(), "kinematics.h", 1018,
                   typeid(::_di_jet_), DefineBehavior(ptr, ptr),
                   &::_di_jet_::Dictionary, isa_proxy, 4,
                   sizeof(::_di_jet_) );
@@ -791,7 +791,7 @@ namespace ROOT {
       ::_gen_jet_ *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_gen_jet_ >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("_gen_jet_", ::_gen_jet_::Class_Version(), "kinematics.h", 905,
+         instance("_gen_jet_", ::_gen_jet_::Class_Version(), "kinematics.h", 906,
                   typeid(::_gen_jet_), DefineBehavior(ptr, ptr),
                   &::_gen_jet_::Dictionary, isa_proxy, 4,
                   sizeof(::_gen_jet_) );
@@ -823,7 +823,7 @@ namespace ROOT {
       ::_W_ *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_W_ >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("_W_", ::_W_::Class_Version(), "kinematics.h", 1045,
+         instance("_W_", ::_W_::Class_Version(), "kinematics.h", 1047,
                   typeid(::_W_), DefineBehavior(ptr, ptr),
                   &::_W_::Dictionary, isa_proxy, 4,
                   sizeof(::_W_) );
@@ -855,7 +855,7 @@ namespace ROOT {
       ::_di_lepton_ *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_di_lepton_ >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("_di_lepton_", ::_di_lepton_::Class_Version(), "kinematics.h", 1066,
+         instance("_di_lepton_", ::_di_lepton_::Class_Version(), "kinematics.h", 1068,
                   typeid(::_di_lepton_), DefineBehavior(ptr, ptr),
                   &::_di_lepton_::Dictionary, isa_proxy, 4,
                   sizeof(::_di_lepton_) );
@@ -887,7 +887,7 @@ namespace ROOT {
       ::_tri_lepton_ *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_tri_lepton_ >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("_tri_lepton_", ::_tri_lepton_::Class_Version(), "kinematics.h", 1116,
+         instance("_tri_lepton_", ::_tri_lepton_::Class_Version(), "kinematics.h", 1118,
                   typeid(::_tri_lepton_), DefineBehavior(ptr, ptr),
                   &::_tri_lepton_::Dictionary, isa_proxy, 4,
                   sizeof(::_tri_lepton_) );
@@ -919,7 +919,7 @@ namespace ROOT {
       ::_quar_lepton_ *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_quar_lepton_ >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("_quar_lepton_", ::_quar_lepton_::Class_Version(), "kinematics.h", 1140,
+         instance("_quar_lepton_", ::_quar_lepton_::Class_Version(), "kinematics.h", 1142,
                   typeid(::_quar_lepton_), DefineBehavior(ptr, ptr),
                   &::_quar_lepton_::Dictionary, isa_proxy, 4,
                   sizeof(::_quar_lepton_) );
@@ -951,7 +951,7 @@ namespace ROOT {
       ::_lepton_photon_ *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_lepton_photon_ >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("_lepton_photon_", ::_lepton_photon_::Class_Version(), "kinematics.h", 1164,
+         instance("_lepton_photon_", ::_lepton_photon_::Class_Version(), "kinematics.h", 1166,
                   typeid(::_lepton_photon_), DefineBehavior(ptr, ptr),
                   &::_lepton_photon_::Dictionary, isa_proxy, 4,
                   sizeof(::_lepton_photon_) );
@@ -983,7 +983,7 @@ namespace ROOT {
       ::_dilepton_photon_ *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_dilepton_photon_ >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("_dilepton_photon_", ::_dilepton_photon_::Class_Version(), "kinematics.h", 1188,
+         instance("_dilepton_photon_", ::_dilepton_photon_::Class_Version(), "kinematics.h", 1190,
                   typeid(::_dilepton_photon_), DefineBehavior(ptr, ptr),
                   &::_dilepton_photon_::Dictionary, isa_proxy, 4,
                   sizeof(::_dilepton_photon_) );
@@ -1015,7 +1015,7 @@ namespace ROOT {
       ::_event_ *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_event_ >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("_event_", ::_event_::Class_Version(), "kinematics.h", 1222,
+         instance("_event_", ::_event_::Class_Version(), "kinematics.h", 1224,
                   typeid(::_event_), DefineBehavior(ptr, ptr),
                   &::_event_::Dictionary, isa_proxy, 4,
                   sizeof(::_event_) );

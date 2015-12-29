@@ -276,46 +276,48 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   void   copyCaloJetInfo(    const edm::Event& iEvent,
 			     const edm::EventSetup& iSetup, 
 			     reco::CaloJetCollection::const_iterator jet,
+			     edm::RefToBase<reco::Jet> &jetRef, 
 			     JetCorrectionUncertainty *jetCorUnc, 
 			     double scale, 
 			     edm::Handle<reco::JetFlavourMatchingCollection> & theRecoTag, 
-			     edm::Handle<reco::JetTagCollection> & jetTags, 
+			     //   edm::Handle<reco::JetTagCollection> & jetTags, 
 			     _jet_ *myJet);
 
   void   copyJPTJetInfo(     const edm::Event& iEvent,
 			     const edm::EventSetup& iSetup, 
 			     reco::JPTJetCollection::const_iterator jet, 
+			     edm::RefToBase<reco::Jet> &jetRef, 
 			     JetCorrectionUncertainty *jetCorUnc, 
 			     double scale, 
 			     edm::Handle<reco::JetFlavourMatchingCollection> & theRecoTag, 
-			     edm::Handle<reco::JetTagCollection> & jetTags, 
+			     //			     edm::Handle<reco::JetTagCollection> & jetTags, 
 			     _jet_ *myJet);
 
 
   void   copyPFCHSJetInfo(      const edm::Event& iEvent,
 				const edm::EventSetup& iSetup, 
 				reco::PFJetCollection::const_iterator jet, 
+				edm::RefToBase<reco::Jet> &jetRef, 
 				JetCorrectionUncertainty *jetCorUnc, 
 				double scale, 
-				edm::Handle<reco::JetFlavourMatchingCollection> & theRecoTag, 
-				edm::Handle<reco::JetTagCollection> & jetTags, 
+				edm::Handle<reco::JetFlavourInfoMatchingCollection> & theRecoTag, 
 				_jet_ *myJet);
 
   void   copyPFJetInfo(      const edm::Event& iEvent,
 			     const edm::EventSetup& iSetup, 
 			     reco::PFJetCollection::const_iterator jet, 
+			     edm::RefToBase<reco::Jet> &jetRef, 
 			     JetCorrectionUncertainty *jetCorUnc, 
 			     double scale, 
-			     edm::Handle<reco::JetFlavourMatchingCollection> & theRecoTag, 
-			     edm::Handle<reco::JetTagCollection> & jetTags, 
+			     edm::Handle<reco::JetFlavourInfoMatchingCollection> & theRecoTag, 
 			     _jet_ *myJet);
   void   copyPFJetInfoCommon(      const edm::Event& iEvent,
 				   const edm::EventSetup& iSetup, 
 				   reco::PFJetCollection::const_iterator jet, 
+				   edm::RefToBase<reco::Jet> &jetRef, 
 				   JetCorrectionUncertainty *jetCorUnc, 
 				   double scale, 
-				   edm::Handle<reco::JetFlavourMatchingCollection> & theRecoTag, 
-				   //  edm::Handle<reco::JetTagCollection> & jetTags, 
+				   edm::Handle<reco::JetFlavourInfoMatchingCollection> & theRecoTag, 
 				   _jet_ *myJet);
   
 
@@ -405,26 +407,43 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::EDGetTokenT<reco::JetFlavourInfoMatchingCollection> jetFlavourInfosToken_;
   edm::Handle<reco::JetFlavourInfoMatchingCollection>      theJetFlavourInfos;
   std::vector< std::string  >                              JetTagInfos_;
+  edm::Handle<reco::JetTagCollection>                      myJetTagsJP;
+  edm::Handle<reco::JetTagCollection>                      myJetTagsTCHP;
+  edm::Handle<reco::JetTagCollection>                      myJetTagsCSV;
 
   
   edm::InputTag                                            CaloJetTags_;
   edm::Handle<reco::JetFlavourMatchingCollection>          theRecoCaloTag;
   edm::InputTag                                            recoCaloTag_;
   std::vector< std::string  >                              CaloJetTagInfos_;
+  edm::Handle<reco::JetTagCollection>                      myCaloJetTagsJP;
+  edm::Handle<reco::JetTagCollection>                      myCaloJetTagsTCHP;
+  edm::Handle<reco::JetTagCollection>                      myCaloJetTagsCSV;
+
    
   
   edm::InputTag                                            JPTJetTags_;
   edm::Handle<reco::JetFlavourMatchingCollection>          theRecoJPTTag;
   edm::InputTag                                            recoJPTTag_;
   std::vector< std::string  >                              JPTJetTagInfos_;
- 
+  edm::Handle<reco::JetTagCollection>                      myJPTJetTagsJP;
+  edm::Handle<reco::JetTagCollection>                      myJPTJetTagsTCHP;
+  edm::Handle<reco::JetTagCollection>                      myJPTJetTagsCSV;
+
   
   edm::InputTag                                            PFJetTags_; 
   edm::EDGetTokenT<reco::JetFlavourInfoMatchingCollection> pfJetFlavourInfosToken_;
   edm::Handle<reco::JetFlavourInfoMatchingCollection>      thePFJetFlavourInfos;
   std::vector< std::string  >                              PFJetTagInfos_;
+  edm::Handle<reco::JetTagCollection>                      myPFJetTagsJP;
+  edm::Handle<reco::JetTagCollection>                      myPFJetTagsTCHP;
+  edm::Handle<reco::JetTagCollection>                      myPFJetTagsCSV;
+
 
   std::vector< std::string  >                              JetTagCollectionTags_;
+  edm::Handle<reco::JetTagCollection>                      jetTags;
+  edm::Handle<reco::JetTagCollection>                      jetTagsCSV;
+
    
   double                                                   jetMinPt;
   double                                                   leptonThreshold;
@@ -617,22 +636,11 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   Handle<GenJetCollection>                        akGenJets;
   Handle<reco::PFJetCollection>                   jets;
   Handle<reco::CaloJetCollection>                 caloJets;
-  Handle<reco::JPTJetCollection>                        jptJets;
-  Handle<reco::PFJetCollection>                         pfJets;
+  Handle<reco::JPTJetCollection>                  jptJets;
+  Handle<reco::PFJetCollection>                   pfJets;
 
   Handle<edm::SimTrackContainer>                  simTracks;
   Handle<reco::TrackCollection>                   tracks;
-  edm::Handle<reco::JetTagCollection>             jetTags;
-  edm::Handle<reco::JetTagCollection>             jetTagsCSV;
-
-  edm::Handle<reco::JetTagCollection>             myJetTagsJP;
-  edm::Handle<reco::JetTagCollection>             myJetTagsTCHP;
-  edm::Handle<reco::JetTagCollection>             myJetTagsCSV;
-
-
-  edm::Handle<reco::JetTagCollection>             myCaloJetTagsJP;
-  edm::Handle<reco::JetTagCollection>             myCaloJetTagsTCHP;
-  edm::Handle<reco::JetTagCollection>             myCaloJetTagsCSV;
 
 
 

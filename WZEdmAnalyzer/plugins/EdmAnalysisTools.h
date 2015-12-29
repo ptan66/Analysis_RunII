@@ -30,6 +30,7 @@
 // MC jet flavor truth matching
 #include "SimDataFormats/JetMatching/interface/JetFlavour.h"
 #include "SimDataFormats/JetMatching/interface/JetFlavourMatching.h"
+#include "SimDataFormats/JetMatching/interface/JetFlavourInfoMatching.h"
 #include "SimDataFormats/JetMatching/interface/MatchedPartons.h"
 #include "SimDataFormats/JetMatching/interface/JetMatchedPartons.h"
 
@@ -41,9 +42,18 @@ using namespace reco;
 using namespace edm;
 using namespace std;
 
-float btaggingAssociation(Jet jet, const reco::JetTagCollection *btags, float matching_deltaR=0.3);
 
-float mcflavorAssociation(Jet jet, edm::Handle<reco::JetFlavourMatchingCollection> tagList, float matching_deltaR=0.3);
+float btaggingAssociation(edm::RefToBase<reco::Jet> &jetRef, edm::Handle<reco::JetTagCollection> jetTag, bool isdebug=false);
+
+
+
+
+float btaggingAssociation(Jet jet, const reco::JetTagCollection *btags, float matching_deltaR=0.1);
+
+
+int mcflavorAssociation(edm::RefToBase<reco::Jet> &jetRef, edm::Handle<reco::JetFlavourMatchingCollection> jetTag, bool isdebug=false);
+int mcflavorAssociation(edm::RefToBase<reco::Jet> &jetRef, edm::Handle<reco::JetFlavourInfoMatchingCollection> jetTag, int &partonFlavor, bool isdebug=false);
+int mcflavorAssociation(Jet jet, edm::Handle<reco::JetFlavourMatchingCollection> tagList, float matching_deltaR=0.1);
 
 
 void calPtRel(reco::CaloJetCollection::const_iterator jet, const reco::MuonCollection *recoMuons, _jet_ *myJet, float coneSize=0.3, float scale = 1.0);

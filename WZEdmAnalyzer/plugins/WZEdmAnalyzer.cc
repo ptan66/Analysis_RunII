@@ -461,6 +461,7 @@ Handle<bool> CSCTightHaloFilterHandle;
   } else {
     caloJetUnc = 0;
   }
+
   //jpt jet 
   jptJetUnc  = 0;
 
@@ -625,6 +626,19 @@ Handle<bool> CSCTightHaloFilterHandle;
   iEvent.getByLabel(CaloJetTagInfos_[2],       myCaloJetTagsCSV);
 
 
+  // JPT jet
+  iEvent.getByLabel(JPTJetTagInfos_[0],        myJPTJetTagsTCHP);
+  iEvent.getByLabel(JPTJetTagInfos_[1],        myJPTJetTagsJP);
+  iEvent.getByLabel(JPTJetTagInfos_[2],        myJPTJetTagsCSV);
+
+
+  // PF jet
+  iEvent.getByLabel(PFJetTagInfos_[0],         myPFJetTagsTCHP);
+  iEvent.getByLabel(PFJetTagInfos_[1],         myPFJetTagsJP);
+  iEvent.getByLabel(PFJetTagInfos_[2],         myPFJetTagsCSV);
+
+
+
   // quark gluon likelihood separator
   iEvent.getByLabel("QGTagger","qgMLP", QGTagsHandleMLP);
   iEvent.getByLabel("QGTagger","qgLikelihood", QGTagsHandleLikelihood);
@@ -746,7 +760,7 @@ Handle<bool> CSCTightHaloFilterHandle;
     // iEvent.getByLabel(SimTrackTags_,                      simTracks);
 
     iEvent.getByLabel ("flavourByValGenJet" ,                theGenTag);
-    iEvent.getByLabel ("flavourByValPF",                     theRecoPFTag);
+    // iEvent.getByLabel ("flavourByValPF",                     theRecoPFTag);
     iEvent.getByLabel("generator",                           genEventInfo);
 
 
@@ -756,6 +770,7 @@ Handle<bool> CSCTightHaloFilterHandle;
      *
      *************************************************************************/
     iEvent.getByLabel( recoCaloTag_,                theRecoCaloTag);
+    iEvent.getByLabel( recoJPTTag_,                 theRecoJPTTag);
     iEvent.getByToken( jetFlavourInfosToken_,       theJetFlavourInfos );
     iEvent.getByToken( pfJetFlavourInfosToken_,     thePFJetFlavourInfos);
     iEvent.getByToken( genJetFlavourInfosToken_,    theGenJetFlavourInfos);

@@ -1,3 +1,6 @@
+#include <iostream>
+#include <iomanip>
+
 #include "DataFormats/TrackReco/interface/TrackFwd.h"
 #include "DataFormats/TrackReco/interface/Track.h"
 #include "DataFormats/Common/interface/RefToBase.h" 
@@ -24,6 +27,7 @@
 #include "EdmAnalysisTools.h"
 
 
+
 #define TRACK_CHI2 5
 
 using namespace std;
@@ -31,7 +35,44 @@ using namespace edm;
 using namespace reco;
 
 
-// jet tagging
+float btaggingAssociation(edm::RefToBase<reco::Jet> &jetRef, edm::Handle<reco::JetTagCollection> jetTag, bool isdebug) {
+
+  if (!jetTag.isValid()) {
+
+    std::cout << "WARINING: btagging tag is not valid " << std::endl;
+    return -99999;
+  }
+
+  if (isdebug) {
+
+    std::cout << "input jet (pt, eta, phi) = ("
+	      << setw(10) << jetRef->pt() << ", "
+	      << setw(10) << jetRef->eta() << ", "
+	      << setw(10) << jetRef->phi() << ")"
+	      << ": " ;
+	      
+    for (reco::JetTagCollection::const_iterator it = (*jetTag).begin(); it != (*jetTag).end(); ++ it) {
+
+	if ( (*it).first == jetRef ) {
+
+	  std::cout  << setw(10) << (*it).first->pt() << ", "
+		     << setw(10) << (*it).first->eta() << ", "
+		     << setw(10) << (*it).first->phi() << ")"
+		     << setw(10) << (*it).second 
+	    ;
+
+	}
+      }
+
+    std::cout << setw(10) << (*jetTag)[jetRef] << std::endl;
+    std::cout << std::endl;
+  }
+
+  return (*jetTag)[jetRef];
+}
+
+
+// jet tagging by deltaR mathcing
 float btaggingAssociation(Jet jet, const reco::JetTagCollection *btags, float matching_deltaR) {
 
   // float taginfo = -9999;
@@ -43,11 +84,98 @@ float btaggingAssociation(Jet jet, const reco::JetTagCollection *btags, float ma
     if (delta < matching_deltaR) return (*btags)[i].second;
   }
 
-  return -9999;
+  return -99999;
 }
 
+
+
 // jet MC flavor
-float mcflavorAssociation(Jet jet, edm::Handle<reco::JetFlavourMatchingCollection> tagList, float matching_deltaR) {
+int  mcflavorAssociation(edm::RefToBase<reco::Jet> &jetRef, edm::Handle<reco::JetFlavourMatchingCollection> jetTag, bool isdebug) {
+
+
+  if (!jetTag.isValid()) {
+
+    std::cout << "WARINING: MC flavor tag is not valid " << std::endl;
+    return -99999;
+  }
+
+  if (isdebug) {
+
+    std::cout << "input jet (pt, eta, phi) = ("
+	      << setw(10) << jetRef->pt() << ", "
+	      << setw(10) << jetRef->eta() << ", "
+	      << setw(10) << jetRef->phi() << ")"
+	      << ": " ;
+	      
+    for (reco::JetFlavourMatchingCollection::const_iterator it = (*jetTag).begin(); it != (*jetTag).end(); ++ it) {
+
+	if ( (*it).first == jetRef ) {
+
+	  std::cout  << setw(10) << (*it).first->pt() << ", "
+		     << setw(10) << (*it).first->eta() << ", "
+		     << setw(10) << (*it).first->phi() << ")"
+		     << setw(10) << (*it).second.getFlavour() 
+	    ;
+
+	}
+      }
+
+    std::cout << setw(10) << ((*jetTag)[jetRef]).getFlavour() << std::endl;
+    std::cout << std::endl;
+  }
+
+  return ((*jetTag)[jetRef]).getFlavour();
+}
+
+
+int mcflavorAssociation(edm::RefToBase<reco::Jet> &jetRef, edm::Handle<reco::JetFlavourInfoMatchingCollection> jetTag, int &partonFlavor, bool isdebug) {
+
+
+  if (!jetTag.isValid()) {
+
+    std::cout << "WARINING: MC flavor tag is not valid " << std::endl;
+    partonFlavor = -99999;
+    return partonFlavor;
+  }
+
+  if (isdebug) {
+
+    std::cout << "input jet (pt, eta, phi) = ("
+	      << setw(10) << jetRef->pt() << ", "
+	      << setw(10) << jetRef->eta() << ", "
+	      << setw(10) << jetRef->phi() << ")"
+	      << ": " ;
+	      
+    for (reco::JetFlavourInfoMatchingCollection::const_iterator it = (*jetTag).begin(); it != (*jetTag).end(); ++ it) {
+
+	if ( (*it).first == jetRef ) {
+
+	  std::cout  << setw(10) << (*it).first->pt() << ", "
+		     << setw(10) << (*it).first->eta() << ", "
+		     << setw(10) << (*it).first->phi() << ")"
+		     << setw(10) << (*it).second.getHadronFlavour() 
+	    ;
+
+	}
+      }
+
+    std::cout << setw(10) << ( (*jetTag)[jetRef]).getHadronFlavour() << std::endl;
+    std::cout << std::endl;
+  }
+
+  partonFlavor = ((*jetTag)[jetRef]).getPartonFlavour();
+
+  return ((*jetTag)[jetRef]).getHadronFlavour();
+}
+
+
+
+
+
+
+
+
+int mcflavorAssociation(Jet jet, edm::Handle<reco::JetFlavourMatchingCollection> tagList, float matching_deltaR) {
 
 
   for ( JetFlavourMatchingCollection::const_iterator j  = tagList->begin();
@@ -61,7 +189,7 @@ float mcflavorAssociation(Jet jet, edm::Handle<reco::JetFlavourMatchingCollectio
 ;
  }
 
-  return -9999;
+  return -99999;
 }
 
 

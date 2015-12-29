@@ -109,6 +109,8 @@ WZEdmAnalyzer::fillGenJets(void)
   
   if (_is_debug) std::cout << "check point ...  fillGenJets() " << std::endl;
   for( GenJetCollection::const_iterator gen = genJets->begin(); gen != genJets->end(); ++ gen ) {
+
+
     if (gen->pt() < genJetMinPt ) continue;
     
     _gen_jet_ *myJet = myEvent->addGenJet();
@@ -145,6 +147,11 @@ WZEdmAnalyzer::fillAKGenJets(void)
   
   if (_is_debug) std::cout << "check point ...  fillAKGenJets() " << std::endl;
   for( GenJetCollection::const_iterator gen = akGenJets->begin(); gen != akGenJets->end(); ++ gen ) {
+
+    int index = gen - akGenJets->begin();
+    edm::RefToBase<reco::Jet> jetRef(edm::Ref<GenJetCollection>(akGenJets, index));
+
+
     if (gen->pt() < genJetMinPt ) continue;
     
     _gen_jet_ *myJet    = myEvent->addAKGenJet();
@@ -155,7 +162,7 @@ WZEdmAnalyzer::fillAKGenJets(void)
 
     
     // jet flavor information need to be fix latter.
-    myJet->mc_flavor    = mcflavorAssociation( *gen, theGenTag); 
+    myJet->mc_flavor    = mcflavorAssociation( jetRef, theGenJetFlavourInfos, myJet->mc_partonFlavor); 
     
     myJet->nConstituent = gen->nConstituents();
 
