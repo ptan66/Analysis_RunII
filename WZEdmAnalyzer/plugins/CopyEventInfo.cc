@@ -670,9 +670,9 @@ WZEdmAnalyzer::copyPFCHSJetInfo(   const edm::Event& iEvent,
   myJet->flavor[0]                   = btaggingAssociation( (reco::Jet)(*jet), jetTags.product());
   myJet->flavor[1]                   = btaggingAssociation( (reco::Jet)(*jet), jetTagsCSV.product());
 
-  myJet->flavor[2]                   = btaggingAssociation( jetRef, myJetTagsJP);
-  myJet->flavor[3]                   = btaggingAssociation( jetRef, myJetTagsTCHP);
-  myJet->flavor[4]                   = btaggingAssociation( jetRef, myJetTagsCSV);
+  myJet->flavor[2]                   = btaggingAssociation( jetRef, myPFCHSJetTagsJP);
+  myJet->flavor[3]                   = btaggingAssociation( jetRef, myPFCHSJetTagsTCHP);
+  myJet->flavor[4]                   = btaggingAssociation( jetRef, myPFCHSJetTagsCSV);
 
 
 }
@@ -695,9 +695,9 @@ WZEdmAnalyzer::copyPFJetInfo(   const edm::Event& iEvent,
   myJet->flavor[0]                   = btaggingAssociation( (reco::Jet)(*jet), jetTags.product());
   myJet->flavor[1]                   = btaggingAssociation( (reco::Jet)(*jet), jetTagsCSV.product());
 
-  myJet->flavor[2]                   = btaggingAssociation( jetRef, myPFJetTagsJP);
-  myJet->flavor[3]                   = btaggingAssociation( jetRef, myPFJetTagsTCHP);
-  myJet->flavor[4]                   = btaggingAssociation( jetRef, myPFJetTagsCSV);
+  myJet->flavor[2]                   = btaggingAssociation( jetRef, myPFJetTagsJP, _is_debug);
+  myJet->flavor[3]                   = btaggingAssociation( jetRef, myPFJetTagsTCHP, _is_debug);
+  myJet->flavor[4]                   = btaggingAssociation( jetRef, myPFJetTagsCSV, _is_debug);
   
 }
 
@@ -1033,7 +1033,7 @@ WZEdmAnalyzer::copyPFJetInfoCommon(   const edm::Event& iEvent,
 
   if (!_is_data) {
 
-    myJet->mc_flavor = mcflavorAssociation( jetRef, theRecoTag, myJet->mc_partonFlavor);
+    myJet->mc_flavor = mcflavorAssociation( jetRef, theRecoTag, myJet->mc_partonFlavor, _is_debug);
   }
 }
 
@@ -1606,11 +1606,16 @@ WZEdmAnalyzer::copyHLTInfo(const edm::Event& iEvent,
   int channels =-1;
   for (unsigned int ii = 0; ii < trigModules.size() ; ii++) {
   
-
-    //     std::cout << "module: " << trigModules[ii]
-    //    << " is L3 filter? " 
-    //    <<      hltConfig.saveTags( std::string(trigModules[ii]) ) << std::endl;
+ 
     if (   hltConfig.saveTags( std::string(trigModules[ii]) ) ) {
+
+      if (_is_debug) {
+	std::cout << "module: " << trigModules[ii]
+		  << " is L3 filter? " 
+		  <<      hltConfig.saveTags( std::string(trigModules[ii]) ) << std::endl;
+      }
+
+
 
       // double muon 
       if (  ((std::string( hltname) ).find("Mu") != string::npos) 
@@ -1619,26 +1624,47 @@ WZEdmAnalyzer::copyHLTInfo(const edm::Event& iEvent,
  
 	channels = 2;
 	if ( ( std::string( trigModules[ii] ).find("Filtered8") != string::npos )
-	     ||  ( std::string( trigModules[ii] ).find("Filtered17") != string::npos ))
-	  filtersL3.push_back( std::string( trigModules[ii] ) );
+	     ||  ( std::string( trigModules[ii] ).find("L3Filtered17") != string::npos )
+	     ||  ( std::string( trigModules[ii] ).find("DzFiltered") != string::npos )
+	     ) {
 
 
+	  if (  ( std::string( trigModules[ii] ).find("L3Filtered17") != string::npos ) && filtersL3.size()>0) {
+
+	    filtersL3.insert( filtersL3.begin(), std::string( trigModules[ii] ) );
+
+	  } else {
+
+	    filtersL3.push_back( std::string( trigModules[ii] ) );
+	  }
+	}
+	
       } else if ( ((std::string( hltname) ).find("Ele") != string::npos) 
 		  && ( (std::string( hltname) ).find("Ele") !=  (std::string( hltname) ).rfind("Ele")))  { // double electron trigger
 	
 	channels = 0;
-	if ( ( std::string( trigModules[ii] ).find("Ele17") != string::npos )
-	     &&  ( std::string( trigModules[ii] ).find("Ele8") != string::npos ))
-	  //  filtersL3.push_back( std::string( trigModules[ii] ) );
-	  filtersL3.insert(filtersL3.begin(),  std::string( trigModules[ii] ) );
+	if ( ( std::string( trigModules[ii] ).find("Leg1Filter") != string::npos )
+	     || ( std::string( trigModules[ii] ).find("Leg2Filter") != string::npos )
+	     || ( std::string( trigModules[ii] ).find("DZFilter") != string::npos )
+	    
+	    //(( std::string( trigModules[ii] ).find("Ele17") != string::npos )
+	     // &&  ( std::string( trigModules[ii] ).find("Ele8") != string::npos ) )  
+	    //	     ||  
+	    //(( std::string( trigModules[ii] ).find("Ele17") != string::npos )
+	    // &&  ( std::string( trigModules[ii] ).find("Ele12") != string::npos ) ) 
+	     )
+	  filtersL3.push_back( std::string( trigModules[ii] ) );
+	//filtersL3.insert(filtersL3.begin(),  std::string( trigModules[ii] ) );
 
       } else if (  ((std::string( hltname) ).find("Mu") != string::npos)
 		   &&  ((std::string( hltname) ).find("Ele") != string::npos ) ) { // muon electron trigger
 	
 
 	channels = 1;
-	if ( ( (std::string(trigModules[ii])).find("Filtered17") != string::npos )
-	     || (  ( (std::string(trigModules[ii])).find("Mu") != string::npos ) && ( (std::string(trigModules[ii])).find("Ele") != string::npos )   ) )  filtersL3.push_back( std::string( trigModules[ii] ) );
+	if ( ( (std::string(trigModules[ii])).find("MuonlegL3") != string::npos )
+	     || ( (std::string(trigModules[ii])).find("Electronleg") != string::npos )
+	     //	     || (  ( (std::string(trigModules[ii])).find("Mu") != string::npos ) && ( (std::string(trigModules[ii])).find("Ele") != string::npos )   ) 
+	     )  filtersL3.push_back( std::string( trigModules[ii] ) );
 
 
       } else { // single lepton trigger
@@ -1664,7 +1690,8 @@ WZEdmAnalyzer::copyHLTInfo(const edm::Event& iEvent,
 
   for (std::vector< std::string>::iterator it = filtersL3.begin(); it != filtersL3.end(); it ++) {
     
-    //    std::cout << *it << std::endl;
+    
+    if (_is_debug)    std::cout << *it << std::endl;
     
     longname.resize(0);
     longname.append( *it);
@@ -1686,38 +1713,40 @@ WZEdmAnalyzer::copyHLTInfo(const edm::Event& iEvent,
 
 
       // ee case
-      if (channels ==0) {
+      if ( (channels ==0) || (channels == 2)  ) {
 
 	if (it == filtersL3.begin()) {
 
-	  hltobj =       ptr2AddHlt(aEvent);
+	  if (ptr2AddHltLeg1) hltobj =       ptr2AddHltLeg1(aEvent);
 
 	} else if ( it == (++filtersL3.begin()) ) {
 
 	  if (ptr2AddHltLeg2) hltobj =       ptr2AddHltLeg2(aEvent);
 
 	} else if ( it == (++ (++filtersL3.begin()) ) ) {
-
-	  if (ptr2AddHltLeg1) hltobj =       ptr2AddHltLeg1(aEvent);
+	  
+	  hltobj =       ptr2AddHlt(aEvent);
 	} else {
 	  
 	}
 
-      } else if (channels == 2) { // mm case
-
-	hltobj =       ptr2AddHlt(aEvent);
-
-	if ( ptr2AddHltLeg1 
-	     && ptr2AddHltLeg2) {
-
-	  if (it == filtersL3.begin()) {
-	  
-	    hltobj_dmleg = ptr2AddHltLeg2(aEvent);
-	  } else {
-
-	    hltobj_dmleg = ptr2AddHltLeg1(aEvent);
-	  }
-	}
+	//      } else if (channels == 2) { // mm case
+	//
+	//
+	//
+	//	hltobj =       ptr2AddHlt(aEvent);
+	//
+	//	if ( ptr2AddHltLeg1 
+	//   && ptr2AddHltLeg2) {
+	//
+	//if (it == filtersL3.begin()) {
+	//
+	//  hltobj_dmleg = ptr2AddHltLeg2(aEvent);
+	//} else {
+	//
+	//  hltobj_dmleg = ptr2AddHltLeg1(aEvent);
+	//}
+	//	}
 
       } else { // others
 	
@@ -2353,18 +2382,18 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
    *
    ************************************************************************/
   if (_is_debug) std::cout << "copy PF CHS jet information ..." << std::endl;
-  for (reco::PFJetCollection::const_iterator jet = ( *recoJets ).begin(); jet != ( *recoJets ).end(); jet ++) {
+  for (reco::PFJetCollection::const_iterator jet = ( *(pfchsJets.product()) ).begin(); jet != ( *(pfchsJets.product())  ).end(); jet ++) {
 
-    int index = jet - recoJets->begin();
-    edm::RefToBase<reco::Jet> jetRef(edm::Ref<PFJetCollection>(recoJets, index));
+    int index = jet - pfchsJets->begin();
+    edm::RefToBase<reco::Jet> jetRef(edm::Ref<PFJetCollection>(pfchsJets, index));
       
 
-    double jec = jetCorr->correction(*jet, iEvent, iSetup);
+    double jec = pfchsJetCorr->correction(*jet, iEvent, iSetup);
     //std::cout << "jet pt = " << jet->pt() << "afer " << std::endl;
   
     if ( jec * jet->pt() < jetMinPt) continue;    
     _jet_ *myjet = myEvent->addJet();
-    this->copyPFCHSJetInfo(iEvent, iSetup, jet, jetRef, jetUnc, jec, theJetFlavourInfos, myjet);
+    this->copyPFCHSJetInfo(iEvent, iSetup, jet, jetRef, pfchsJetUnc, jec, thePFCHSJetFlavourInfos, myjet);
   }
 
 
@@ -2374,6 +2403,7 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
    * calo jet collections
    *
    *************************************************************************/
+  if (_is_debug) std::cout << "copy Calo jet information ..." << std::endl;
   for (reco::CaloJetCollection::const_iterator jet = ( *(caloJets.product()) ).begin(); jet != (  *(caloJets.product()) ).end(); jet ++) {
 
     int index = jet - caloJets->begin();
@@ -2404,7 +2434,9 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
    *
    *************************************************************************/
   if (jptJets.isValid() ) {
-    for (reco::JPTJetCollection::const_iterator jet = ( *(jptJets.product()) ).begin(); jet != (  *(jptJets.product()) ).end(); jet ++) {
+    if (_is_debug) std::cout << "copy JPT jet information ..." << std::endl;
+ 
+   for (reco::JPTJetCollection::const_iterator jet = ( *(jptJets.product()) ).begin(); jet != (  *(jptJets.product()) ).end(); jet ++) {
 
       int index = jet - jptJets->begin();
       edm::RefToBase<reco::Jet> jetRef(edm::Ref<JPTJetCollection>(jptJets, index));
@@ -2428,6 +2460,8 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
    * pf jet collections
    *
    *************************************************************************/
+  if (_is_debug) std::cout << "copy PF (no CHS) jet information ..." << std::endl;
+
   // iEvent.getByLabel("fullDiscriminant",puJetMva);
 
   //  Handle<ValueMap<int> > puJetIdFlag;

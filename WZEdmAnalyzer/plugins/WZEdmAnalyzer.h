@@ -403,13 +403,13 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
    * jet flavor, btagging, etc. for 74x
    *
    *************************************************************************/
-  edm::InputTag                                            JetTags_;
-  edm::EDGetTokenT<reco::JetFlavourInfoMatchingCollection> jetFlavourInfosToken_;
-  edm::Handle<reco::JetFlavourInfoMatchingCollection>      theJetFlavourInfos;
-  std::vector< std::string  >                              JetTagInfos_;
-  edm::Handle<reco::JetTagCollection>                      myJetTagsJP;
-  edm::Handle<reco::JetTagCollection>                      myJetTagsTCHP;
-  edm::Handle<reco::JetTagCollection>                      myJetTagsCSV;
+  edm::InputTag                                            PFCHSJetTags_;
+  edm::EDGetTokenT<reco::JetFlavourInfoMatchingCollection> pfchsJetFlavourInfosToken_;
+  edm::Handle<reco::JetFlavourInfoMatchingCollection>      thePFCHSJetFlavourInfos;
+  std::vector< std::string  >                              PFCHSJetTagInfos_;
+  edm::Handle<reco::JetTagCollection>                      myPFCHSJetTagsJP;
+  edm::Handle<reco::JetTagCollection>                      myPFCHSJetTagsTCHP;
+  edm::Handle<reco::JetTagCollection>                      myPFCHSJetTagsCSV;
 
   
   edm::InputTag                                            CaloJetTags_;
@@ -455,20 +455,24 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::Handle< edm::ValueMap<reco::JetID> >                jetID_ValueMap_Handle;
 
 
-  std::string                                              jetCorrectionService;
+  std::string                                              pfchsJetCorrectionService;
   std::string                                              caloJetCorrectionService;
   std::string                                              jptJetCorrectionService;
   std::string                                              pfJetCorrectionService;
 
-
-  //  edm::ESHandle<JetCorrectorParametersCollection>
-  edm::ESHandle<JetCorrectorParametersCollection>          jetCorParColl;
+  edm::ESHandle<JetCorrectorParametersCollection>          pfchsJetCorParColl;
   edm::ESHandle<JetCorrectorParametersCollection>          caloJetCorParColl;
   edm::ESHandle<JetCorrectorParametersCollection>          jptJetCorParColl;
   edm::ESHandle<JetCorrectorParametersCollection>          pfJetCorParColl;
 
 
-  JetCorrectionUncertainty                                *jetUnc;
+  const JetCorrector*                                      pfchsJetCorr;
+  const JetCorrector*                                      caloJetCorr;
+  const JetCorrector*                                      jptJetCorr;
+  const JetCorrector*                                      pfJetCorr;
+
+
+  JetCorrectionUncertainty                                *pfchsJetUnc;
   JetCorrectionUncertainty                                *caloJetUnc;
   JetCorrectionUncertainty                                *jptJetUnc;
   JetCorrectionUncertainty                                *pfJetUnc;
@@ -587,10 +591,6 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
 
 
   double                     genJetMinPt;
-  const JetCorrector*        jetCorr;
-  const JetCorrector*        caloJetCorr;
-  const JetCorrector*        jptJetCorr;
-  const JetCorrector*        pfJetCorr;
 
 
   edm::InputTag              SimTrackTags_;
@@ -634,7 +634,7 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
 
   Handle<GenJetCollection>                        genJets;
   Handle<GenJetCollection>                        akGenJets;
-  Handle<reco::PFJetCollection>                   jets;
+  Handle<reco::PFJetCollection>                   pfchsJets;
   Handle<reco::CaloJetCollection>                 caloJets;
   Handle<reco::JPTJetCollection>                  jptJets;
   Handle<reco::PFJetCollection>                   pfJets;

@@ -50,21 +50,23 @@ float btaggingAssociation(edm::RefToBase<reco::Jet> &jetRef, edm::Handle<reco::J
 	      << setw(10) << jetRef->eta() << ", "
 	      << setw(10) << jetRef->phi() << ")"
 	      << ": " ;
+    std::cout << setw(30) << " b-tagging discrimator = " << setw(10) << (*jetTag)[jetRef] << std::endl;
 	      
-    for (reco::JetTagCollection::const_iterator it = (*jetTag).begin(); it != (*jetTag).end(); ++ it) {
+    for (reco::JetTagCollection::const_iterator it = (*(jetTag.product()) ).begin(); it != (*(jetTag.product())).end(); ++ it) {
 
-	if ( (*it).first == jetRef ) {
+      //	if ( (*it).first == jetRef ) {
 
 	  std::cout  << setw(10) << (*it).first->pt() << ", "
 		     << setw(10) << (*it).first->eta() << ", "
 		     << setw(10) << (*it).first->phi() << ")"
 		     << setw(10) << (*it).second 
-	    ;
+		     << std::endl;
+	    
 
-	}
+	  //	}
       }
 
-    std::cout << setw(10) << (*jetTag)[jetRef] << std::endl;
+
     std::cout << std::endl;
   }
 
@@ -106,22 +108,22 @@ int  mcflavorAssociation(edm::RefToBase<reco::Jet> &jetRef, edm::Handle<reco::Je
 	      << setw(10) << jetRef->eta() << ", "
 	      << setw(10) << jetRef->phi() << ")"
 	      << ": " ;
+    std::cout << setw(30) << " mc flavor = " << setw(10) << ((*jetTag)[jetRef]).getFlavour() << std::endl;
 	      
-    for (reco::JetFlavourMatchingCollection::const_iterator it = (*jetTag).begin(); it != (*jetTag).end(); ++ it) {
+    for (reco::JetFlavourMatchingCollection::const_iterator it = ( *(jetTag.product()) ).begin(); it != ( *(jetTag.product()) ).end(); ++ it) {
 
-	if ( (*it).first == jetRef ) {
+      //	if ( (*it).first == jetRef ) {
 
 	  std::cout  << setw(10) << (*it).first->pt() << ", "
 		     << setw(10) << (*it).first->eta() << ", "
 		     << setw(10) << (*it).first->phi() << ")"
 		     << setw(10) << (*it).second.getFlavour() 
-	    ;
+		     << std::endl;
+	    
 
-	}
+	  //	}
       }
 
-    std::cout << setw(10) << ((*jetTag)[jetRef]).getFlavour() << std::endl;
-    std::cout << std::endl;
   }
 
   return ((*jetTag)[jetRef]).getFlavour();
@@ -145,22 +147,23 @@ int mcflavorAssociation(edm::RefToBase<reco::Jet> &jetRef, edm::Handle<reco::Jet
 	      << setw(10) << jetRef->eta() << ", "
 	      << setw(10) << jetRef->phi() << ")"
 	      << ": " ;
+    std::cout << setw(30) << " mc_hadron flavor = " << setw(10) << ( (*jetTag)[jetRef]).getHadronFlavour() << std::endl;
 	      
-    for (reco::JetFlavourInfoMatchingCollection::const_iterator it = (*jetTag).begin(); it != (*jetTag).end(); ++ it) {
+    for (reco::JetFlavourInfoMatchingCollection::const_iterator it = (*(jetTag.product()) ).begin(); it != ( *(jetTag.product()) ).end(); ++ it) {
 
-	if ( (*it).first == jetRef ) {
+      //	if ( (*it).first == jetRef ) {
 
 	  std::cout  << setw(10) << (*it).first->pt() << ", "
 		     << setw(10) << (*it).first->eta() << ", "
 		     << setw(10) << (*it).first->phi() << ")"
 		     << setw(10) << (*it).second.getHadronFlavour() 
-	    ;
+		     << std::endl;
+	    
 
-	}
+	  //	}
       }
 
-    std::cout << setw(10) << ( (*jetTag)[jetRef]).getHadronFlavour() << std::endl;
-    std::cout << std::endl;
+
   }
 
   partonFlavor = ((*jetTag)[jetRef]).getPartonFlavour();

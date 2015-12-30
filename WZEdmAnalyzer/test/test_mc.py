@@ -53,7 +53,7 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 
 
-process.maxEvents = cms.untracked.PSet(  input = cms.untracked.int32(-1) )
+process.maxEvents = cms.untracked.PSet(  input = cms.untracked.int32(100) )
 process.source = cms.Source("PoolSource", 
        	fileNames = cms.untracked.vstring(
        # '/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/AODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/002F7FDD-BA13-E511-AA63-0026189437F5.root'
@@ -577,7 +577,7 @@ process.myJPTBTaggers = cms.Sequence(
 process.analyzer = cms.EDAnalyzer(
     "WZEdmAnalyzer",
     #parameters
-    DEBUG                     = cms.bool(False),
+    DEBUG                     = cms.bool(True),
     DATA                      = cms.bool( isData ),
     GEN_ONLY                  = cms.bool(False),
     SAVE_ALLEVENTS            = cms.bool(True),
@@ -602,26 +602,26 @@ process.analyzer = cms.EDAnalyzer(
     TrigMvaCategoriesMap      = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig25nsV1Categories"),
     NonTrigMvaValuesMap       = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"),
     NonTrigMvaCategoriesMap   = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Categories"),
-    Jets                      = cms.string("ak4PFJetsCHS"),
-    JetFlavourInfos           = cms.InputTag("myak4PFJetCHSFlavourInfos"),
-    JetTagInfos               = cms.vstring("MyPFCHSTrackCountingHighPurBJetTags", "MyPFCHSJetProbabilityBJetTags", "MyPFCHSCombinedSecondaryVertexV2BJetTags"),
-    CaloJets                  = cms.string("ak4CaloJets"),
+    PFCHSJets                 = cms.string(  "ak4PFJetsCHS"),
+    PFCHSJetFlavourInfos      = cms.InputTag("myak4PFJetCHSFlavourInfos"),
+    PFCHSJetTagInfos          = cms.vstring( "MyPFCHSTrackCountingHighPurBJetTags", "MyPFCHSJetProbabilityBJetTags", "MyPFCHSCombinedSecondaryVertexV2BJetTags"),
+    CaloJets                  = cms.string(  "ak4CaloJets"),
     CaloJetFlavourInfos       = cms.InputTag("flavourByValCalo"), 
-    CaloJetTagInfos           = cms.vstring("MyCaloTrackCountingHighPurBJetTags", "MyCaloJetProbabilityBJetTags", "MyCaloCombinedSecondaryVertexV2BJetTags"),
-    JPTJets                   = cms.string("myJetPlusTrackZSPCorJetAntiKt4"),
+    CaloJetTagInfos           = cms.vstring( "MyCaloTrackCountingHighPurBJetTags",  "MyCaloJetProbabilityBJetTags", "MyCaloCombinedSecondaryVertexV2BJetTags"),
+    JPTJets                   = cms.string(  "myJetPlusTrackZSPCorJetAntiKt4"),
     JPTJetFlavourInfos        = cms.InputTag("flavourByValJPT"), 
-    JPTJetTagInfos            = cms.vstring("MyJPTTrackCountingHighPurBJetTags", "MyJPTJetProbabilityBJetTags", "MyJPTCombinedSecondaryVertexV2BJetTags"),
-    PFJets                    = cms.string("ak4PFJets"),
+    JPTJetTagInfos            = cms.vstring( "MyJPTTrackCountingHighPurBJetTags",   "MyJPTJetProbabilityBJetTags", "MyJPTCombinedSecondaryVertexV2BJetTags"),
+    PFJets                    = cms.string(  "ak4PFJets"),
     PFJetFlavourInfos         = cms.InputTag("myak4PFJetFlavourInfos"),
-    PFJetTagInfos             = cms.vstring("MyPFTrackCountingHighPurBJetTags", "MyPFJetProbabilityBJetTags", "MyPFCombinedSecondaryVertexV2BJetTags"),
-    JetTagCollections         = cms.vstring("trackCountingHighEffBJetTags", "pfCombinedInclusiveSecondaryVertexV2BJetTags"),
+    PFJetTagInfos             = cms.vstring( "MyPFTrackCountingHighPurBJetTags",    "MyPFJetProbabilityBJetTags", "MyPFCombinedSecondaryVertexV2BJetTags"),
+    JetTagCollections         = cms.vstring( "trackCountingHighEffBJetTags", "pfCombinedInclusiveSecondaryVertexV2BJetTags"),
     JetMinPt                  = cms.double(10),    
     LeptonThreshold           = cms.double(10),    
-    InputJetIDValueMap         = cms.InputTag("ak4JetID"), 
-    JetCorrectionService      = cms.string('ak4PFCHSL1FastL2L3'),
-    CaloJetCorrectionService  = cms.string('ak4CaloL1FastL2L3'),
-    JPTJetCorrectionService   = cms.string('ak4JPTL1FastL2L3'),
-    PFJetCorrectionService    = cms.string('ak4PFL1FastL2L3'),
+    InputJetIDValueMap        = cms.InputTag("ak4JetID"), 
+    PFCHSJetCorrectionService = cms.string(  'ak4PFCHSL1FastL2L3'),
+    CaloJetCorrectionService  = cms.string(  'ak4CaloL1FastL2L3'),
+    JPTJetCorrectionService   = cms.string(  'ak4JPTL1FastL2L3'),
+    PFJetCorrectionService    = cms.string(  'ak4PFL1FastL2L3'),
     FixGridRho                = cms.InputTag('fixedGridRhoFastjetAll'),
     RhoSrc                    = cms.InputTag('ak4PFJets', 'rho'),
     SigmaSrc                  = cms.InputTag('ak4PFJets', 'sigma'),
@@ -649,7 +649,9 @@ process.analyzer = cms.EDAnalyzer(
     TriggerRefPath            = cms.string("HLTriggerFinalPath"), 
     HLTTriggerMuons           = cms.vstring("HLT_IsoTkMu20_v1", "HLT_IsoMu20_v1", "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v1", "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v1"),
     HLTTriggerMuonElectrons   = cms.vstring("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v1", "HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v1"),
-    HLTTriggerElectrons       = cms.vstring("", "HLT_Ele23_WP75_Gsf_v1", "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v1"), 
+
+    HLTTriggerElectrons       = cms.vstring("HLT_Ele23_CaloIdL_TrackIdL_IsoVL_v1", "HLT_Ele27_WP85_Gsf_v1", "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v1"), 
+#    HLTTriggerElectrons       = cms.vstring("", "HLT_Ele23_WP75_Gsf_v1", "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v1"), 
     GeneratorLevelTag         = cms.string("generator"),
     LHEEventProductTag        = cms.InputTag("externalLHEProducer"),
     GenJets                   = cms.string(  "ak4GenJets"),
@@ -710,8 +712,7 @@ else :
         process.myPartons*
         process.flavourByRefPF*process.flavourByValPF*
         process.flavourByRefCalo*process.flavourByValCalo*
-        process.flavourByRefGenJet*
-        process.flavourByValGenJet*
+        process.flavourByRefGenJet*process.flavourByValGenJet*
         process.pfPileUpAllChargedParticlesClone*process.kt6PFJetsForCh*process.kt6PFJetsForCh2p4*
         process.kt6PFJetsForIso*
         process.ak4CaloJetsL1FastL2L3*

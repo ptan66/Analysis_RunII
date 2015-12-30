@@ -1408,6 +1408,12 @@ _event_::_event_() {
   hltMuonLleg1s     = new TClonesArray("_vec4_", 10);
   hltMuonLleg2s     = new TClonesArray("_vec4_", 10);
 
+  hltMuonHs         = new TClonesArray("_vec4_", 10);
+  hltMuonHleg1s     = new TClonesArray("_vec4_", 10);
+  hltMuonHleg2s     = new TClonesArray("_vec4_", 10);
+
+
+
   hltMuonElectrons  = new TClonesArray("_vec4_", 10);
   hltElectronMuons  = new TClonesArray("_vec4_", 10);
 
