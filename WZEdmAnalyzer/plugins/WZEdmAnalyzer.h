@@ -381,22 +381,38 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::Handle<reco::ConversionCollection> conversions_h;
 
 
+  edm::EDGetTokenT<edm::ValueMap<float> > ElectronEcalPFClusterIsolationProducerToken_;
+  edm::EDGetTokenT<edm::ValueMap<float> > ElectronHcalPFClusterIsolationProducerToken_;
+
+  edm::Handle<edm::ValueMap<float> >      electronEcalPFClusterIsolation;
+  edm::Handle<edm::ValueMap<float> >      electronHcalPFClusterIsolation;
+
   // MVA values and categories (optional)
   edm::EDGetTokenT<edm::ValueMap<float> > TrigMvaValuesMapToken_;
   edm::EDGetTokenT<edm::ValueMap<int> >   TrigMvaCategoriesMapToken_;
+  edm::EDGetTokenT<edm::ValueMap<bool> >  TrigMvaMediumIdMapsToken_;
+  edm::EDGetTokenT<edm::ValueMap<bool> >  TrigMvaTightIdMapsToken_;
+
+
   
   edm::EDGetTokenT<edm::ValueMap<float> > NonTrigMvaValuesMapToken_;
   edm::EDGetTokenT<edm::ValueMap<int> >   NonTrigMvaCategoriesMapToken_;
-  
+  edm::EDGetTokenT<edm::ValueMap<bool> >  NonTrigMvaMediumIdMapsToken_;
+  edm::EDGetTokenT<edm::ValueMap<bool> >  NonTrigMvaTightIdMapsToken_;
+
+
+
   edm::Handle<edm::ValueMap<float> >      trigMvaValues;
   edm::Handle<edm::ValueMap<int> >        trigMvaCategories;
+  edm::Handle<edm::ValueMap<bool> >       trigMvaMedium_id_decisions;
+  edm::Handle<edm::ValueMap<bool> >       trigMvaTight_id_decisions;
+
+
   edm::Handle<edm::ValueMap<float> >      nonTrigMvaValues;
   edm::Handle<edm::ValueMap<int> >        nonTrigMvaCategories;
+  edm::Handle<edm::ValueMap<bool> >       nonTrigMvaMedium_id_decisions;
+  edm::Handle<edm::ValueMap<bool> >       nonTrigMvaTight_id_decisions;
    
-
-   
-
-
 
   /*************************************************************************
    *

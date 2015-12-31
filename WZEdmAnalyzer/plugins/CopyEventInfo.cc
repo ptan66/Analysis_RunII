@@ -1362,6 +1362,30 @@ WZEdmAnalyzer::copyElectronInfo( reco::GsfElectronCollection::const_iterator ele
 
   myElectron->pfRelIsoR03EA  = relIsoWithEA_;
 
+  // ECAL & HCAL isolation for preselection
+
+  float ecalPFClusterIso  = (*electronEcalPFClusterIsolation)[electronRef];
+  float hcalPFClusterIso  = (*electronHcalPFClusterIsolation)[electronRef];
+  myElectron->ecalPFClusterIso = ecalPFClusterIso;
+  myElectron->hcalPFClusterIso = hcalPFClusterIso;
+
+  bool pass_preselction = electron->pt()>15 
+    &&( ( std::abs(electron->superCluster()->eta()) < 1.4442 
+	  && electron->full5x5_sigmaIetaIeta() < 0.012 
+	  && electron->hcalOverEcal() < 0.09 
+	  && (ecalPFClusterIso / electron->pt()) < 0.37 
+	  && (hcalPFClusterIso / electron->pt()) < 0.25 
+	  && (electron->dr03TkSumPt() / electron->pt()) < 0.18 
+	  && std::abs(electron->deltaEtaSuperClusterTrackAtVtx()) < 0.0095 
+	  && std::abs(electron->deltaPhiSuperClusterTrackAtVtx()) < 0.065 ) 
+	|| ( std::abs(electron->superCluster()->eta()) > 1.5660 
+	     && electron->full5x5_sigmaIetaIeta() < 0.033 
+	     && electron->hcalOverEcal() <0.09 
+	     && (ecalPFClusterIso / electron->pt()) < 0.45 
+	     && (hcalPFClusterIso / electron->pt()) < 0.28 
+	     && (electron->dr03TkSumPt() / electron->pt()) < 0.18 ) 
+	);
+
 
  // Shower Shape
   if (_is_debug) {std::cout << "electron shower variables " << std::endl;}
@@ -1400,24 +1424,41 @@ WZEdmAnalyzer::copyElectronInfo( reco::GsfElectronCollection::const_iterator ele
  
   // Oct. 22, 2015
   // new cut-based electron implementation
-  unsigned int pass_loose   = (*loose_id_decisions)[electronRef];
-  unsigned int pass_medium  = (*medium_id_decisions)[electronRef];
-
-  unsigned int pass_tight   = (*tight_id_decisions)[electronRef];
-
-
-  unsigned int trigwp70         = 0;
-  unsigned int trigtight        = 0;
-  unsigned int pass_eoverpcuts  = 0;
-  myElectron -> idBitMap        = (trigwp70<<5) + (trigtight<<4) + (pass_eoverpcuts<<3)+(pass_tight<<2) + (pass_medium<<1) +(pass_loose<<0);
+  // Dec. 30, 2015
+  // add new MVA electron ID flag and MVA values
+  unsigned int pass_loose         = (*loose_id_decisions)[electronRef];
+  unsigned int pass_medium        = (*medium_id_decisions)[electronRef];
+  unsigned int pass_tight         = (*tight_id_decisions)[electronRef];
 
 
+  unsigned int trgmva_medium      = (*trigMvaMedium_id_decisions)[electronRef];
+  unsigned int trgmva_tight       = (*trigMvaTight_id_decisions)[electronRef];
+
+  unsigned int nontrgmva_medium   = (*nonTrigMvaMedium_id_decisions)[electronRef];
+  unsigned int nontrgmva_tight    = (*nonTrigMvaTight_id_decisions)[electronRef];
+
+  //  unsigned int trigwp70           = 0;
+  // unsigned int trigtight          = 0;
+  // unsigned int pass_eoverpcuts    = 0;
+  myElectron -> idBitMap          = (trgmva_tight<< 6)
+    + (trgmva_medium << 5)
+    + (nontrgmva_tight << 4) 
+    + (nontrgmva_medium << 3)
+    + (pass_tight << 2) 
+    + (pass_medium << 1) 
+    + (pass_loose << 0);
 
 
   myElectron->mvaTrigV0         = (*trigMvaValues)[electronRef];
   myElectron->mvaTrigV0Cat      = (*trigMvaCategories)[electronRef];
   myElectron->mvaNonTrigV0 	= (*nonTrigMvaValues)[electronRef]; 
   myElectron->mvaNonTrigV0Cat   = (*nonTrigMvaCategories)[electronRef];
+
+  myElectron -> mvaIdBitMap     = (pass_preselction<<4)
+    + (trgmva_tight<< 3)
+    + (trgmva_medium << 2)
+    + (nontrgmva_tight << 1) 
+    + (nontrgmva_medium << 0);
 
   //const edm::ValueMap<double> ele_regEne = (*regEne_handle.product());
   

@@ -139,14 +139,19 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   MuonCollectionTags_(         iConfig.getParameter<std::string>("Muons")),
   ElectronCollectionTags_(     iConfig.getParameter<std::string>("Electrons")),
   _effectiveAreas(            (iConfig.getParameter<edm::FileInPath>("EffAreasConfigFile")).fullPath()),
-  EleLooseIdMapToken_(consumes<edm::ValueMap<bool> >(          iConfig.getParameter<edm::InputTag>("EleLooseIdMap"))),
-  EleMediumIdMapToken_(consumes<edm::ValueMap<bool> >(         iConfig.getParameter<edm::InputTag>("EleMediumIdMap"))),
-  EleTightIdMapToken_(consumes<edm::ValueMap<bool> >(          iConfig.getParameter<edm::InputTag>("EleTightIdMap"))), 
-  TrigMvaValuesMapToken_(consumes<edm::ValueMap<float> >(      iConfig.getParameter<edm::InputTag>("TrigMvaValuesMap"))),
-  TrigMvaCategoriesMapToken_(consumes<edm::ValueMap<int> >(    iConfig.getParameter<edm::InputTag>("TrigMvaCategoriesMap"))),
-  NonTrigMvaValuesMapToken_(consumes<edm::ValueMap<float> >(   iConfig.getParameter<edm::InputTag>("NonTrigMvaValuesMap"))),
+  EleLooseIdMapToken_(         consumes<edm::ValueMap<bool> >(          iConfig.getParameter<edm::InputTag>("EleLooseIdMap"))),
+  EleMediumIdMapToken_(        consumes<edm::ValueMap<bool> >(         iConfig.getParameter<edm::InputTag>("EleMediumIdMap"))),
+  EleTightIdMapToken_(         consumes<edm::ValueMap<bool> >(          iConfig.getParameter<edm::InputTag>("EleTightIdMap"))), 
+  ElectronEcalPFClusterIsolationProducerToken_(      consumes<edm::ValueMap<float> >(      iConfig.getParameter<edm::InputTag>("ElectronEcalPFClusterIsolationProducer"))),
+  ElectronHcalPFClusterIsolationProducerToken_(      consumes<edm::ValueMap<float> >(      iConfig.getParameter<edm::InputTag>("ElectronHcalPFClusterIsolationProducer"))),
+  TrigMvaValuesMapToken_(      consumes<edm::ValueMap<float> >(      iConfig.getParameter<edm::InputTag>("TrigMvaValuesMap"))),
+  TrigMvaCategoriesMapToken_(  consumes<edm::ValueMap<int> >(    iConfig.getParameter<edm::InputTag>("TrigMvaCategoriesMap"))),
+  TrigMvaMediumIdMapsToken_(   consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("TrigMvaMediumIdMaps"))),
+  TrigMvaTightIdMapsToken_(    consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("TrigMvaTightIdMaps"))),
+  NonTrigMvaValuesMapToken_(   consumes<edm::ValueMap<float> >(   iConfig.getParameter<edm::InputTag>("NonTrigMvaValuesMap"))),
   NonTrigMvaCategoriesMapToken_(consumes<edm::ValueMap<int> >( iConfig.getParameter<edm::InputTag>("NonTrigMvaCategoriesMap"))),
-
+  NonTrigMvaMediumIdMapsToken_(consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("NonTrigMvaMediumIdMaps"))),
+  NonTrigMvaTightIdMapsToken_( consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("NonTrigMvaTightIdMaps"))),
   PFCHSJetTags_(               iConfig.getParameter<std::string>("PFCHSJets")),
   pfchsJetFlavourInfosToken_(  consumes<reco::JetFlavourInfoMatchingCollection>( iConfig.getParameter<edm::InputTag>("PFCHSJetFlavourInfos") ) ), 
   PFCHSJetTagInfos_(           iConfig.getParameter<std::vector< std::string> >("PFCHSJetTagInfos")), 
@@ -430,7 +435,15 @@ Handle<bool> CSCTightHaloFilterHandle;
     vertexBeamSpot = 0;
   } 
 
-  // (++). Acess the jet ID value map
+
+  /*********************************************************************
+   *
+   *
+   *
+   *
+   * (++). Acess the jet ID value map
+   *
+   *********************************************************************/
   iEvent.getByToken(jetID_ValueMapToken_,jetID_ValueMap_Handle);
 
 
@@ -573,17 +586,34 @@ Handle<bool> CSCTightHaloFilterHandle;
 
 
 
-  // access cut-based electron ID value map
+
+  /*********************************************************************
+   *
+   *
+   *
+   *
+   * (++). Acess electron ID values maps
+   *       considering cut-based and MVA electron ID
+   *
+   *********************************************************************/
   iEvent.getByToken(EleLooseIdMapToken_ ,             loose_id_decisions);
   iEvent.getByToken(EleMediumIdMapToken_,             medium_id_decisions);
   iEvent.getByToken(EleTightIdMapToken_,              tight_id_decisions);
 
+  iEvent.getByToken(ElectronEcalPFClusterIsolationProducerToken_, electronEcalPFClusterIsolation);
+  iEvent.getByToken(ElectronHcalPFClusterIsolationProducerToken_, electronHcalPFClusterIsolation);
+
 
   iEvent.getByToken(TrigMvaValuesMapToken_,           trigMvaValues);
   iEvent.getByToken(TrigMvaCategoriesMapToken_,       trigMvaCategories);
+  iEvent.getByToken(TrigMvaMediumIdMapsToken_,        trigMvaMedium_id_decisions);
+  iEvent.getByToken(TrigMvaTightIdMapsToken_,         trigMvaTight_id_decisions);
+
 
   iEvent.getByToken(NonTrigMvaValuesMapToken_,        nonTrigMvaValues);
   iEvent.getByToken(NonTrigMvaCategoriesMapToken_,    nonTrigMvaCategories);
+  iEvent.getByToken(NonTrigMvaMediumIdMapsToken_,     nonTrigMvaMedium_id_decisions);
+  iEvent.getByToken(NonTrigMvaTightIdMapsToken_,      nonTrigMvaTight_id_decisions);
 
 
   // regression electron calibration
@@ -800,10 +830,12 @@ Handle<bool> CSCTightHaloFilterHandle;
       this->fillSimTracks();
 
     } else {
+
       
       iEvent.getByLabel( "genParticles",              genParticles );
-      bool hasLHE = iEvent.getByLabel("source", lheEventInfo );
-      //    iEvent.getByLabel( "source", lheEventInfo );
+      bool hasLHE = //iEvent.getByType( lheEventInfo );
+	iEvent.getByLabel( LHEEventProductTag_, lheEventInfo );
+
        
       if (hasLHE)  copyLHEweights( myEvent, lheEventInfo.product() );
 
@@ -811,22 +843,20 @@ Handle<bool> CSCTightHaloFilterHandle;
       this->fillGenWZ(genParticles,                   myGenWZ);
       this->fillGenEventInfo(genEventInfo,            myEvent->getGenEventInfo() );
       this->fillGenTTbar(genParticles,                myEvent->getGenTTbar() );
-
+      
 
       if (hasLHE) {
 	this->fillGenDrellYan(genParticles,       lheEventInfo.product() , myEvent->getGenDrellYan() );
       } else {
-
+	
 	this->fillGenDrellYan(genParticles,       0 , myEvent->getGenDrellYan() );
 
       }
 
 
-    
-
     }
 
-    //  this->fillGenJets();
+    this->fillGenJets();
     this->fillAKGenJets();
   }
 

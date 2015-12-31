@@ -815,6 +815,10 @@ _electron_::_electron_():_track_() {
    pfRelIsoR03EA                =0;
 
 
+   ecalPFClusterIso             =0;
+   hcalPFClusterIso             =0;
+
+
   // shower shape variables
    sigmaEtaEta                  =0; 
    sigmaIetaIeta                =0; 

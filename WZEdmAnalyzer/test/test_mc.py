@@ -53,7 +53,7 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 
 
-process.maxEvents = cms.untracked.PSet(  input = cms.untracked.int32(100) )
+process.maxEvents = cms.untracked.PSet(  input = cms.untracked.int32(-1) )
 process.source = cms.Source("PoolSource", 
        	fileNames = cms.untracked.vstring(
        # '/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/AODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/002F7FDD-BA13-E511-AA63-0026189437F5.root'
@@ -266,7 +266,9 @@ switchOnVIDElectronIdProducer(process, dataFormat)
 
 # define which IDs we want to produce
 my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Spring15_25ns_V1_cff',
-                 'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff', 'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring15_25ns_nonTrig_V1_cff', 'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring15_25ns_Trig_V1_cff']
+                 'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff', 
+                 'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring15_25ns_nonTrig_V1_cff', 
+                 'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring15_25ns_Trig_V1_cff']
 
 #add them to the VID producer
 for idmod in my_id_modules:
@@ -338,7 +340,10 @@ process.myJetPlusTrackCorrectionsAntiKt4 = cms.Sequence(
 #
 #
 ###################################################################
-
+process.printList = cms.EDAnalyzer("ParticleListDrawer",
+    src = cms.InputTag("genParticles"),
+    maxEventsToPrint = cms.untracked.int32(1)
+)
 
 # MC flavor identification
 process.myPartons = cms.EDProducer("PartonSelector",
@@ -577,7 +582,7 @@ process.myJPTBTaggers = cms.Sequence(
 process.analyzer = cms.EDAnalyzer(
     "WZEdmAnalyzer",
     #parameters
-    DEBUG                     = cms.bool(True),
+    DEBUG                     = cms.bool(False),
     DATA                      = cms.bool( isData ),
     GEN_ONLY                  = cms.bool(False),
     SAVE_ALLEVENTS            = cms.bool(True),
@@ -598,10 +603,16 @@ process.analyzer = cms.EDAnalyzer(
     EleLooseIdMap             = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-loose"),
     EleMediumIdMap            = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-medium"),
     EleTightIdMap             = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight"),
+    ElectronEcalPFClusterIsolationProducer = cms.InputTag("electronEcalPFClusterIsolationProducer"),
+    ElectronHcalPFClusterIsolationProducer = cms.InputTag("electronHcalPFClusterIsolationProducer"),
     TrigMvaValuesMap          = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig25nsV1Values"),
     TrigMvaCategoriesMap      = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig25nsV1Categories"),
+    TrigMvaMediumIdMaps       = cms.InputTag( "egmGsfElectronIDs:mvaEleID-Spring15-25ns-Trig-V1-wp90"), 
+    TrigMvaTightIdMaps        = cms.InputTag( "egmGsfElectronIDs:mvaEleID-Spring15-25ns-Trig-V1-wp80"), 
     NonTrigMvaValuesMap       = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"),
     NonTrigMvaCategoriesMap   = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Categories"),
+    NonTrigMvaMediumIdMaps    = cms.InputTag( "egmGsfElectronIDs:mvaEleID-Spring15-25ns-nonTrig-V1-wp90"), 
+    NonTrigMvaTightIdMaps     = cms.InputTag( "egmGsfElectronIDs:mvaEleID-Spring15-25ns-nonTrig-V1-wp80"), 
     PFCHSJets                 = cms.string(  "ak4PFJetsCHS"),
     PFCHSJetFlavourInfos      = cms.InputTag("myak4PFJetCHSFlavourInfos"),
     PFCHSJetTagInfos          = cms.vstring( "MyPFCHSTrackCountingHighPurBJetTags", "MyPFCHSJetProbabilityBJetTags", "MyPFCHSCombinedSecondaryVertexV2BJetTags"),
@@ -703,6 +714,7 @@ else :
 
     process.p = cms.Path(
         #process.noscraping*
+        process.printList*
         process.primaryVertexFilter*
         #                     process.HBHENoiseFilter*
         process.goodVertices * process.trackingFailureFilter *

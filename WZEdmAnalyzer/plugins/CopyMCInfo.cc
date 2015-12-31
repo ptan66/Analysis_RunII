@@ -275,14 +275,28 @@ void WZEdmAnalyzer::fillGenTTbar(Handle<reco::GenParticleCollection> &genParticl
   
   for(size_t i = 0; i < genParticles->size(); ++ i) {
     
-    const GenParticle & p = (*genParticles)[i];
+    const GenParticle & p =  (*genParticles)[i];
     int id = p.pdgId();
-    int st = p.status();  
+
+    reco::GenParticle *ptr =(reco::GenParticle *)( &(genParticles->at(i)));
+
+    int st = (ptr->isMostlyLikePythia6Status3() == true)? 3:0;  
+
+ 
     
     // only look for hard-interaction particles. 
     if (st != 3) continue;
     if (abs(id) != 6) continue;
-    
+    /* 
+    std::cout << setw(20) << "mother particle " 
+	      << setw(5)  << mom->pdgId()
+	      << setw(10) << mom->pt()		
+	      << setw(10) << mom->eta()
+	      << setw(10) << mom->phi()
+	      << setw(10) << mom->mass()
+	      << setw(10) << mom->charge()
+	      << std::endl;	 
+    */
    
     //    std::cout << "particle " << id << std::endl;    
     if (!mom) mom = p.mother();
@@ -688,10 +702,16 @@ void WZEdmAnalyzer::fillGenDrellYan(Handle<reco::GenParticleCollection> &genPart
   for(size_t i = 0; i < genParticles->size(); ++ i) {
     
     const GenParticle & p = (*genParticles)[i];
-    int id = p.pdgId();
-    int st = p.status();  
-    
 
+
+    int id = p.pdgId();
+    //int st = p.status();  
+    
+    reco::GenParticle *ptr =(reco::GenParticle *)( &(genParticles->at(i)));
+
+    int st = (ptr->isMostlyLikePythia6Status3() == true)? 3:0;  
+
+ 
 
     // only look for hard-interaction particles. 
     if (abs(st) != 3  ) continue;
@@ -819,9 +839,13 @@ void WZEdmAnalyzer::fillGenDrellYan(Handle<reco::GenParticleCollection> &genPart
       
       const GenParticle & p = (*genParticles)[i];
       int id = p.pdgId();
-      int st = p.status();  
+      //      int st = p.status();  
       
+      reco::GenParticle *ptr =(reco::GenParticle *)( &(genParticles->at(i)));
 
+      int st = (ptr->isMostlyLikePythia6Status3() == true)? 3:0;  
+
+ 
 
       // only look for hard-interaction particles. 
       if (abs(st) != 3  ) continue;

@@ -749,6 +749,7 @@ class _electron_ : public _track_ {
   Float_t pfRelIsoR03, effArea, pfIsoCh, pfIsoNeutral, pfIsoPhoton, pfIsoSumPUPt;
   Float_t pfRelIsoR03EA;
 
+  Float_t ecalPFClusterIso,   hcalPFClusterIso;
 
   // shower shape variables
   Float_t sigmaEtaEta, sigmaIetaIeta, full5x5_sigmaIetaIeta, e1x5, e2x5Max, e5x5, hcalDepth1OverEcal, hcalDepth2OverEcal, hcalOverEcal,  hadronicOverEm;
