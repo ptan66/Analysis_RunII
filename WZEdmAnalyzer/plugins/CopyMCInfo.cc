@@ -277,16 +277,16 @@ void WZEdmAnalyzer::fillGenTTbar(Handle<reco::GenParticleCollection> &genParticl
     
     const GenParticle & p =  (*genParticles)[i];
     int id = p.pdgId();
+    int st = p.status();
 
-    reco::GenParticle *ptr =(reco::GenParticle *)( &(genParticles->at(i)));
-
-    int st = (ptr->isMostlyLikePythia6Status3() == true)? 3:0;  
+    //    reco::GenParticle *ptr =(reco::GenParticle *)( &(genParticles->at(i)));
+    //    int st = (ptr->isMostlyLikePythia6Status3() == true)? 3:0;  
 
  
     
     // only look for hard-interaction particles. 
-    if (st != 3) continue;
-    if (abs(id) != 6) continue;
+    if (std::abs(st)<21 || std::abs(st)>29) continue;
+    if (std::abs(id) != 6) continue;
     /* 
     std::cout << setw(20) << "mother particle " 
 	      << setw(5)  << mom->pdgId()
@@ -298,13 +298,15 @@ void WZEdmAnalyzer::fillGenTTbar(Handle<reco::GenParticleCollection> &genParticl
 	      << std::endl;	 
     */
    
-    //    std::cout << "particle " << id << std::endl;    
-    if (!mom) mom = p.mother();
+    //    std::cout << "particle " << id << std::endl;  
+    const Candidate *p_down = bornLevelParticle( &p, true, true);  
+    const Candidate *p_up   = bornLevelParticle( &p, false, true);  
+    if (!mom) mom = bornLevelParticle(p_up->mother(), false, false);
 
 
 
-    if (p.numberOfMothers() >=1) mom1 = p.mother(); 
-    if (p.numberOfMothers() >=2) mom2 = p.mother(1);
+    if (p_up->numberOfMothers() >=1) mom1 = bornLevelParticle(p_up->mother(), false, false); 
+    if (p_up->numberOfMothers() >=2) mom2 = bornLevelParticle(p_up->mother(1), false, false);
 
 
     /*
@@ -323,9 +325,9 @@ void WZEdmAnalyzer::fillGenTTbar(Handle<reco::GenParticleCollection> &genParticl
 
     // 1) t->wb
     const Candidate *ww=0, *bb=0, *qq=0, *wll =0, *wvv =0;    
-    for (unsigned int jj =0; jj <  p.numberOfDaughters();jj ++) {
+    for (unsigned int jj =0; jj <  p_down->numberOfDaughters();jj ++) {
       
-      const Candidate * daug = p.daughter(jj);
+      const Candidate * daug = bornLevelParticle( p_down->daughter(jj), true, true);
 
 
 
@@ -350,13 +352,13 @@ void WZEdmAnalyzer::fillGenTTbar(Handle<reco::GenParticleCollection> &genParticl
 
 	//	std::cout << "W daughters  = " << daug->numberOfDaughters() << std::endl;
 	//	if ( abs( ww->daughter(0)->pdgId() ) == 24 ) 
-	  ww = daug; // W+/-
+	ww = bornLevelParticle(daug, true, true); // W+/-
 
 	// 2) w->lnv 
 	// const Candidate *ww=0, *bb=0, *jj=0, *wll, *wvv;    
 	for (unsigned int kk =0; kk <  ww->numberOfDaughters();kk ++) {
 
-	  const Candidate * wdaug = ww->daughter(kk);
+	  const Candidate * wdaug = bornLevelParticle(ww->daughter(kk), true, true);
 
 	  //	  std::cout << "W daughter ID  = " << wdaug->pdgId() << std::endl;
 
@@ -374,15 +376,17 @@ void WZEdmAnalyzer::fillGenTTbar(Handle<reco::GenParticleCollection> &genParticl
 	}
 
 
-      } else if (abs(daug->pdgId()) == 5  ) {
+      } else if (std::abs(daug->pdgId()) == 5  ) {
 	bb = daug; // b/bbar
-      } else if (abs(daug->pdgId()) < 5) {
+      } else if ( (std::abs(daug->pdgId()) < 5) 
+		  || (std::abs(daug->pdgId()) ==21) 
+		   ) {
 
 	if (!qq) {
 	  qq = daug;  // leading quarks: u, d, c, s, or g;
 	} else {
 
-	  if (daug->pt()>qq->pt() ) qq = daug;
+	  if (daug->pt() > qq->pt() ) qq = daug;
 	}
 
       }
@@ -560,13 +564,69 @@ void WZEdmAnalyzer::fillGenTTbar(Handle<reco::GenParticleCollection> &genParticl
 }
 
 
+const Candidate *WZEdmAnalyzer::bornLevelParticle( const Candidate *init_p, bool address_down, bool match_initId, bool isdebug) {
+
+  if (isdebug) {std::cout << " one entry (address down?) " << address_down << std::endl;}
+  const Candidate *p = init_p;
+  if (address_down ) {
+
+    while ( (p->numberOfDaughters() == 1 ) 
+	    && (abs(p->daughter(0)->pdgId()) == abs(init_p->pdgId()) )
+	    && (p->daughter(0)->status() !=1) ) {
+
+      p = p->daughter(0);
+      if (isdebug) std::cout << setw(10) << p->pdgId() 
+			     << setw(10) << p->status()
+			     << std::endl;
+    }
+  } else {
+
+    if (match_initId) {
+      while ( (p->numberOfMothers() == 1 ) 
+	      && (p->mother(0)->pdgId() == init_p->pdgId() )
+	      && (p->mother(0)->status() !=1) ) {
+	p = p->mother(0);
+	if (isdebug) std::cout << setw(10) << p->pdgId() 
+			       << setw(10) << p->status()
+			       << std::endl;
+	
+	
+      }
+    } else {
+
+      while ( (p->numberOfMothers() == 1 ) 
+	      && (p->mother(0)->pdgId() != 2212 ) //init_p->pdgId() )
+	      && (p->mother(0)->status() !=1) ) {
+	p = p->mother(0);
+	if (isdebug) std::cout << setw(10) << p->pdgId() 
+			       << setw(10) << p->status()
+			       << std::endl;
+	
+
+	
+      }
+    }
+  }
+
+  if (isdebug) {std::cout << " end of one entry " << std::endl;}
+  return p;
+}
+
+
+
 const Candidate *WZEdmAnalyzer::genLevelLeptons( const Candidate *born_level, math::PtEtaPhiMLorentzVector &dressed) {
+
+
+
 
   dressed = math::PtEtaPhiMLorentzVector(0, 0, 0, 0);
 
   if (!born_level) return 0;
 
-const  Candidate *bare_level =0;
+  //  std::cout << "start list of process ... " <<setw(10) << born_level->pdgId() 
+  //	    << "   " << born_level->status() << std::endl;
+
+  const  Candidate *bare_level = 0;
   std::list< const Candidate * > alist;
   std::list< const Candidate * > photons;
 
@@ -575,26 +635,27 @@ const  Candidate *bare_level =0;
   while (alist.size() ) {
 
     const Candidate *cand = alist.front();
-
+    //bare_level = cand;
 
     for (unsigned int ss =0; ss <  cand->numberOfDaughters();ss ++) {
       
       const Candidate * daug = cand->daughter(ss);
 
-
       /*
-      std::cout << setw(20) << "daughter particle " << setw(5) << ss 
-		<< setw(5)  << daug->pdgId()
-		<< setw(5)  << daug->status()
-		<< setw(15) << daug->pt()		
-		<< setw(15) << daug->eta()
-		<< setw(15) << daug->phi()
-		<< setw(15) << daug->mass()
-		<< setw(15) << daug->charge()
-		<< std::endl;
+            if (born_level->pdgId() == 13) {
+      
+	std::cout << setw(20) << "daughter particle " << setw(5) << ss 
+		  << setw(5)  << daug->pdgId()
+		  << setw(5)  << daug->status()
+		  << setw(15) << daug->pt()		
+		  << setw(15) << daug->eta()
+		  << setw(15) << daug->phi()
+		  << setw(15) << daug->mass()
+		  << setw(15) << daug->charge()
+		  << std::endl;
 
-      */
-
+		  }*/
+      
 
       if (daug->pdgId() == born_level->pdgId()) {
 	    
@@ -608,7 +669,8 @@ const  Candidate *bare_level =0;
       } // search for dressed lepton
 
       if ( daug->pdgId()  == 22 
-	   && daug->status() == 1 ) photons.push_back( daug );
+	   //&& daug->status() == 1 
+	   ) photons.push_back( daug );
     }
     alist.pop_front();
   }
@@ -618,7 +680,7 @@ const  Candidate *bare_level =0;
     dressed += math::PtEtaPhiMLorentzVector(bare_level->pt(), 
 					    bare_level->eta(), 
 					    bare_level->phi(), 
-					    0 );
+					    bare_level->mass() );
     
 
     while (photons.size()) {
@@ -630,11 +692,25 @@ const  Candidate *bare_level =0;
 	dressed += math::PtEtaPhiMLorentzVector(cand->pt(), 
 						cand->eta(), 
 						cand->phi(), 
-						0 );
+						cand->mass() );
 
       }
 
       photons.pop_front();
+    } 
+
+  } else {
+    //    std::cout << "can't find bare level lepton " << std::endl;
+    if ( (born_level->numberOfDaughters() ==0) 
+	 && (born_level->status() == 1 ) ) {
+
+      //      std::cout<< " born level has 0 daughter , assigned as bare level " << std::endl;
+      bare_level = born_level;
+      dressed += math::PtEtaPhiMLorentzVector(bare_level->pt(), 
+					      bare_level->eta(), 
+					      bare_level->phi(), 
+					      bare_level->mass() );
+
     }
 
   }
@@ -698,23 +774,29 @@ void WZEdmAnalyzer::fillGenDrellYan(Handle<reco::GenParticleCollection> &genPart
 
 
   //  bool sherpa_like = false;
-  //  std::cout << "a new event " << std::endl;
+  //    std::cout << "a new event " << std::endl;
+  
   for(size_t i = 0; i < genParticles->size(); ++ i) {
     
     const GenParticle & p = (*genParticles)[i];
 
 
     int id = p.pdgId();
-    //int st = p.status();  
+    int st = p.status();  
     
-    reco::GenParticle *ptr =(reco::GenParticle *)( &(genParticles->at(i)));
+    //    reco::GenParticle *ptr =(reco::GenParticle *)( &(genParticles->at(i)));
+    //    int st = (ptr->isMostlyLikePythia6Status3() == true)? 3:0;  
 
-    int st = (ptr->isMostlyLikePythia6Status3() == true)? 3:0;  
-
+    // if ( (std::abs(id) == 22
+    //	  || std::abs(id) == 23
+    //	  || std::abs(id) == 24) && (st!=1)) {
+    //  std::cout << setw(10) << id<< "     " << st << std::endl;
+    //}
  
 
     // only look for hard-interaction particles. 
-    if (abs(st) != 3  ) continue;
+    if ( (std::abs(st) <21) 
+	 || (std::abs(st)>29)   ) continue;
 
 
     //   std::cout << setw(10) << p.pdgId() 
@@ -735,11 +817,14 @@ void WZEdmAnalyzer::fillGenDrellYan(Handle<reco::GenParticleCollection> &genPart
     */
 
 
-    if (abs(id) == 22
-	|| abs(id) == 23
-	|| abs(id) == 24) {
+    if (std::abs(id) == 22
+	|| std::abs(id) == 23
+	|| std::abs(id) == 24) {
     
-      bos = &p;
+      bool debugme = false;
+      bos = bornLevelParticle(&p, true, true, debugme);
+      const Candidate *bos_up = bornLevelParticle(&p, false, true, debugme);
+
       //   countingjet = true;
       /*
 	std::cout << setw(20) << " particle " 
@@ -755,8 +840,8 @@ void WZEdmAnalyzer::fillGenDrellYan(Handle<reco::GenParticleCollection> &genPart
       */
 
 
-      if (p.numberOfMothers() >=1) mom1 = p.mother(); 
-      if (p.numberOfMothers() >=2) mom2 = p.mother(1);
+      if (bos_up->numberOfMothers() >=1) mom1 = bornLevelParticle( bos_up->mother(),  false, false, debugme); 
+      if (bos_up->numberOfMothers() >=2) mom2 = bornLevelParticle( bos_up->mother(1), false, false, debugme);
       /*
       if (mom1) {
       
@@ -785,11 +870,9 @@ void WZEdmAnalyzer::fillGenDrellYan(Handle<reco::GenParticleCollection> &genPart
       */
 
 
-      for (unsigned int jj =0; jj <  p.numberOfDaughters();jj ++) {
+      for (unsigned int jj =0; jj <  bos->numberOfDaughters();jj ++) {
       
-	const Candidate * daug = p.daughter(jj);
-	if ( daug->pdgId()  == p.pdgId() ) continue;
-
+	const Candidate * daug = bos->daughter(jj);
 	/*    
 	      if (daug) {
 	      
@@ -809,13 +892,15 @@ void WZEdmAnalyzer::fillGenDrellYan(Handle<reco::GenParticleCollection> &genPart
 	if ( daug->pdgId() > 0 && abs(daug->pdgId()) <=16 ) {
 	  
 	  pdaug    = daug;
-	  pdaugFSR = genLevelLeptons( pdaug, dressed_pdaug);
+	  //	  pdaugFSR = genLevelLeptons( pdaug, dressed_pdaug);
 
 
 	} else if ( daug->pdgId() < 0 && abs(daug->pdgId()) <=16 ) {
 	  
 	  mdaug    = daug;
-	  mdaugFSR = genLevelLeptons( mdaug, dressed_mdaug);
+	  //  mdaugFSR = genLevelLeptons( mdaug, dressed_mdaug);
+
+	} else {
 
 	}
 
@@ -831,42 +916,50 @@ void WZEdmAnalyzer::fillGenDrellYan(Handle<reco::GenParticleCollection> &genPart
 
 
   // check sherpa-like event content
-  int sherpa_like_npartons = 0;
+  int sherpa_like_npartons = -1;
+  //  bos=0;
+  // pdaug=0;
+  // pdaugFSR = 0;
+  // mdaug    = 0;
+  // mdaugFSR = 0; 
+  // mom1 = 0; mom2 = 0;
+  // bool countingjet = false;
+
   if (bos == 0) {
 
+
+    //    std::cout << "event weight is " << genEventInfo->weight() << std::endl;
     //    sherpa_like = true;
+    sherpa_like_npartons = 0;
     for(size_t i = 0; i < genParticles->size(); ++ i) {
       
       const GenParticle & p = (*genParticles)[i];
       int id = p.pdgId();
-      //      int st = p.status();  
+      int st = p.status();  
       
-      reco::GenParticle *ptr =(reco::GenParticle *)( &(genParticles->at(i)));
-
-      int st = (ptr->isMostlyLikePythia6Status3() == true)? 3:0;  
-
- 
+      //      reco::GenParticle *ptr =(reco::GenParticle *)( &(genParticles->at(i)));
+      //      int st = (ptr->isMostlyLikePythia6Status3() == true)? 3:0;  
 
       // only look for hard-interaction particles. 
-      if (abs(st) != 3  ) continue;
+      if ( (abs(st) <21) 
+	   || (abs(st) >29) ) continue;
 
       sherpa_like_npartons ++;
 
-      if (id >=11 && id<=16) {
+      if (id>0 && std::abs(id)<=16 && std::abs(id)>=11) {
 	
-	pdaug = &p;
-	pdaugFSR = genLevelLeptons( pdaug, dressed_pdaug);
+	pdaug = bornLevelParticle(&p, true, true);
 	
-      } else if ( id>=-16 && id<=-11) {
-	mdaug = &p;
-	mdaugFSR = genLevelLeptons( mdaug, dressed_mdaug);
+      } else if ( id<0  && std::abs(id)<=16 && std::abs(id)>=11) {
+	mdaug = bornLevelParticle(&p, true, true);
 
       }
     }
 
   }
 
-
+  if (pdaug) 	pdaugFSR = genLevelLeptons( pdaug, dressed_pdaug);
+  if (mdaug)    mdaugFSR = genLevelLeptons( mdaug, dressed_mdaug);
 
 
   if (mom1) {
@@ -875,7 +968,11 @@ void WZEdmAnalyzer::fillGenDrellYan(Handle<reco::GenParticleCollection> &genPart
 
       const Candidate * daug = mom1->daughter(ii);
 
-      if (daug->status() != 3) continue;
+      int st = daug->status();
+      bool parton_level = ( abs(st)>=21 && abs(st)<=29 )
+	|| ( abs(st)>=61 && abs(st)<=69 );
+
+      if ( !parton_level  ) continue;
       if (bos->pdgId() == daug->pdgId() ) continue;
       jets.push_back( daug );
 
@@ -928,9 +1025,9 @@ void WZEdmAnalyzer::fillGenDrellYan(Handle<reco::GenParticleCollection> &genPart
   if (mom1) {
 
     gendrellyan->mom1Pt    =   mom1->pt();
-    gendrellyan->mom1Eta    =   mom1->eta();
-    gendrellyan->mom1Phi    =   mom1->phi();
-    gendrellyan->mom1M    =   mom1->mass();
+    gendrellyan->mom1Eta   =   mom1->eta();
+    gendrellyan->mom1Phi   =   mom1->phi();
+    gendrellyan->mom1M     =   mom1->mass();
     gendrellyan->mom1ID    =   mom1->pdgId();
 
   }
@@ -939,20 +1036,20 @@ void WZEdmAnalyzer::fillGenDrellYan(Handle<reco::GenParticleCollection> &genPart
  if (mom2) {
 
     gendrellyan->mom2Pt    =   mom2->pt();
-    gendrellyan->mom2Eta    =   mom2->eta();
-    gendrellyan->mom2Phi    =   mom2->phi();
-    gendrellyan->mom2M    =   mom2->mass();
+    gendrellyan->mom2Eta   =   mom2->eta();
+    gendrellyan->mom2Phi   =   mom2->phi();
+    gendrellyan->mom2M     =   mom2->mass();
     gendrellyan->mom2ID    =   mom2->pdgId();
 
   }
 
  if (bos) {
 
-    gendrellyan->bosPt    =   bos->pt();
+    gendrellyan->bosPt     =   bos->pt();
     gendrellyan->bosEta    =   bos->eta();
     gendrellyan->bosPhi    =   bos->phi();
-    gendrellyan->bosM    =   bos->mass();
-    gendrellyan->bosID    =   bos->pdgId();
+    gendrellyan->bosM      =   bos->mass();
+    gendrellyan->bosID     =   bos->pdgId();
 
  } else {
 
@@ -984,20 +1081,18 @@ void WZEdmAnalyzer::fillGenDrellYan(Handle<reco::GenParticleCollection> &genPart
  }
 
 
- gendrellyan->pdaugPtDress = dressed_pdaug.Pt();
+ gendrellyan->pdaugPtDress  = dressed_pdaug.Pt();
  gendrellyan->pdaugEtaDress = dressed_pdaug.Eta();
  gendrellyan->pdaugPhiDress = dressed_pdaug.Phi();
- gendrellyan->pdaugMDress = dressed_pdaug.M();
+ gendrellyan->pdaugMDress   = dressed_pdaug.M();
  
 
  if (pdaugFSR) {
 
-  gendrellyan->pdaugPtFSR    =   pdaugFSR->pt();
-  gendrellyan->pdaugEtaFSR    =   pdaugFSR->eta();
-  gendrellyan->pdaugPhiFSR    =   pdaugFSR->phi();
+  gendrellyan->pdaugPtFSR   =   pdaugFSR->pt();
+  gendrellyan->pdaugEtaFSR  =   pdaugFSR->eta();
+  gendrellyan->pdaugPhiFSR  =   pdaugFSR->phi();
   gendrellyan->pdaugMFSR    =   pdaugFSR->mass();
-
-
   }
 
  /*
@@ -1075,15 +1170,17 @@ void WZEdmAnalyzer::fillGenDrellYan(Handle<reco::GenParticleCollection> &genPart
  */
 
   //  std::cout << " number of jets " << jets.size() << std::endl;
- if (mom1) {
-   gendrellyan->numberOfJets  = jets.size();
- } else {
+ // if (mom1) { note: Jan 01, 2016, at mom1's daughters doesn't contain hard 
+ // interacting jets any more. 
+ //  gendrellyan->numberOfJets  = jets.size();
+ // } else {
 
    gendrellyan->numberOfJets  = sherpa_like_npartons;
 
- }
+   // }
 
   std::list< int > indexs;
+  indexs.resize(0);
   for (size_t ii = 0; ii < jets.size(); ii ++) {
 
     if (indexs.size() == 0) {

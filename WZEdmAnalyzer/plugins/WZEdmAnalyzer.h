@@ -254,7 +254,9 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   void   fillGenTTbar(Handle<reco::GenParticleCollection> &genParticles,  _gen_ttbar_ *genttbar);
   void   fillGenDrellYan(Handle<reco::GenParticleCollection> &genParticles, const LHEEventProduct * evt,  _gen_DrellYan_ *gendrellyan);
 
-  const Candidate *genLevelLeptons( const Candidate *born_level, math::PtEtaPhiMLorentzVector &dressed);
+
+  const Candidate *bornLevelParticle( const Candidate *init_p, bool address_down, bool match_initId=true, bool isdebug=false);
+  const Candidate *genLevelLeptons(   const Candidate *born_level, math::PtEtaPhiMLorentzVector &dressed);
 
 
   void   fillGenWZ(Handle<edm::HepMCProduct> &mcTruth, _genwz_*);

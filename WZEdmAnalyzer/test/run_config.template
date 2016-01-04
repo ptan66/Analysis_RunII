@@ -6,8 +6,8 @@ import string
 #  global control flag
 #
 #######################################################################
-useAOD   = True
-isData   = True # True data; False MC
+useAOD   = ?useaod
+isData   = ?isdata # True data; False MC
 
 
 if (isData == True) : 
@@ -18,7 +18,7 @@ if (isData == True) :
     HLT_SINGLEMU1 = "HLT_IsoTkMu20_vVERSION"
     HLT_SINGLEMU2 = "HLT_IsoMu20_vVERSION"
     HLT_DOUBLEMU1 = "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_vVERSION"
-    HLT_SOUBLEMU2 = "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_vVERSION"
+    HLT_DOUBLEMU2 = "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_vVERSION"
     HLT_MUE       = "HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_vVERSION"
     HLT_EMU       = "HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_vVERSION"
     HLT_SINGLEELE1= "HLT_Ele23_WPLoose_Gsf_vVERSION"
@@ -32,7 +32,7 @@ else :
     HLT_SINGLEMU1 = "HLT_IsoTkMu20_v1"
     HLT_SINGLEMU2 = "HLT_IsoMu20_v1"
     HLT_DOUBLEMU1 = "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v1"
-    HLT_SOUBLEMU2 = "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v1"
+    HLT_DOUBLEMU2 = "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v1"
     HLT_MUE       = "HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v1"
     HLT_EMU       = "HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v1"
     HLT_SINGLEELE1= "HLT_Ele27_WP85_Gsf_v1"
@@ -711,7 +711,7 @@ process.analyzer = cms.EDAnalyzer(
 # rename output file
 process.TFileService = cms.Service("TFileService",
                                    fileName = 
-                                   cms.string('testme.root' ),
+                                   cms.string('?outputrootfile' ),
                                    closeFileFast = cms.untracked.bool(True)
                                    )
 
