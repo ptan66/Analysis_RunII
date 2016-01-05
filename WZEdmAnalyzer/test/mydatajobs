@@ -1,1 +1,1 @@
-./submit.sh AOD data lpclljj "False" run_config.template "/SingleMuon/Run2015C-PromptReco-v1/AOD" "254231-254914"
+./submit.sh test AOD data lpclljj "True" run_config.template "/SingleMuon/Run2015C-PromptReco-v1/AOD" "254231-254914"

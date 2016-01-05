@@ -1,3 +1,17 @@
+set up guide for version 7.4.14.v1
+++++++++++++++++++++++++++++++++++
+a) set up external Egamma package
+
+  git clone https://github.com/ikrav/EgammaWork.git
+  cd EgammaWork
+  git checkout ntupler_and_VID_demos_7.4.12
+
+b) check out the analysis package
+
+   git clone https://github.com/ptan66/Analysis_RunII
+git checkout 7.4.14.v1
+
+
 electron ID
 +++++++++++
 

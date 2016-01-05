@@ -11,18 +11,19 @@
 #output directories
 if ($#argv <1) then 
 
-echo "Usage: ${0} AOD data[/MC] user True[False on grid] runconfig dataset [runrange] [jsonfile]";
+echo "Usage: ${0} prodtag AOD data[/MC] user True[False on grid] runconfig dataset [runrange] [jsonfile]";
 exit(0);
 endif
 
 echo $#argv;
 
-set dataformat = ${1}
-set dataflag   = ${2}
-set username   = ${3}
-set allowoverflow = "${4}"
-set runconfig  = ${5}
-set dataset    = ${6}
+set prodtag    = ${1}
+set dataformat = ${2}
+set dataflag   = ${3}
+set username   = ${4}
+set atfnalt1 = "${5}"
+set runconfig  = ${6}
+set dataset    = ${7}
 
 set runrange   = "0-999999"
 set jsonfile   = "Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_Silver_v2.txt"
@@ -30,7 +31,7 @@ set jsonfile   = "Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_Sil
 
 set useaod        = "True"
 set isdata        = "False"
-set subdir        = "Summer2015"
+set subdir        = "Summer2015/${prodtag}"
 set temp          = `echo ${dataset} | awk -F/ '{print $2"_"$3}'`
 
 set user          = "group/lpclljj"
@@ -45,34 +46,35 @@ endif
 if (${dataflag} == "data") then
 
 set isdata          = "True"
-set subdir          = "Run2015"
+set subdir          = "Run2015/${prodtag}"
 endif
 
 # output datatag
 set outputdatatag   = "${temp}"
-if ($#argv >= 7) then
+if ($#argv >= 8) then
 
-set runrange        = "${7}"
-set outputdatatag   = "${temp}_${7}"
+set runrange        = "${8}"
+set outputdatatag   = "${temp}_${8}"
 endif
 
 set crabfile_template = "./crab3_config.template"
-set config_py         = "${outputdatatag}.py"
-set output_rootfile   = "${outputdatatag}.root"
-set crab_file         = "${outputdatatag}_crab3.py"
+set config_py         = "${prodtag}_${outputdatatag}.py"
+set output_rootfile   = "${prodtag}_${outputdatatag}.root"
+set crab_file         = "${prodtag}_${outputdatatag}_crab3.py"
 
 
 #json file
-if ($#argv >= 8) then
+if ($#argv >= 9) then
 
-set jsonfile   = "${8}"
+set jsonfile   = "${9}"
 endif
 
+echo "production tag = ${prodtag}";
 echo "useaod  = ${useaod}";
 echo "isdata = ${isdata}";
 echo "subdir = ${subdir}";
 echo "user   = ${user}";
-echo "overflow    = ${allowoverflow}";
+echo "at T1    = ${atfnalt1}";
 echo "runconfig  = $runconfig";
 echo "dataset    = ${dataset}";
 echo "config     = ${config_py}";
@@ -88,7 +90,7 @@ sed -e "s:?useaod:${useaod}:g" \
 
 sed -e "s:?isdata:${isdata}:g" \
     -e "s:?subdir:${subdir}:g" \
-    -e "s:?allowoverflow:${allowoverflow}:g" \
+    -e "s:?atfnalt1:${atfnalt1}:g" \
     -e "s:?runconfig:${config_py}:g" \
     -e "s:?dataset:${dataset}:g" \
     -e "s:?outputdatatag:${outputdatatag}:g" \

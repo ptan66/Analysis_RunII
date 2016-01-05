@@ -725,7 +725,7 @@ WZEdmAnalyzer::copyPFJetInfoCommon(   const edm::Event& iEvent,
     jetCorUnc->setJetEta((float)jet->eta());
     jetCorUnc->setJetPt((float)( jet->pt() * scale)); // here you must use the CORRECTED jet pt
   // std::cout << pfJetUnc->getUncertainty(true) << std::endl;
-    myJet->scaleUnc = pfJetUnc->getUncertainty(true);
+    myJet->scaleUnc = jetCorUnc->getUncertainty(true);
   } else {
     myJet->scaleUnc = 0.0;
   }
