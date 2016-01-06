@@ -256,6 +256,7 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
 
 
   const Candidate *bornLevelParticle( const Candidate *init_p, bool address_down, bool match_initId=true, bool isdebug=false);
+  const Candidate *showeredParticle(  const Candidate *particle, const Candidate *leading_jet, const Candidate *leading_photon=0);
   const Candidate *genLevelLeptons(   const Candidate *born_level, math::PtEtaPhiMLorentzVector &dressed);
 
 

@@ -324,36 +324,39 @@ void WZEdmAnalyzer::fillGenTTbar(Handle<reco::GenParticleCollection> &genParticl
     */
 
     // 1) t->wb
-    const Candidate *ww=0, *bb=0, *qq=0, *wll =0, *wvv =0;    
+    //    std::cout << " start of a new event " << std::endl;
+    const Candidate *ww=0, *bb=0, *qq=0, *wll =0, *wvv =0, *photon =0;  
+    p_down = showeredParticle(p_down, qq, photon);
+    if (qq) qq = bornLevelParticle(qq, true, true);
     for (unsigned int jj =0; jj <  p_down->numberOfDaughters();jj ++) {
       
-      const Candidate * daug = bornLevelParticle( p_down->daughter(jj), true, true);
-
-
-
+      const Candidate *raw_daug = p_down->daughter(jj);
 
       /*      
-      if (daug) {
-		
+      if (raw_daug) {
+	
 	std::cout << setw(20) << "daughter particle " 
-		  << setw(5)  << daug->pdgId()
-		  << setw(5)  << daug->status()
-		  << setw(15) << daug->pt()		
-		  << setw(15) << daug->rapidity()
-		  << setw(15) << daug->phi()
-		  << setw(15) << daug->mass()
-		  << setw(15) << daug->charge()
+		  << setw(5)  << raw_daug->pdgId()
+		  << setw(5)  << raw_daug->status()
+		  << setw(15) << raw_daug->pt()		
+		  << setw(15) << raw_daug->rapidity()
+		  << setw(15) << raw_daug->phi()
+		  << setw(15) << raw_daug->mass()
+		  << setw(15) << raw_daug->charge()
 		  << std::endl;
 	
-		  }
+      }
       */
 
+      const Candidate * daug = bornLevelParticle( raw_daug, true, true);
+      
+      
       if (abs(daug->pdgId() ) == 24 ) {
-
+	
 	//	std::cout << "W daughters  = " << daug->numberOfDaughters() << std::endl;
 	//	if ( abs( ww->daughter(0)->pdgId() ) == 24 ) 
 	ww = bornLevelParticle(daug, true, true); // W+/-
-
+	
 	// 2) w->lnv 
 	// const Candidate *ww=0, *bb=0, *jj=0, *wll, *wvv;    
 	for (unsigned int kk =0; kk <  ww->numberOfDaughters();kk ++) {
@@ -401,7 +404,7 @@ void WZEdmAnalyzer::fillGenTTbar(Handle<reco::GenParticleCollection> &genParticl
     //const Candidate *twl, *twv, *tbarwl, *tbarwv;
     if (id>0) {
 
-      t      = &p;
+      t      = p_down;
       tw     = ww;
       tb     = bb;
       tj     = qq;
@@ -409,7 +412,7 @@ void WZEdmAnalyzer::fillGenTTbar(Handle<reco::GenParticleCollection> &genParticl
       twv    = wvv;
     } else {
 
-      tbar   = &p;
+      tbar   = p_down;
       tbarw  = ww;
       tbarb  = bb;
       tbarj  = qq;
@@ -613,6 +616,77 @@ const Candidate *WZEdmAnalyzer::bornLevelParticle( const Candidate *init_p, bool
 }
 
 
+const Candidate *WZEdmAnalyzer::showeredParticle( const Candidate *particle, const Candidate *leading_jet, const Candidate *leading_photon) {
+
+
+  leading_jet    = 0;
+  leading_photon = 0;
+  if (!particle) return 0;
+
+
+  const  Candidate *showered_particle = 0;
+  std::list< const Candidate * > alist;
+  std::list< const Candidate * > photons;
+  std::list< const Candidate * > jets;
+
+  alist.resize(0); photons.resize(0);
+  jets.resize(0);
+  alist.push_back( particle );
+  while (alist.size() ) {
+
+    const Candidate *cand = alist.front();
+
+    bool showering = false;
+    for (unsigned int ss =0; ss <  cand->numberOfDaughters();ss ++) {
+      
+      const Candidate * daug = cand->daughter(ss);
+      if (daug->pdgId() == particle->pdgId()) {
+	    
+	showering = true;
+	alist.push_back( daug );
+      }
+    }
+
+    if (showering) {
+
+      for (unsigned int ss =0; ss <  cand->numberOfDaughters();ss ++) {
+	const Candidate * daug = cand->daughter(ss);
+	if (daug->pdgId() == particle->pdgId()) continue;
+	
+	if ( std::abs(daug->pdgId())  == 22 ) photons.push_back( daug );
+	if ( std::abs(daug->pdgId())  == 21 ) jets.push_back( daug );
+      }
+    }
+    alist.pop_front();
+    showered_particle = cand;
+  }
+
+  while (photons.size()) {
+
+    const Candidate *cand = photons.front();
+    if (leading_photon == 0) leading_photon = cand;
+    else {
+      if (leading_photon->pt()<cand->pt()) leading_photon = cand;
+    }
+    photons.pop_front();
+    
+  }
+
+  while (jets.size()) {
+
+    const Candidate *cand = jets.front();
+    if (leading_jet == 0) leading_jet = cand;
+    else {
+      if (leading_jet->pt()<cand->pt()) leading_jet = cand;
+    }
+    jets.pop_front();
+    
+  }
+
+
+
+  return showered_particle;
+}
 
 const Candidate *WZEdmAnalyzer::genLevelLeptons( const Candidate *born_level, math::PtEtaPhiMLorentzVector &dressed) {
 

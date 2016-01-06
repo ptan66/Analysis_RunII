@@ -7,7 +7,7 @@ import string
 #
 #######################################################################
 useAOD   = True
-isData   = True # True data; False MC
+isData   = False # True data; False MC
 
 
 if (isData == True) : 
@@ -87,7 +87,8 @@ process.source = cms.Source("PoolSource",
        	fileNames = cms.untracked.vstring(
        # '/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/AODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/002F7FDD-BA13-E511-AA63-0026189437F5.root'
 #'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_4_14/src/Analysis_RunII/WZEdmAnalyzer/test/002F7FDD-BA13-E511-AA63-0026189437F5.root'
-'/store/data/Run2015D/SingleMuon/AOD/PromptReco-v4/000/258/159/00000/0C2C8F20-246C-E511-B27C-02163E0143D6.root'
+'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_4_14/src/Analysis_RunII/WZEdmAnalyzer/plugins/00392203-FF0B-E511-AC4F-002590593872.root'
+#'/store/data/Run2015D/SingleMuon/AOD/PromptReco-v4/000/258/159/00000/0C2C8F20-246C-E511-B27C-02163E0143D6.root'
 
     )
 )
@@ -371,7 +372,7 @@ process.myJetPlusTrackCorrectionsAntiKt4 = cms.Sequence(
 ###################################################################
 process.printList = cms.EDAnalyzer("ParticleListDrawer",
     src = cms.InputTag("genParticles"),
-    maxEventsToPrint = cms.untracked.int32(10)
+    maxEventsToPrint = cms.untracked.int32(1)
 )
 
 # MC flavor identification
