@@ -102,3 +102,5 @@ sed -e "s:?isdata:${isdata}:g" \
 source /cvmfs/cms.cern.ch/crab3/crab.csh; eval `scramv1 runtime -csh`; crab submit ${crab_file}
 
 
+cp  ${crab_file} ${subdir}
+

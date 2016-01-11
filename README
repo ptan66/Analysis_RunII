@@ -1,15 +1,15 @@
-set up guide for version 7.4.14.v1
+set up guide for version 7.4.14.v1-patch1
 ++++++++++++++++++++++++++++++++++
-a) set up external Egamma package
-
-  git clone https://github.com/ikrav/EgammaWork.git
-  cd EgammaWork
-  git checkout ntupler_and_VID_demos_7.4.12
-
-b) check out the analysis package
 
    git clone https://github.com/ptan66/Analysis_RunII
 git checkout 7.4.14.v1
+
+
+
+
+
+
+
 
 
 electron ID
@@ -77,11 +77,23 @@ MET fitlers:
 •  eeBadScFilter
 •  CSCTightHalo2015Filter
 
+Pile Up
+=======
+
+01/06/2016, generate pileup files using command as below:
+
+pileupCalc.py -i /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_Silver_v2.txt --inputLumiJSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/PileUp/pileup_latest.txt --calcMode true --minBiasXsec 69000 --maxPileupBin 52 --numPileupBins 52 pileup_2015.root
+
+
 location of pile up
 -------------------
 
 /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/PileUp/pileup_latest.txt
 
+json file location:
+------------------
+
+/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/
 
 pile up calculation
 
