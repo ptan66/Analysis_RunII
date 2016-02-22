@@ -195,10 +195,6 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   tmpHLTTriggerMuons_(         iConfig.getParameter<std::vector< std::string> >("HLTTriggerMuons")), 
   tmpHLTTriggerMuonElectrons_( iConfig.getParameter<std::vector< std::string> >("HLTTriggerMuonElectrons")), 
   tmpHLTTriggerElectrons_(     iConfig.getParameter<std::vector< std::string> >("HLTTriggerElectrons")), 
-  //  HLTTriggerMuon_(             iConfig.getParameter<std::string>("HLTTriggerMuon")),
-  //  HLTTriggerMuonL_(            iConfig.getParameter<std::string>("HLTTriggerMuonL")),
-  //  HLTTriggerElectron_(         iConfig.getParameter<std::string>("HLTTriggerElectron")),
-  //  HLTTriggerElectronL_(        iConfig.getParameter<std::string>("HLTTriggerElectronL")),
   GeneratorLevelTag_(          iConfig.getParameter<std::string>("GeneratorLevelTag")),
   LHEEventProductTag_(         iConfig.getParameter<edm::InputTag>("LHEEventProductTag")),
   GenJetAlgorithmTags_(        iConfig.getParameter<std::string>("GenJets")),
@@ -208,13 +204,6 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   genJetMinPt(                 iConfig.getParameter<double>("GenJetMinPt")),
   SimTrackTags_(               iConfig.getParameter<std::string>("SimTracks")),
   diLeptonMinMass(             iConfig.getParameter<double>("DiLeptonMinMass")) {
-
-  //,
-  //  out(                         iConfig.getParameter<std::string>("out")),
-  //  open(                        iConfig.getParameter<std::string>("open")),
-  //  pdf(                         iConfig.getParameter<std::string>("pdf")),
-  //  subset(                      iConfig.getParameter<int>("subset")) {
-
 
 
   // for accessing trigger information
