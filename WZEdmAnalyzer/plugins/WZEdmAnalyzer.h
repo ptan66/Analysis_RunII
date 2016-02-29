@@ -148,7 +148,7 @@
 
 
 // jet correction
-#include "JetMETCorrections/Objects/interface/JetCorrector.h"
+#include "JetMETCorrections/JetCorrector/interface/JetCorrector.h"
 #include "RecoJets/JetProducers/interface/JetIDHelper.h"
 #include "CondFormats/JetMETObjects/interface/JetCorrectorParameters.h"
 #include "JetMETCorrections/Objects/interface/JetCorrectionsRecord.h"
@@ -364,7 +364,8 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
 
   double             bField;
 
-  edm::InputTag      BeamSpotTags_;
+  edm::EDGetTokenT<reco::BeamSpot>   BeamSpotToken_;
+  //  edm::InputTag      BeamSpotTags_;
   std::string        Vertices_;
   edm::InputTag      MuonCollectionTags_;
   edm::InputTag      ElectronCollectionTags_;
@@ -474,10 +475,10 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::Handle< edm::ValueMap<reco::JetID> >                jetID_ValueMap_Handle;
 
 
-  std::string                                              pfchsJetCorrectionService;
-  std::string                                              caloJetCorrectionService;
-  std::string                                              jptJetCorrectionService;
-  std::string                                              pfJetCorrectionService;
+  //  std::string                                              pfchsJetCorrectionService;
+  // std::string                                              caloJetCorrectionService;
+  // std::string                                              jptJetCorrectionService;
+  //std::string                                              pfJetCorrectionService;
 
   edm::ESHandle<JetCorrectorParametersCollection>          pfchsJetCorParColl;
   edm::ESHandle<JetCorrectorParametersCollection>          caloJetCorParColl;
@@ -485,10 +486,20 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::ESHandle<JetCorrectorParametersCollection>          pfJetCorParColl;
 
 
-  const JetCorrector*                                      pfchsJetCorr;
-  const JetCorrector*                                      caloJetCorr;
-  const JetCorrector*                                      jptJetCorr;
-  const JetCorrector*                                      pfJetCorr;
+  edm::EDGetTokenT<reco::JetCorrector>                     pfchsJetCorrToken_;
+  edm::EDGetTokenT<reco::JetCorrector>                     caloJetCorrToken_;
+  edm::EDGetTokenT<reco::JetCorrector>                     jptJetCorrToken_;
+  edm::EDGetTokenT<reco::JetCorrector>                     pfJetCorrToken_;
+
+  edm::Handle<reco::JetCorrector>                          pfchsJetCorr;
+  edm::Handle<reco::JetCorrector>                          caloJetCorr;
+  edm::Handle<reco::JetCorrector>                          jptJetCorr;
+  edm::Handle<reco::JetCorrector>                          pfJetCorr;
+
+  //  const JetCorrector*                                      pfchsJetCorr;
+  // const JetCorrector*                                      caloJetCorr;
+  // const JetCorrector*                                      jptJetCorr;
+  // const JetCorrector*                                      pfJetCorr;
 
 
   JetCorrectionUncertainty                                *pfchsJetUnc;

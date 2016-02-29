@@ -2429,7 +2429,8 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
     edm::RefToBase<reco::Jet> jetRef(edm::Ref<PFJetCollection>(pfchsJets, index));
       
 
-    double jec = pfchsJetCorr->correction(*jet, iEvent, iSetup);
+    double jec = pfchsJetCorr->correction(*jet);
+    //    double jec = pfchsJetCorr->correction(*jet, iEvent, iSetup);
     //std::cout << "jet pt = " << jet->pt() << "afer " << std::endl;
   
     if ( jec * jet->pt() < jetMinPt) continue;    
@@ -2451,7 +2452,7 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
     edm::RefToBase<reco::Jet> jetRef(edm::Ref<CaloJetCollection>(caloJets, index));
       
 
-    double jec = caloJetCorr->correction(*jet, iEvent, iSetup);
+    double jec = caloJetCorr->correction(*jet);
     
     if ( jec * jet->pt() < jetMinPt) continue;    
     _jet_ *myjet = myEvent->addCaloJet();
@@ -2483,7 +2484,7 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
       edm::RefToBase<reco::Jet> jetRef(edm::Ref<JPTJetCollection>(jptJets, index));
 
     
-      double jec = jptJetCorr->correction(*jet, iEvent, iSetup);
+      double jec = jptJetCorr->correction(*jet);
 
       
       if ( jec * jet->pt() < jetMinPt) continue;    
@@ -2521,7 +2522,7 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
     edm::RefToBase<reco::Jet> jetRef(edm::Ref<PFJetCollection>(pfJets, index));
 
       
-    double jec = pfJetCorr->correction(*jet, iEvent, iSetup);
+    double jec = pfJetCorr->correction(*jet);
     //std::cout << "jet pt = " << jet->pt() << "afer " << std::endl;
   
     if ( jec * jet->pt() < jetMinPt) continue;    

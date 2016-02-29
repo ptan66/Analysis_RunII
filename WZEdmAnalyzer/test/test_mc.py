@@ -11,10 +11,10 @@ isData   = False # True data; False MC
 
 
 if (isData == True) : 
-    PFCHSJEC = "ak4PFCHSL1FastL2L3Residual"
-    CaloJEC  = "ak4CaloL1FastL2L3Residual"
-    JPTJEC   = "ak4JPTL1FastL2L3Residual"
-    PFJEC    = "ak4PFL1FastL2L3Residual"
+    PFCHSJEC = "ak4PFCHSL1FastL2L3ResidualCorrector"
+    CaloJEC  = "ak4CaloL1FastL2L3ResidualCorrector"
+    JPTJEC   = "ak4JPTL1FastL2L3ResidualCorrector"
+    PFJEC    = "ak4PFL1FastL2L3ResidualCorrector"
     HLT_SINGLEMU1 = "HLT_IsoTkMu20_vVERSION"
     HLT_SINGLEMU2 = "HLT_IsoMu20_vVERSION"
     HLT_DOUBLEMU1 = "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_vVERSION"
@@ -25,10 +25,10 @@ if (isData == True) :
     HLT_SINGLEELE2= "HLT_Ele23_WPLoose_Gsf_vVERSION"
     HLT_DOUBLEELE1= "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_vVERSION"
 else :
-    PFCHSJEC = "ak4PFCHSL1FastL2L3"
-    CaloJEC  = "ak4CaloL1FastL2L3"
-    JPTJEC   = "ak4JPTL1FastL2L3"
-    PFJEC    = "ak4PFL1FastL2L3"
+    PFCHSJEC = "ak4PFCHSL1FastL2L3Corrector"
+    CaloJEC  = "ak4CaloL1FastL2L3Corrector"
+    JPTJEC   = "ak4JPTL1FastL2L3Corrector"
+    PFJEC    = "ak4PFL1FastL2L3Corrector"
     HLT_SINGLEMU1 = "HLT_IsoTkMu20_v1"
     HLT_SINGLEMU2 = "HLT_IsoMu20_v1"
     HLT_DOUBLEMU1 = "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v1"
@@ -68,15 +68,15 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 
 if isData == True :
-    process.GlobalTag.globaltag = '74X_dataRun2_v5'
+    process.GlobalTag.globaltag = '76X_dataRun2_16Dec2015_v0'
 #    process.GlobalTag.globaltag = '74X_dataRun2_Prompt_v2'
 else :
-#    process.GlobalTag.globaltag = 'MCRUN2_74_V9'
-    process.GlobalTag.globaltag = '74X_mcRun2_asymptotic_v4'
+    process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_RunIIFall15DR76_v1'
+#    process.GlobalTag.globaltag = '74X_mcRun2_asymptotic_v4'
 
 
-process.load("SimTracker.TrackAssociation.TrackAssociatorByChi2_cfi")
-process.load("SimTracker.TrackAssociation.TrackAssociatorByHits_cfi")
+#process.load("SimTracker.TrackAssociation.TrackAssociatorByChi2_cfi")
+#process.load("SimTracker.TrackAssociation.TrackAssociatorByHits_cfi")
 process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 
@@ -85,9 +85,11 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 process.maxEvents = cms.untracked.PSet(  input = cms.untracked.int32(-1) )
 process.source = cms.Source("PoolSource", 
        	fileNames = cms.untracked.vstring(
-       # '/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/AODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/002F7FDD-BA13-E511-AA63-0026189437F5.root'
+ 
+      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_6_3_patch2/src/Analysis_RunII/WZEdmAnalyzer/test/002B97EF-D9BE-E511-9D93-0090FAA57420.root'
+      # '/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/AODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/002F7FDD-BA13-E511-AA63-0026189437F5.root'
 #'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_4_14/src/Analysis_RunII/WZEdmAnalyzer/test/002F7FDD-BA13-E511-AA63-0026189437F5.root'
-'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_4_14/src/Analysis_RunII/WZEdmAnalyzer/plugins/00392203-FF0B-E511-AC4F-002590593872.root'
+#'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_4_14/src/Analysis_RunII/WZEdmAnalyzer/plugins/00392203-FF0B-E511-AC4F-002590593872.root'
 #'/store/data/Run2015D/SingleMuon/AOD/PromptReco-v4/000/258/159/00000/0C2C8F20-246C-E511-B27C-02163E0143D6.root'
 
     )
@@ -659,14 +661,10 @@ process.analyzer = cms.EDAnalyzer(
     JetMinPt                  = cms.double(10),    
     LeptonThreshold           = cms.double(10),    
     InputJetIDValueMap        = cms.InputTag("ak4JetID"), 
-    PFCHSJetCorrectionService = cms.string(  PFCHSJEC ), 
-    #'ak4PFCHSL1FastL2L3'),
-    CaloJetCorrectionService  = cms.string(  CaloJEC), 
-    #'ak4CaloL1FastL2L3'),
-    JPTJetCorrectionService   = cms.string(  JPTJEC), 
-    #'ak4JPTL1FastL2L3'),
-    PFJetCorrectionService    = cms.string(  PFJEC), 
-    #'ak4PFL1FastL2L3'),
+    PFCHSJetCorrectionToken   = cms.InputTag(PFCHSJEC), 
+    CaloJetCorrectionToken    = cms.InputTag(CaloJEC), 
+    JPTJetCorrectionToken     = cms.InputTag(JPTJEC), 
+    PFJetCorrectionToken      = cms.InputTag(PFJEC), 
     FixGridRho                = cms.InputTag('fixedGridRhoFastjetAll'),
     RhoSrc                    = cms.InputTag('ak4PFJets', 'rho'),
     SigmaSrc                  = cms.InputTag('ak4PFJets', 'sigma'),
@@ -724,11 +722,12 @@ if isData == True :
         #process.noscraping*
         process.primaryVertexFilter*
         #                     process.HBHENoiseFilter*
-        process.goodVertices * process.trackingFailureFilter *
+        process.goodVertices * 
+#process.trackingFailureFilter *
         process.trkPOGFilters*
         process.pfPileUpAllChargedParticlesClone*process.kt6PFJetsForCh*process.kt6PFJetsForCh2p4*
         process.kt6PFJetsForIso*
-        process.ak4CaloJetsL1FastL2L3Residual*
+ #       process.ak4CaloJetsL1FastL2L3Residual*
         #process.pfiso*
         #                    process.type0PFMEtCorrection*
         #                    process.producePFMETCorrections*
@@ -751,8 +750,9 @@ else :
         process.printList*
         process.primaryVertexFilter*
         #                     process.HBHENoiseFilter*
-        process.goodVertices * process.trackingFailureFilter *
-        process.trkPOGFilters*
+        process.goodVertices *
+# process.trackingFailureFilter *
+#        process.trkPOGFilters*
         process.selectedHadronsAndPartons*
         process.myak4PFJetFlavourInfos*process.myak4PFJetCHSFlavourInfos*process.myak4GenJetFlavourInfos*
         process.myPartons*
@@ -761,7 +761,7 @@ else :
         process.flavourByRefGenJet*process.flavourByValGenJet*
         process.pfPileUpAllChargedParticlesClone*process.kt6PFJetsForCh*process.kt6PFJetsForCh2p4*
         process.kt6PFJetsForIso*
-        process.ak4CaloJetsL1FastL2L3*
+#        process.ak4CaloJetsL1FastL2L3*
         #process.pfiso*
         #                    process.type0PFMEtCorrection*
         #                    process.producePFMETCorrections*

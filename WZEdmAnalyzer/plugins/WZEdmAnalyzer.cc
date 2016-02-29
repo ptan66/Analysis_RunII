@@ -134,7 +134,8 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   _kvfPSet(                    iConfig.getParameter<edm::ParameterSet>("KVFParameters")),
   _reco(                       iConfig.getParameter<bool>("RECO")),
   _reco_selection(             iConfig.getParameter<std::string>("RECOSELECTION")),
-  BeamSpotTags_(               iConfig.getParameter<edm::InputTag>("BeamSpot")), 
+  BeamSpotToken_(              consumes<reco::BeamSpot>(iConfig.getParameter<edm::InputTag>("BeamSpot"))), 
+  //  BeamSpotTags_(               iConfig.getParameter<edm::InputTag>("BeamSpot")), 
   Vertices_(                   iConfig.getParameter<std::string>("Vertices")),
   MuonCollectionTags_(         iConfig.getParameter<std::string>("Muons")),
   ElectronCollectionTags_(     iConfig.getParameter<std::string>("Electrons")),
@@ -168,11 +169,14 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   jetMinPt(                    iConfig.getParameter<double>("JetMinPt")),
   leptonThreshold(             iConfig.getParameter<double>("LeptonThreshold")),
   inputJetIDValueMap(          iConfig.getParameter<edm::InputTag>("InputJetIDValueMap")), 
-  // calojetIDHelperConfig(       iConfig.getParameter<edm::ParameterSet>( "JetIDParams" ) ), 
-  pfchsJetCorrectionService(   iConfig.getParameter<std::string>("PFCHSJetCorrectionService") ), 
-  caloJetCorrectionService(    iConfig.getParameter<std::string>("CaloJetCorrectionService") ), 
-  jptJetCorrectionService(     iConfig.getParameter<std::string>("JPTJetCorrectionService") ), 
-  pfJetCorrectionService(      iConfig.getParameter<std::string>("PFJetCorrectionService") ), 
+  pfchsJetCorrToken_(          consumes<reco::JetCorrector>(iConfig.getParameter<edm::InputTag>("PFCHSJetCorrectionToken"))), 
+  caloJetCorrToken_(           consumes<reco::JetCorrector>(iConfig.getParameter<edm::InputTag>("CaloJetCorrectionToken"))), 
+  jptJetCorrToken_(            consumes<reco::JetCorrector>(iConfig.getParameter<edm::InputTag>("JPTJetCorrectionToken"))), 
+  pfJetCorrToken_(             consumes<reco::JetCorrector>(iConfig.getParameter<edm::InputTag>("PFJetCorrectionToken"))), 
+  //  pfchsJetCorrectionService(   iConfig.getParameter<std::string>("PFCHSJetCorrectionService") ), 
+  // caloJetCorrectionService(    iConfig.getParameter<std::string>("CaloJetCorrectionService") ), 
+  //jptJetCorrectionService(     iConfig.getParameter<std::string>("JPTJetCorrectionService") ), 
+  // pfJetCorrectionService(      iConfig.getParameter<std::string>("PFJetCorrectionService") ), 
   FixGridRhoToken_(consumes<double> ( iConfig.getParameter<edm::InputTag>("FixGridRho"))), 
   RhoSrcLabel_(                iConfig.getParameter<edm::InputTag>("RhoSrc")), 
   SigmaSrcLabel_(              iConfig.getParameter<edm::InputTag>("SigmaSrc")), 
@@ -370,9 +374,10 @@ WZEdmAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
 
 
   // -- event filters;
-  edm::Handle<bool> trackingFailure;
-  iEvent.getByLabel("trackingFailureFilter", trackingFailure);
-  myEvent->getEventFilterBit()->trackingFailureFilter =  *(trackingFailure);
+  //edm::Handle<bool> trackingFailure;
+  // iEvent.getByToken("trackingFailureFilter", trackingFailure);
+  //  iEvent.getByLabel("trackingFailureFilter", trackingFailure);
+  //myEvent->getEventFilterBit()->trackingFailureFilter =  *(trackingFailure);
 
 
 
@@ -417,7 +422,8 @@ Handle<bool> CSCTightHaloFilterHandle;
   bField =  fabs(theMagneticField->inTesla(GlobalPoint(0,0,0)).z());
 
 
-  iEvent.getByLabel(BeamSpotTags_, recoBeamSpotHandle);              
+  iEvent.getByToken(BeamSpotToken_, recoBeamSpotHandle);              
+  //  iEvent.getByLabel(BeamSpotTags_, recoBeamSpotHandle);              
   if (recoBeamSpotHandle.isValid() ) {
     vertexBeamSpot = recoBeamSpotHandle.product();
   } else {
@@ -437,16 +443,20 @@ Handle<bool> CSCTightHaloFilterHandle;
 
 
   // (++). Access the jet correction
-  pfchsJetCorr= JetCorrector::getJetCorrector(pfchsJetCorrectionService,    iSetup);
-  caloJetCorr = JetCorrector::getJetCorrector(caloJetCorrectionService,     iSetup);
-  jptJetCorr  = JetCorrector::getJetCorrector(jptJetCorrectionService,      iSetup);
-  pfJetCorr   = JetCorrector::getJetCorrector(pfJetCorrectionService,       iSetup);
+  //  pfchsJetCorr= JetCorrector::getJetCorrector(pfchsJetCorrectionService,    iSetup);
+  //  caloJetCorr = JetCorrector::getJetCorrector(caloJetCorrectionService,     iSetup);
+  //  jptJetCorr  = JetCorrector::getJetCorrector(jptJetCorrectionService,      iSetup);
+  //  pfJetCorr   = JetCorrector::getJetCorrector(pfJetCorrectionService,       iSetup);
+
+  iEvent.getByToken(pfchsJetCorrToken_, pfchsJetCorr);
+  iEvent.getByToken(caloJetCorrToken_,  caloJetCorr);
+  iEvent.getByToken(jptJetCorrToken_,   jptJetCorr);
+  iEvent.getByToken(pfJetCorrToken_,    pfJetCorr);
 
 
 
   // (++) Access the uncertainty of the jet energy correction
   // pf jet 
-
   iSetup.get<JetCorrectionsRecord>().get("AK5PFCHS",pfchsJetCorParColl);
   if ( pfchsJetCorParColl.isValid() ) {
     pfchsJetUnc = new JetCorrectionUncertainty( (*pfchsJetCorParColl)["Uncertainty"]  );
