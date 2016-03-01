@@ -672,8 +672,6 @@ process.analyzer = cms.EDAnalyzer(
     SigmaSrcCHS               = cms.InputTag('ak4PFJetsCHS', 'sigma'),
     RhoSrcCalo                = cms.InputTag('ak4CaloJets', 'rho'),
     SigmaSrcCalo              = cms.InputTag('ak4CaloJets', 'sigma'),
-    RhoSrcTrack               = cms.InputTag('ak4TrackJets', 'rho'),
-    SigmaSrcTrack             = cms.InputTag('ak4TrackJets', 'sigma'),
     RhoIsoSrc                 = cms.InputTag('kt6PFJetsForIso', 'rho'),
     SigmaIsoSrc               = cms.InputTag('kt6PFJetsForIso', 'sigma'),
     RhoChSrc                  = cms.InputTag('kt6PFJetsForCh',  'rho'),
@@ -684,9 +682,7 @@ process.analyzer = cms.EDAnalyzer(
     TrackMinPtWithMCTruth     = cms.double(10),
     LeptonMinPtForComposition = cms.double(15),
     PhotonCollection          = cms.string("gedPhotons"),
-    L1ParticleMapCollection   = cms.string("l1extraParticleMap"),
     L1GTReadoutRecordLabel    = cms.InputTag('gtDigis'),
-    HLTL1GTObjectMapLabel     = cms.InputTag('hltL1GtObjectMap'), 
     TriggerResultsLabel       = cms.InputTag("TriggerResults","","HLT"),
     TriggerSummaryLabel       = cms.InputTag("hltTriggerSummaryAOD","","HLT"),
     TriggerRefPath            = cms.string("HLTriggerFinalPath"), 
@@ -702,7 +698,7 @@ process.analyzer = cms.EDAnalyzer(
     akGenJets                 = cms.string(  "ak4GenJets"),
     akGenJetFlavourInfos      = cms.InputTag("myak4GenJetFlavourInfos"),
     GenJetMinPt               = cms.double(5),
-    SimTracks                 = cms.string("g4SimHits"),
+  #  SimTracks                 = cms.string("g4SimHits"),
     DiLeptonMinMass           = cms.double(5)
     )
 

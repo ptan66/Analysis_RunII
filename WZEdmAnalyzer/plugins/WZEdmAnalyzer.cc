@@ -125,94 +125,93 @@ using namespace l1extra ;
 using namespace lhef;
 
 WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
-  _is_debug(                   iConfig.getParameter<bool>("DEBUG")),
-  _is_data(                    iConfig.getParameter<bool>("DATA")),
-  _gen_only(                   iConfig.getParameter<bool>("GEN_ONLY")),
-  _save_allevents(             iConfig.getParameter<bool>("SAVE_ALLEVENTS")),
-  _vertexing(                  iConfig.getParameter<bool>("VERTEXING")),
-  _smoothing(                  iConfig.getParameter<bool>("SMOOTHING")),
-  _kvfPSet(                    iConfig.getParameter<edm::ParameterSet>("KVFParameters")),
-  _reco(                       iConfig.getParameter<bool>("RECO")),
-  _reco_selection(             iConfig.getParameter<std::string>("RECOSELECTION")),
-  BeamSpotToken_(              consumes<reco::BeamSpot>(iConfig.getParameter<edm::InputTag>("BeamSpot"))), 
-  //  BeamSpotTags_(               iConfig.getParameter<edm::InputTag>("BeamSpot")), 
-  Vertices_(                   iConfig.getParameter<std::string>("Vertices")),
-  MuonCollectionTags_(         iConfig.getParameter<std::string>("Muons")),
-  ElectronCollectionTags_(     iConfig.getParameter<std::string>("Electrons")),
-  _effectiveAreas(            (iConfig.getParameter<edm::FileInPath>("EffAreasConfigFile")).fullPath()),
-  EleLooseIdMapToken_(         consumes<edm::ValueMap<bool> >(          iConfig.getParameter<edm::InputTag>("EleLooseIdMap"))),
-  EleMediumIdMapToken_(        consumes<edm::ValueMap<bool> >(         iConfig.getParameter<edm::InputTag>("EleMediumIdMap"))),
-  EleTightIdMapToken_(         consumes<edm::ValueMap<bool> >(          iConfig.getParameter<edm::InputTag>("EleTightIdMap"))), 
+  _is_debug(                    iConfig.getParameter<bool>("DEBUG")),
+  _is_data(                     iConfig.getParameter<bool>("DATA")),
+  _gen_only(                    iConfig.getParameter<bool>("GEN_ONLY")),
+  _save_allevents(              iConfig.getParameter<bool>("SAVE_ALLEVENTS")),
+  _vertexing(                   iConfig.getParameter<bool>("VERTEXING")),
+  _smoothing(                   iConfig.getParameter<bool>("SMOOTHING")),
+  _kvfPSet(                     iConfig.getParameter<edm::ParameterSet>("KVFParameters")),
+  _reco(                        iConfig.getParameter<bool>("RECO")),
+  _reco_selection(              iConfig.getParameter<std::string>("RECOSELECTION")),
+  BeamSpotToken_(               consumes<reco::BeamSpot>(iConfig.getParameter<edm::InputTag>("BeamSpot"))), 
+  VerticesToken_(               consumes<reco::VertexCollection> (iConfig.getParameter<std::string>("Vertices"))),
+  MuonCollectionToken_(         consumes<reco::MuonCollection> (iConfig.getParameter<std::string>("Muons"))),
+  ElectronCollectionToken_(     consumes<reco::GsfElectronCollection> ( iConfig.getParameter<std::string>("Electrons"))),
+  _effectiveAreas(             (iConfig.getParameter<edm::FileInPath>("EffAreasConfigFile")).fullPath()),
+  EleLooseIdMapToken_(          consumes<edm::ValueMap<bool> >(          iConfig.getParameter<edm::InputTag>("EleLooseIdMap"))),
+  EleMediumIdMapToken_(         consumes<edm::ValueMap<bool> >(         iConfig.getParameter<edm::InputTag>("EleMediumIdMap"))),
+  EleTightIdMapToken_(          consumes<edm::ValueMap<bool> >(          iConfig.getParameter<edm::InputTag>("EleTightIdMap"))), 
   ElectronEcalPFClusterIsolationProducerToken_(      consumes<edm::ValueMap<float> >(      iConfig.getParameter<edm::InputTag>("ElectronEcalPFClusterIsolationProducer"))),
   ElectronHcalPFClusterIsolationProducerToken_(      consumes<edm::ValueMap<float> >(      iConfig.getParameter<edm::InputTag>("ElectronHcalPFClusterIsolationProducer"))),
-  TrigMvaValuesMapToken_(      consumes<edm::ValueMap<float> >(      iConfig.getParameter<edm::InputTag>("TrigMvaValuesMap"))),
-  TrigMvaCategoriesMapToken_(  consumes<edm::ValueMap<int> >(    iConfig.getParameter<edm::InputTag>("TrigMvaCategoriesMap"))),
-  TrigMvaMediumIdMapsToken_(   consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("TrigMvaMediumIdMaps"))),
-  TrigMvaTightIdMapsToken_(    consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("TrigMvaTightIdMaps"))),
-  NonTrigMvaValuesMapToken_(   consumes<edm::ValueMap<float> >(   iConfig.getParameter<edm::InputTag>("NonTrigMvaValuesMap"))),
+  TrigMvaValuesMapToken_(       consumes<edm::ValueMap<float> >(      iConfig.getParameter<edm::InputTag>("TrigMvaValuesMap"))),
+  TrigMvaCategoriesMapToken_(   consumes<edm::ValueMap<int> >(    iConfig.getParameter<edm::InputTag>("TrigMvaCategoriesMap"))),
+  TrigMvaMediumIdMapsToken_(    consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("TrigMvaMediumIdMaps"))),
+  TrigMvaTightIdMapsToken_(     consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("TrigMvaTightIdMaps"))),
+  NonTrigMvaValuesMapToken_(    consumes<edm::ValueMap<float> >(   iConfig.getParameter<edm::InputTag>("NonTrigMvaValuesMap"))),
   NonTrigMvaCategoriesMapToken_(consumes<edm::ValueMap<int> >( iConfig.getParameter<edm::InputTag>("NonTrigMvaCategoriesMap"))),
-  NonTrigMvaMediumIdMapsToken_(consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("NonTrigMvaMediumIdMaps"))),
-  NonTrigMvaTightIdMapsToken_( consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("NonTrigMvaTightIdMaps"))),
-  PFCHSJetTags_(               iConfig.getParameter<std::string>("PFCHSJets")),
-  pfchsJetFlavourInfosToken_(  consumes<reco::JetFlavourInfoMatchingCollection>( iConfig.getParameter<edm::InputTag>("PFCHSJetFlavourInfos") ) ), 
-  PFCHSJetTagInfos_(           iConfig.getParameter<std::vector< std::string> >("PFCHSJetTagInfos")), 
-  CaloJetTags_(                iConfig.getParameter<std::string>("CaloJets")),
-  recoCaloTag_(                iConfig.getParameter<edm::InputTag>("CaloJetFlavourInfos")), 
-  CaloJetTagInfos_(            iConfig.getParameter<std::vector< std::string> >("CaloJetTagInfos")), 
-  JPTJetTags_(                 iConfig.getParameter<std::string>("JPTJets")),
-  recoJPTTag_(                 iConfig.getParameter<edm::InputTag>("JPTJetFlavourInfos")), 
-  JPTJetTagInfos_(             iConfig.getParameter<std::vector< std::string> >("JPTJetTagInfos")), 
-  PFJetTags_(                  iConfig.getParameter<std::string>("PFJets")),
-  pfJetFlavourInfosToken_(     consumes<reco::JetFlavourInfoMatchingCollection>( iConfig.getParameter<edm::InputTag>("PFJetFlavourInfos") ) ), 
-  PFJetTagInfos_(              iConfig.getParameter<std::vector< std::string> >("PFJetTagInfos")), 
-  JetTagCollectionTags_(       iConfig.getParameter<std::vector< std::string> >("JetTagCollections")),
-  jetMinPt(                    iConfig.getParameter<double>("JetMinPt")),
-  leptonThreshold(             iConfig.getParameter<double>("LeptonThreshold")),
-  inputJetIDValueMap(          iConfig.getParameter<edm::InputTag>("InputJetIDValueMap")), 
-  pfchsJetCorrToken_(          consumes<reco::JetCorrector>(iConfig.getParameter<edm::InputTag>("PFCHSJetCorrectionToken"))), 
-  caloJetCorrToken_(           consumes<reco::JetCorrector>(iConfig.getParameter<edm::InputTag>("CaloJetCorrectionToken"))), 
-  jptJetCorrToken_(            consumes<reco::JetCorrector>(iConfig.getParameter<edm::InputTag>("JPTJetCorrectionToken"))), 
-  pfJetCorrToken_(             consumes<reco::JetCorrector>(iConfig.getParameter<edm::InputTag>("PFJetCorrectionToken"))), 
-  //  pfchsJetCorrectionService(   iConfig.getParameter<std::string>("PFCHSJetCorrectionService") ), 
-  // caloJetCorrectionService(    iConfig.getParameter<std::string>("CaloJetCorrectionService") ), 
-  //jptJetCorrectionService(     iConfig.getParameter<std::string>("JPTJetCorrectionService") ), 
-  // pfJetCorrectionService(      iConfig.getParameter<std::string>("PFJetCorrectionService") ), 
-  FixGridRhoToken_(consumes<double> ( iConfig.getParameter<edm::InputTag>("FixGridRho"))), 
-  RhoSrcLabel_(                iConfig.getParameter<edm::InputTag>("RhoSrc")), 
-  SigmaSrcLabel_(              iConfig.getParameter<edm::InputTag>("SigmaSrc")), 
-  RhoIsoSrcLabel_(             iConfig.getParameter<edm::InputTag>("RhoIsoSrc")), 
-  SigmaIsoSrcLabel_(           iConfig.getParameter<edm::InputTag>("SigmaIsoSrc")), 
-  RhoChSrcLabel_(              iConfig.getParameter<edm::InputTag>("RhoChSrc")), 
-  SigmaChSrcLabel_(            iConfig.getParameter<edm::InputTag>("SigmaChSrc")), 
-  RhoCh2p4SrcLabel_(           iConfig.getParameter<edm::InputTag>("RhoCh2p4Src")), 
-  SigmaCh2p4SrcLabel_(         iConfig.getParameter<edm::InputTag>("SigmaCh2p4Src")), 
-  TrackCollectionTags_(        iConfig.getParameter<std::string>("Tracks")),
-  trackMinPtWithMCTruth(       iConfig.getParameter<double>("TrackMinPtWithMCTruth")),
-  leptonMinPtForComposition(   iConfig.getParameter<double>("LeptonMinPtForComposition")),
-  PhotonCollectionTags_(       iConfig.getParameter<std::string>("PhotonCollection")),
-  L1ParticleMapCollectionTags_(iConfig.getParameter<std::string>("L1ParticleMapCollection")),
-  L1GTReadoutRecordLabel_(     iConfig.getParameter<edm::InputTag>("L1GTReadoutRecordLabel")),
-  HLTL1GTObjectMapLabel_(      iConfig.getParameter<edm::InputTag>("HLTL1GTObjectMapLabel")),
-  TriggerResultsLabel_(        iConfig.getParameter<edm::InputTag>("TriggerResultsLabel")),
-  TriggerSummaryLabel_(        iConfig.getParameter<edm::InputTag>("TriggerSummaryLabel")),
-  TriggerRefPath_(             iConfig.getParameter<std::string>("TriggerRefPath")),
-  tmpHLTTriggerMuons_(         iConfig.getParameter<std::vector< std::string> >("HLTTriggerMuons")), 
-  tmpHLTTriggerMuonElectrons_( iConfig.getParameter<std::vector< std::string> >("HLTTriggerMuonElectrons")), 
-  tmpHLTTriggerElectrons_(     iConfig.getParameter<std::vector< std::string> >("HLTTriggerElectrons")), 
-  GeneratorLevelTag_(          iConfig.getParameter<std::string>("GeneratorLevelTag")),
-  LHEEventProductTag_(         iConfig.getParameter<edm::InputTag>("LHEEventProductTag")),
-  GenJetAlgorithmTags_(        iConfig.getParameter<std::string>("GenJets")),
-  akGenJetAlgorithmTags_(      iConfig.getParameter<std::string>("akGenJets")),
-  genJetFlavourInfosToken_(    consumes<reco::JetFlavourInfoMatchingCollection>( iConfig.getParameter<edm::InputTag>("akGenJetFlavourInfos") ) ), 
+  NonTrigMvaMediumIdMapsToken_( consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("NonTrigMvaMediumIdMaps"))),
+  NonTrigMvaTightIdMapsToken_(  consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("NonTrigMvaTightIdMaps"))),
+  PFCHSJetToken_(               consumes<reco::PFJetCollection>( iConfig.getParameter<std::string>("PFCHSJets"))),
+  pfchsJetFlavourInfosToken_(   consumes<reco::JetFlavourInfoMatchingCollection>( iConfig.getParameter<edm::InputTag>("PFCHSJetFlavourInfos") ) ), 
+  PFCHSJetTagInfos_(            iConfig.getParameter<std::vector< std::string> >("PFCHSJetTagInfos")), 
+  CaloJetToken_(                consumes<reco::CaloJetCollection>( iConfig.getParameter<std::string>("CaloJets"))),
+  recoCaloToken_(               consumes<reco::JetFlavourMatchingCollection>(iConfig.getParameter<edm::InputTag>("CaloJetFlavourInfos"))), 
+  CaloJetTagInfos_(             iConfig.getParameter<std::vector< std::string> >("CaloJetTagInfos")), 
+  JPTJetToken_(                 consumes<reco::JPTJetCollection>( iConfig.getParameter<std::string>("JPTJets"))),
+  recoJPTToken_(                consumes<reco::JetFlavourMatchingCollection>(iConfig.getParameter<edm::InputTag>("JPTJetFlavourInfos"))), 
+  JPTJetTagInfos_(              iConfig.getParameter<std::vector< std::string> >("JPTJetTagInfos")), 
+  PFJetToken_(                  consumes<reco::PFJetCollection>( iConfig.getParameter<std::string>("PFJets"))),
+  pfJetFlavourInfosToken_(      consumes<reco::JetFlavourInfoMatchingCollection>( iConfig.getParameter<edm::InputTag>("PFJetFlavourInfos") ) ), 
+  PFJetTagInfos_(               iConfig.getParameter<std::vector< std::string> >("PFJetTagInfos")), 
+  JetTagCollectionTags_(        iConfig.getParameter<std::vector< std::string> >("JetTagCollections")),
+  jetMinPt(                     iConfig.getParameter<double>("JetMinPt")),
+  leptonThreshold(              iConfig.getParameter<double>("LeptonThreshold")),
+  inputJetIDValueMap(           iConfig.getParameter<edm::InputTag>("InputJetIDValueMap")), 
+  pfchsJetCorrToken_(           consumes<reco::JetCorrector>(iConfig.getParameter<edm::InputTag>("PFCHSJetCorrectionToken"))), 
+  caloJetCorrToken_(            consumes<reco::JetCorrector>(iConfig.getParameter<edm::InputTag>("CaloJetCorrectionToken"))), 
+  jptJetCorrToken_(             consumes<reco::JetCorrector>(iConfig.getParameter<edm::InputTag>("JPTJetCorrectionToken"))), 
+  pfJetCorrToken_(              consumes<reco::JetCorrector>(iConfig.getParameter<edm::InputTag>("PFJetCorrectionToken"))), 
+  FixGridRhoToken_(             consumes<double> (iConfig.getParameter<edm::InputTag>("FixGridRho"))), 
+  RhoSrcToken_(                 consumes<double> (iConfig.getParameter<edm::InputTag>("RhoSrc"))), 
+  SigmaSrcToken_(               consumes<double> (iConfig.getParameter<edm::InputTag>("SigmaSrc"))), 
+  RhoSrcTokenCHS_(              consumes<double> (iConfig.getParameter<edm::InputTag>("RhoSrcCHS"))), 
+  SigmaSrcTokenCHS_(            consumes<double> (iConfig.getParameter<edm::InputTag>("SigmaSrcCHS"))), 
+  RhoSrcTokenCalo_(             consumes<double> (iConfig.getParameter<edm::InputTag>("RhoSrcCalo"))), 
+  SigmaSrcTokenCalo_(           consumes<double> (iConfig.getParameter<edm::InputTag>("SigmaSrcCalo"))), 
+  RhoIsoSrcToken_(              consumes<double> (iConfig.getParameter<edm::InputTag>("RhoIsoSrc"))), 
+  SigmaIsoSrcToken_(            consumes<double> (iConfig.getParameter<edm::InputTag>("SigmaIsoSrc"))), 
+  RhoChSrcToken_(               consumes<double> (iConfig.getParameter<edm::InputTag>("RhoChSrc"))), 
+  SigmaChSrcToken_(             consumes<double> (iConfig.getParameter<edm::InputTag>("SigmaChSrc"))), 
+  RhoCh2p4SrcToken_(            consumes<double> (iConfig.getParameter<edm::InputTag>("RhoCh2p4Src"))), 
+  SigmaCh2p4SrcToken_(          consumes<double> (iConfig.getParameter<edm::InputTag>("SigmaCh2p4Src"))), 
+  TrackCollectionToken_(        consumes<reco::TrackCollection>(iConfig.getParameter<std::string>("Tracks"))),
+  trackMinPtWithMCTruth(        iConfig.getParameter<double>("TrackMinPtWithMCTruth")),
+  leptonMinPtForComposition(    iConfig.getParameter<double>("LeptonMinPtForComposition")),
+  PhotonCollectionToken_(       consumes<reco::PhotonCollection> (iConfig.getParameter<std::string>("PhotonCollection"))),
+  L1GTReadoutRecordToken_(      consumes<L1GlobalTriggerReadoutRecord> (iConfig.getParameter<edm::InputTag>("L1GTReadoutRecordLabel"))),
+  TriggerResultsToken_(         consumes<edm::TriggerResults> (iConfig.getParameter<edm::InputTag>("TriggerResultsLabel"))),
+  TriggerSummaryToken_(         consumes<trigger::TriggerEvent> (iConfig.getParameter<edm::InputTag>("TriggerSummaryLabel"))),
+  TriggerRefPath_(              iConfig.getParameter<std::string>("TriggerRefPath")),
+  tmpHLTTriggerMuons_(          iConfig.getParameter<std::vector< std::string> >("HLTTriggerMuons")), 
+  tmpHLTTriggerMuonElectrons_(  iConfig.getParameter<std::vector< std::string> >("HLTTriggerMuonElectrons")), 
+  tmpHLTTriggerElectrons_(      iConfig.getParameter<std::vector< std::string> >("HLTTriggerElectrons")), 
+  GeneratorLevelToken_(         consumes<GenEventInfoProduct> (iConfig.getParameter<std::string>("GeneratorLevelTag"))),
+  LHEEventProductToken_(        consumes<LHEEventProduct> (iConfig.getParameter<edm::InputTag>("LHEEventProductTag"))),
+  GenJetAlgorithmToken_(        consumes<reco::GenJetCollection> (iConfig.getParameter<std::string>("GenJets"))),
+  akGenJetAlgorithmToken_(      consumes<reco::GenJetCollection> (iConfig.getParameter<std::string>("akGenJets"))),
+  genJetFlavourInfosToken_(     consumes<reco::JetFlavourInfoMatchingCollection> (iConfig.getParameter<edm::InputTag>("akGenJetFlavourInfos") ) ), 
 
-  genJetMinPt(                 iConfig.getParameter<double>("GenJetMinPt")),
-  SimTrackTags_(               iConfig.getParameter<std::string>("SimTracks")),
-  diLeptonMinMass(             iConfig.getParameter<double>("DiLeptonMinMass")) {
+  genJetMinPt(                  iConfig.getParameter<double>("GenJetMinPt")),
+  //  SimTrackTags_(                iConfig.getParameter<std::string>("SimTracks")),
+  diLeptonMinMass(              iConfig.getParameter<double>("DiLeptonMinMass")) {
 
 
   // for accessing trigger information
-  TriggerProcess_ = TriggerResultsLabel_.process();
+  //  TriggerProcess_ = TriggerResultsLabel_.process();
+  TriggerProcess_ = (iConfig.getParameter<edm::InputTag>("TriggerResultsLabel")).process();
 
+  std::cout << "trigger process label: " << TriggerProcess_ << std::endl;
 
   if (!_gen_only) {
     fitter = new KalmanVertexFitter(_kvfPSet , _smoothing);
@@ -222,11 +221,52 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
 
 
 
-  jetID_ValueMapToken_= consumes< edm::ValueMap<reco::JetID> >(inputJetIDValueMap);
+  jetID_ValueMapToken_             = consumes< edm::ValueMap<reco::JetID> >(inputJetIDValueMap);
+  SuperClusterCollectionToken_     = consumes<reco::SuperClusterCollection>(edm::InputTag("superClusters"));
+  ConversionCollectionToken_       = consumes<reco::ConversionCollection>(edm::InputTag("allConversions"));
+  GenParticleCollectionToken_      = consumes<reco::GenParticleCollection>(edm::InputTag( "genParticles" ));
+
+
+  // btagging tokens
+  jetTagsToken_                    = consumes<reco::JetTagCollection>( edm::InputTag( JetTagCollectionTags_[0] ) );
+  jetTagsCSVToken_                 = consumes<reco::JetTagCollection>( edm::InputTag( JetTagCollectionTags_[1] ) );
+
+  myPFCHSJetTagsTCHPToken_         = consumes<reco::JetTagCollection>( edm::InputTag( PFCHSJetTagInfos_[0] ) );
+  myPFCHSJetTagsJPToken_           = consumes<reco::JetTagCollection>( edm::InputTag( PFCHSJetTagInfos_[1] ) );
+  myPFCHSJetTagsCSVToken_          = consumes<reco::JetTagCollection>( edm::InputTag( PFCHSJetTagInfos_[2] ) );
+
+  myCaloJetTagsTCHPToken_          = consumes<reco::JetTagCollection>( edm::InputTag( CaloJetTagInfos_[0] ) );
+  myCaloJetTagsJPToken_            = consumes<reco::JetTagCollection>( edm::InputTag( CaloJetTagInfos_[1] ) );
+  myCaloJetTagsCSVToken_           = consumes<reco::JetTagCollection>( edm::InputTag( CaloJetTagInfos_[2] ) );
+
+  myJPTJetTagsTCHPToken_           = consumes<reco::JetTagCollection>( edm::InputTag( JPTJetTagInfos_[0] ) );
+  myJPTJetTagsJPToken_             = consumes<reco::JetTagCollection>( edm::InputTag( JPTJetTagInfos_[1] ) );
+  myJPTJetTagsCSVToken_            = consumes<reco::JetTagCollection>( edm::InputTag( JPTJetTagInfos_[2] ) );
+
+  myPFJetTagsTCHPToken_            = consumes<reco::JetTagCollection>( edm::InputTag( PFJetTagInfos_[0] ) );
+  myPFJetTagsJPToken_              = consumes<reco::JetTagCollection>( edm::InputTag( PFJetTagInfos_[1] ) );
+  myPFJetTagsCSVToken_             = consumes<reco::JetTagCollection>( edm::InputTag( PFJetTagInfos_[2] ) );
+
+
+  QGTagsHandleMLPToken_            = consumes<edm::ValueMap<float> > (  edm::InputTag("QGTagger","qgMLP") );
+  QGTagsHandleLikelihoodToken_     = consumes<edm::ValueMap<float> > (  edm::InputTag("QGTagger","qgLikelihood") );
+
+  ecalEBRecHitToken_               = consumes<EBRecHitCollection> (edm::InputTag("reducedEcalRecHitsEB") );
+  ecalEERecHitToken_               = consumes<EERecHitCollection> (edm::InputTag("reducedEcalRecHitsEE") );
+ 
+
+  tevMapH1Token_                   = consumes<reco::TrackToTrackMap>( edm::InputTag("tevMuons", "default") ); 
+  tevMapH2Token_                   = consumes<reco::TrackToTrackMap>( edm::InputTag("tevMuons", "firstHit") ); 
+  tevMapH3Token_                   = consumes<reco::TrackToTrackMap>( edm::InputTag("tevMuons", "picky") ); 
+
+  PupInfoToken_                    = consumes<std::vector< PileupSummaryInfo > > ( edm::InputTag("addPileupInfo") );
 
 
 
+  genEventInfoToken_               =  consumes<GenEventInfoProduct>(edm::InputTag("generator"));
 
+  theGenToken_                     =  consumes<reco::JetFlavourMatchingCollection>(edm::InputTag("flavourByValGenJet"));
+  genMETToken_                     =  consumes<GenMETCollection>(edm::InputTag("genMetTrue"));
 
 
   this->displayConfig();
@@ -338,16 +378,16 @@ WZEdmAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
 
     if (_reco) {
 
-      iEvent.getByLabel(GeneratorLevelTag_,     mcTruth);
+      iEvent.getByToken(GeneratorLevelToken_,     mcTruth);
       this->fillMCInfo(mcTruth,                 myMCTruth);
       this->fillGenWZ(mcTruth,                  myGenWZ);
 
     } else {
 
 
-      iEvent.getByLabel( "genParticles",        genParticles );
-      bool hasLHE = //iEvent.getByType( lheEventInfo );
-	iEvent.getByLabel( LHEEventProductTag_, lheEventInfo );
+
+      iEvent.getByToken( GenParticleCollectionToken_,      genParticles );
+      bool hasLHE = iEvent.getByToken( LHEEventProductToken_, lheEventInfo );
 
       if (hasLHE)  copyLHEweights( myEvent, lheEventInfo.product() );
 
@@ -496,16 +536,16 @@ Handle<bool> CSCTightHaloFilterHandle;
 
   iEvent.getByToken(FixGridRhoToken_, fixGridRhoHandle);  
 
-  iEvent.getByLabel(RhoSrcLabel_,          rhoHandle);         
-  iEvent.getByLabel(SigmaSrcLabel_,        sigmaHandle);         
+  iEvent.getByToken(RhoSrcToken_,          rhoHandle);         
+  iEvent.getByToken(SigmaSrcToken_,        sigmaHandle);         
   if (rhoHandle.isValid() && sigmaHandle.isValid() ) {
     myEvent->rho      = *rhoHandle;
     myEvent->sigma    = *sigmaHandle;
   }
 
   // default rho value for ak4PFjetCHS
-  iEvent.getByLabel(RhoSrcLabelCHS_,          rhoHandleCHS);         
-  iEvent.getByLabel(SigmaSrcLabelCHS_,        sigmaHandleCHS);  
+  iEvent.getByToken(RhoSrcTokenCHS_,          rhoHandleCHS);         
+  iEvent.getByToken(SigmaSrcTokenCHS_,        sigmaHandleCHS);  
   if (rhoHandleCHS.isValid() && sigmaHandleCHS.isValid() ) {
 
     myEvent->rhoCHS      = *rhoHandleCHS;
@@ -514,8 +554,8 @@ Handle<bool> CSCTightHaloFilterHandle;
 
   
   // default rho value for ak4CaloJet
-  iEvent.getByLabel(RhoSrcLabelCalo_,          rhoHandleCalo);         
-  iEvent.getByLabel(SigmaSrcLabelCalo_,        sigmaHandleCalo);         
+  iEvent.getByToken(RhoSrcTokenCalo_,          rhoHandleCalo);         
+  iEvent.getByToken(SigmaSrcTokenCalo_,        sigmaHandleCalo);         
   if (rhoHandleCalo.isValid() && sigmaHandleCalo.isValid() ) {
 
     myEvent->rhoCalo      = *rhoHandleCalo;
@@ -523,31 +563,31 @@ Handle<bool> CSCTightHaloFilterHandle;
   }
 
   // default rho value for track jet
-  iEvent.getByLabel(RhoSrcLabelTrack_,          rhoHandleTrack);         
-  iEvent.getByLabel(SigmaSrcLabelTrack_,        sigmaHandleTrack);         
-  if (rhoHandleTrack.isValid() && sigmaHandleTrack.isValid() ) {
-    myEvent->rhoTrack      = *rhoHandleTrack;
-    myEvent->sigmaTrack    = *sigmaHandleTrack;
-  }
+  //  iEvent.getByToken(RhoSrcTokenTrack_,          rhoHandleTrack);         
+  // iEvent.getByToken(SigmaSrcTokenTrack_,        sigmaHandleTrack);         
+  // if (rhoHandleTrack.isValid() && sigmaHandleTrack.isValid() ) {
+  //  myEvent->rhoTrack      = *rhoHandleTrack;
+  //  myEvent->sigmaTrack    = *sigmaHandleTrack;
+  // }
 
   // others
-  iEvent.getByLabel(RhoIsoSrcLabel_,       rhoIsoHandle);   
-  iEvent.getByLabel(SigmaIsoSrcLabel_,     sigmaIsoHandle);   
+  iEvent.getByToken(RhoIsoSrcToken_,       rhoIsoHandle);   
+  iEvent.getByToken(SigmaIsoSrcToken_,     sigmaIsoHandle);   
   myEvent->rhoIso   = *rhoIsoHandle;
   myEvent->sigmaIso = *sigmaIsoHandle;
 
 
 
-  iEvent.getByLabel(RhoChSrcLabel_,       rhoChHandle);   
-  iEvent.getByLabel(SigmaChSrcLabel_,     sigmaChHandle);   
+  iEvent.getByToken(RhoChSrcToken_,       rhoChHandle);   
+  iEvent.getByToken(SigmaChSrcToken_,     sigmaChHandle);   
   myEvent->rhoCh   = *rhoChHandle;
   myEvent->sigmaCh = *sigmaChHandle;
 
 
 
   // eta up to 2.4
-  iEvent.getByLabel(RhoCh2p4SrcLabel_,       rhoCh2p4Handle);   
-  iEvent.getByLabel(SigmaCh2p4SrcLabel_,     sigmaCh2p4Handle);   
+  iEvent.getByToken(RhoCh2p4SrcToken_,       rhoCh2p4Handle);   
+  iEvent.getByToken(SigmaCh2p4SrcToken_,     sigmaCh2p4Handle);   
   myEvent->rhoCh2p4   = *rhoCh2p4Handle;
   myEvent->sigmaCh2p4 = *sigmaCh2p4Handle;
 
@@ -562,26 +602,25 @@ Handle<bool> CSCTightHaloFilterHandle;
 
 
   // (++). Extract trigger information
-  iEvent.getByLabel(L1GTReadoutRecordLabel_,          l1TriggerReadoutRec);
-  iEvent.getByLabel("hltL1GtObjectMap",               hltL1GTObjMap);
+  iEvent.getByToken(L1GTReadoutRecordToken_,          l1TriggerReadoutRec);
   iSetup.get<L1GtTriggerMenuRcd>().get(               l1GTTriggerMenu);
 
 
-  iEvent.getByLabel(TriggerResultsLabel_,             triggerResults);
-  iEvent.getByLabel(TriggerSummaryLabel_,             triggerObj);
+  iEvent.getByToken(TriggerResultsToken_,             triggerResults);
+  iEvent.getByToken(TriggerSummaryToken_,             triggerObj);
 
   // (++). Define and extract container item
-  iEvent.getByLabel(Vertices_,                        recVtxs);
-  iEvent.getByLabel(TrackCollectionTags_,             tracks);
-  iEvent.getByLabel(MuonCollectionTags_,              muons);
-  iEvent.getByLabel(ElectronCollectionTags_,          electrons);
-  iEvent.getByLabel(PFCHSJetTags_,                    pfchsJets);
-  iEvent.getByLabel(CaloJetTags_,                     caloJets);
-  iEvent.getByLabel(JPTJetTags_,                      jptJets);
-  iEvent.getByLabel(PFJetTags_,                       pfJets);
-  iEvent.getByLabel(PhotonCollectionTags_,            photons);
-  iEvent.getByLabel("superClusters",                  superclusters);
-  iEvent.getByLabel("allConversions",                 convCol);
+  iEvent.getByToken(VerticesToken_,                   recVtxs);
+  iEvent.getByToken(TrackCollectionToken_,            tracks);
+  iEvent.getByToken(MuonCollectionToken_,              muons);
+  iEvent.getByToken(ElectronCollectionToken_,          electrons);
+  iEvent.getByToken(PFCHSJetToken_,                    pfchsJets);
+  iEvent.getByToken(CaloJetToken_,                     caloJets);
+  iEvent.getByToken(JPTJetToken_,                      jptJets);
+  iEvent.getByToken(PFJetToken_,                       pfJets);
+  iEvent.getByToken(PhotonCollectionToken_,            photons);
+  iEvent.getByToken(SuperClusterCollectionToken_,      superclusters);
+  iEvent.getByToken(ConversionCollectionToken_,        convCol);
 
 
 
@@ -637,40 +676,35 @@ Handle<bool> CSCTightHaloFilterHandle;
 
 
   // btagging 
-  iEvent.getByLabel(JetTagCollectionTags_[0],  jetTags);
-  iEvent.getByLabel(JetTagCollectionTags_[1],  jetTagsCSV);
+  iEvent.getByToken(jetTagsToken_,             jetTags);
+  iEvent.getByToken(jetTagsCSVToken_,          jetTagsCSV);
 
-  //  iEvent.getByLabel("MyJetProbabilityBJetTags",             myJetTagsJP);
-  // iEvent.getByLabel("MyTrackCountingHighPurBJetTags",        myJetTagsTCHP);
-  // iEvent.getByLabel("MyCombinedSecondaryVertexV2BJetTags",     myJetTagsCSV);
 
   // ak4pfchs
-  iEvent.getByLabel(PFCHSJetTagInfos_[0],      myPFCHSJetTagsTCHP);
-  iEvent.getByLabel(PFCHSJetTagInfos_[1],      myPFCHSJetTagsJP);
-  iEvent.getByLabel(PFCHSJetTagInfos_[2],      myPFCHSJetTagsCSV);
-
-  // calo jet
-  iEvent.getByLabel(CaloJetTagInfos_[0],       myCaloJetTagsTCHP);
-  iEvent.getByLabel(CaloJetTagInfos_[1],       myCaloJetTagsJP);
-  iEvent.getByLabel(CaloJetTagInfos_[2],       myCaloJetTagsCSV);
+  iEvent.getByToken(myPFCHSJetTagsTCHPToken_,  myPFCHSJetTagsTCHP);
+  iEvent.getByToken(myPFCHSJetTagsJPToken_,    myPFCHSJetTagsJP);
+  iEvent.getByToken(myPFCHSJetTagsCSVToken_,   myPFCHSJetTagsCSV);
 
 
-  // JPT jet
-  iEvent.getByLabel(JPTJetTagInfos_[0],        myJPTJetTagsTCHP);
-  iEvent.getByLabel(JPTJetTagInfos_[1],        myJPTJetTagsJP);
-  iEvent.getByLabel(JPTJetTagInfos_[2],        myJPTJetTagsCSV);
+  iEvent.getByToken(myCaloJetTagsTCHPToken_,   myCaloJetTagsTCHP);
+  iEvent.getByToken(myCaloJetTagsJPToken_,     myCaloJetTagsJP);
+  iEvent.getByToken(myCaloJetTagsCSVToken_,    myCaloJetTagsCSV);
 
 
-  // PF jet
-  iEvent.getByLabel(PFJetTagInfos_[0],         myPFJetTagsTCHP);
-  iEvent.getByLabel(PFJetTagInfos_[1],         myPFJetTagsJP);
-  iEvent.getByLabel(PFJetTagInfos_[2],         myPFJetTagsCSV);
+  iEvent.getByToken(myJPTJetTagsTCHPToken_,    myJPTJetTagsTCHP);
+  iEvent.getByToken(myJPTJetTagsJPToken_,      myJPTJetTagsJP);
+  iEvent.getByToken(myJPTJetTagsCSVToken_,     myJPTJetTagsCSV);
 
+
+  iEvent.getByToken(myPFJetTagsTCHPToken_,     myPFJetTagsTCHP);
+  iEvent.getByToken(myPFJetTagsJPToken_,       myPFJetTagsJP);
+  iEvent.getByToken(myPFJetTagsCSVToken_,      myPFJetTagsCSV);
 
 
   // quark gluon likelihood separator
-  iEvent.getByLabel("QGTagger","qgMLP", QGTagsHandleMLP);
-  iEvent.getByLabel("QGTagger","qgLikelihood", QGTagsHandleLikelihood);
+
+  iEvent.getByToken(QGTagsHandleMLPToken_,        QGTagsHandleMLP);
+  iEvent.getByToken(QGTagsHandleLikelihoodToken_, QGTagsHandleLikelihood);
 
 
 
@@ -681,13 +715,11 @@ Handle<bool> CSCTightHaloFilterHandle;
   //  iEvent.getByLabel("pfMet",                          pfMEThandle);
   //  iEvent.getByLabel("metMuonJESCorAK5",               muJESCorrMEThandle);
 
-  // ecal hits handle
-  // if (_reco) {
-  iEvent.getByLabel("reducedEcalRecHitsEB",         ecalEBRecHitHandle);
-  iEvent.getByLabel("reducedEcalRecHitsEE",         ecalEERecHitHandle);
-    // }
+  iEvent.getByToken(ecalEBRecHitToken_,           ecalEBRecHitHandle);
+  iEvent.getByToken(ecalEERecHitToken_,           ecalEERecHitHandle);
+ 
 
-  //  EcalClusterLazyTools *lazyTools(iEvent, iSetup, ecalEBRecHitHandle.product(),ecalEERecHitHandle.product() );
+ //  EcalClusterLazyTools *lazyTools(iEvent, iSetup, ecalEBRecHitHandle.product(),ecalEERecHitHandle.product() );
 
 
 
@@ -712,16 +744,15 @@ Handle<bool> CSCTightHaloFilterHandle;
 
   recoTracks       =   tracks.product();
   recoMuons        =   muons.product();
-  //  recoJets         =   jets.product();
   recoPhotons      =   photons.product();
   recoElectrons    =   electrons.product(); 
   recoJetTags      =   jetTags.product();
 
 
   // TeV Muon Refit
-  iEvent.getByLabel("tevMuons", "default", tevMapH1); tevMap1 = *(tevMapH1.product());
-  iEvent.getByLabel("tevMuons", "firstHit", tevMapH2);tevMap2 = *(tevMapH2.product());
-  iEvent.getByLabel("tevMuons", "picky", tevMapH3);   tevMap3 = *(tevMapH3.product());
+  iEvent.getByToken(tevMapH1Token_, tevMapH1);   tevMap1 = *(tevMapH1.product());
+  iEvent.getByToken(tevMapH2Token_, tevMapH2);   tevMap2 = *(tevMapH2.product());
+  iEvent.getByToken(tevMapH3Token_, tevMapH3);   tevMap3 = *(tevMapH3.product());
   
 
   // filling the leading primary vertex
@@ -755,7 +786,8 @@ Handle<bool> CSCTightHaloFilterHandle;
   if (!_is_data)   { 
 
     // pile up reweighting
-    if ( iEvent.getByLabel("addPileupInfo", PupInfo) ) {
+
+    if ( iEvent.getByToken(PupInfoToken_, PupInfo) ) {
       
 
       std::vector<PileupSummaryInfo>::const_iterator PVInfo;
@@ -781,14 +813,14 @@ Handle<bool> CSCTightHaloFilterHandle;
     myMCTruth        =  myEvent->getMCInfo();             
     myGenWZ          =  myEvent->getGenWZ();  
     
-    hasGenJets = iEvent.getByLabel( GenJetAlgorithmTags_,    genJets );
-    iEvent.getByLabel( akGenJetAlgorithmTags_,               akGenJets );    
+    hasGenJets = iEvent.getByToken( GenJetAlgorithmToken_,    genJets );
+    iEvent.getByToken( akGenJetAlgorithmToken_,               akGenJets );    
     // iEvent.getByLabel( "genParticleCandidates",           genParticles );
     // iEvent.getByLabel(GeneratorLevelTag_,                 mcTruth);
     // iEvent.getByLabel(SimTrackTags_,                      simTracks);
 
-    iEvent.getByLabel("flavourByValGenJet" ,                 theGenTag);
-    iEvent.getByLabel("generator",                           genEventInfo);
+    iEvent.getByToken(theGenToken_ ,                         theGenTag);
+    iEvent.getByToken(genEventInfoToken_,                    genEventInfo);
 
 
     /*************************************************************************
@@ -796,8 +828,8 @@ Handle<bool> CSCTightHaloFilterHandle;
      * jet flavor, for 74x
      *
      *************************************************************************/
-    iEvent.getByLabel( recoCaloTag_,                theRecoCaloTag);
-    iEvent.getByLabel( recoJPTTag_,                 theRecoJPTTag);
+    iEvent.getByToken( recoCaloToken_,              theRecoCaloTag);
+    iEvent.getByToken( recoJPTToken_,               theRecoJPTTag);
     iEvent.getByToken( pfchsJetFlavourInfosToken_,  thePFCHSJetFlavourInfos );
     iEvent.getByToken( pfJetFlavourInfosToken_,     thePFJetFlavourInfos);
     iEvent.getByToken( genJetFlavourInfosToken_,    theGenJetFlavourInfos);
@@ -807,7 +839,7 @@ Handle<bool> CSCTightHaloFilterHandle;
     myEvent->setEventWeight(genEventInfo->weight());
 
 
-    iEvent.getByLabel("genMetTrue",                   genMEThandle);
+    iEvent.getByToken(genMETToken_,                 genMEThandle);
 
     myEvent->getMETs()->genMET.pt                  = (genMEThandle->front() ).et();
     myEvent->getMETs()->genMET.phi                 = (genMEThandle->front() ).phi();
@@ -820,20 +852,19 @@ Handle<bool> CSCTightHaloFilterHandle;
     // Feb 07, 2013: only the aod version is being kept, in general _reco is false. 
     if (_reco) {
 
-      iEvent.getByLabel(GeneratorLevelTag_,           mcTruth);
-      iEvent.getByLabel(SimTrackTags_,                simTracks);
-      recoSimTracks                                =  simTracks.product();
+      iEvent.getByToken(GeneratorLevelToken_,           mcTruth);
+      //  iEvent.getByLabel(SimTrackTags_,                simTracks);
+      // recoSimTracks                                =  simTracks.product();
 
       this->fillMCInfo(mcTruth,                       myMCTruth);
       this->fillGenWZ(mcTruth,                        myGenWZ);
-      this->fillSimTracks();
+      // this->fillSimTracks();
 
     } else {
 
       
-      iEvent.getByLabel( "genParticles",              genParticles );
-      bool hasLHE = //iEvent.getByType( lheEventInfo );
-	iEvent.getByLabel( LHEEventProductTag_, lheEventInfo );
+      iEvent.getByToken( GenParticleCollectionToken_,              genParticles );
+      bool hasLHE = iEvent.getByToken( LHEEventProductToken_, lheEventInfo );
 
        
       if (hasLHE)  copyLHEweights( myEvent, lheEventInfo.product() );
@@ -898,9 +929,9 @@ WZEdmAnalyzer::beginRun(edm::Run const & iRun, edm::EventSetup const& iSetup)
 
   // initialize the HLT trigger config. 
 
-  std::cout <<"Trigger Results: " << TriggerResultsLabel_.process() <<std::endl;
+  std::cout <<"Trigger Results: " << TriggerProcess_ <<std::endl;
 
-  if (hltConfig.init(iRun,iSetup, TriggerResultsLabel_.process(), changed)) {
+  if (hltConfig.init(iRun,iSetup,  TriggerProcess_ , changed)) {
     if (changed) {
 
 
@@ -973,10 +1004,12 @@ WZEdmAnalyzer::beginLuminosityBlock(edm::LuminosityBlock const&iLumiBlock, edm::
   avgInstLumi = 0;
   //  myavginstlumi=0;
   if (_is_data) {
-    edm::Handle<LumiSummary> l;
-    iLumiBlock.getByLabel("lumiProducer", l); 
+
+    edm::Handle<LumiSummary>                 lumiSummaryHandle;
+    iLumiBlock.getByLabel("lumiProducer", lumiSummaryHandle); 
+    //    iLumiBlock.getByLabel(LumiSummaryToken_, lumiSummaryHandle); 
     // Check that there is something
-    if (l.isValid())  avgInstLumi=l->avgInsDelLumi();
+    if (lumiSummaryHandle.isValid())  avgInstLumi=lumiSummaryHandle->avgInsDelLumi();
   }
 
 }

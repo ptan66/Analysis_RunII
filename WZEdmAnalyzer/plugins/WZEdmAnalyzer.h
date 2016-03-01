@@ -361,25 +361,24 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   std::string       _reco_selection; // determine if performing the dilepton reco
 
   float              avgInstLumi;
-
   double             bField;
 
-  edm::EDGetTokenT<reco::BeamSpot>   BeamSpotToken_;
-  //  edm::InputTag      BeamSpotTags_;
-  std::string        Vertices_;
-  edm::InputTag      MuonCollectionTags_;
-  edm::InputTag      ElectronCollectionTags_;
+  edm::EDGetTokenT<reco::BeamSpot>               BeamSpotToken_;
+  edm::EDGetTokenT<reco::VertexCollection>       VerticesToken_;
+
+  edm::EDGetTokenT<reco::MuonCollection>         MuonCollectionToken_;
+  edm::EDGetTokenT<reco::GsfElectronCollection>  ElectronCollectionToken_;
 
   EffectiveAreas _effectiveAreas;
 
 
-  edm::EDGetTokenT<edm::ValueMap<bool> > EleLooseIdMapToken_;
-  edm::EDGetTokenT<edm::ValueMap<bool> > EleMediumIdMapToken_;
-  edm::EDGetTokenT<edm::ValueMap<bool> > EleTightIdMapToken_;
+  edm::EDGetTokenT<edm::ValueMap<bool> >  EleLooseIdMapToken_;
+  edm::EDGetTokenT<edm::ValueMap<bool> >  EleMediumIdMapToken_;
+  edm::EDGetTokenT<edm::ValueMap<bool> >  EleTightIdMapToken_;
   
-  edm::Handle<edm::ValueMap<bool> > loose_id_decisions;
-  edm::Handle<edm::ValueMap<bool> > medium_id_decisions;
-  edm::Handle<edm::ValueMap<bool> > tight_id_decisions; 
+  edm::Handle<edm::ValueMap<bool> >       loose_id_decisions;
+  edm::Handle<edm::ValueMap<bool> >       medium_id_decisions;
+  edm::Handle<edm::ValueMap<bool> >       tight_id_decisions; 
 
 
   edm::Handle<reco::ConversionCollection> conversions_h;
@@ -423,44 +422,64 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
    * jet flavor, btagging, etc. for 74x
    *
    *************************************************************************/
-  edm::InputTag                                            PFCHSJetTags_;
+  // chs pf jet
+  edm::EDGetTokenT<reco::PFJetCollection>                  PFCHSJetToken_;
   edm::EDGetTokenT<reco::JetFlavourInfoMatchingCollection> pfchsJetFlavourInfosToken_;
   edm::Handle<reco::JetFlavourInfoMatchingCollection>      thePFCHSJetFlavourInfos;
   std::vector< std::string  >                              PFCHSJetTagInfos_;
+  edm::EDGetTokenT<reco::JetTagCollection>                 myPFCHSJetTagsJPToken_;
+  edm::EDGetTokenT<reco::JetTagCollection>                 myPFCHSJetTagsTCHPToken_;
+  edm::EDGetTokenT<reco::JetTagCollection>                 myPFCHSJetTagsCSVToken_;
+
   edm::Handle<reco::JetTagCollection>                      myPFCHSJetTagsJP;
   edm::Handle<reco::JetTagCollection>                      myPFCHSJetTagsTCHP;
   edm::Handle<reco::JetTagCollection>                      myPFCHSJetTagsCSV;
 
   
-  edm::InputTag                                            CaloJetTags_;
+  // calo jet
+  edm::EDGetTokenT<reco::CaloJetCollection>                CaloJetToken_;
   edm::Handle<reco::JetFlavourMatchingCollection>          theRecoCaloTag;
-  edm::InputTag                                            recoCaloTag_;
+  edm::EDGetTokenT<reco::JetFlavourMatchingCollection>     recoCaloToken_;
   std::vector< std::string  >                              CaloJetTagInfos_;
+  edm::EDGetTokenT<reco::JetTagCollection>                 myCaloJetTagsJPToken_;
+  edm::EDGetTokenT<reco::JetTagCollection>                 myCaloJetTagsTCHPToken_;
+  edm::EDGetTokenT<reco::JetTagCollection>                 myCaloJetTagsCSVToken_;
   edm::Handle<reco::JetTagCollection>                      myCaloJetTagsJP;
   edm::Handle<reco::JetTagCollection>                      myCaloJetTagsTCHP;
   edm::Handle<reco::JetTagCollection>                      myCaloJetTagsCSV;
 
    
-  
-  edm::InputTag                                            JPTJetTags_;
+  // jpt jet
+  edm::EDGetTokenT<reco::JPTJetCollection>                 JPTJetToken_;
   edm::Handle<reco::JetFlavourMatchingCollection>          theRecoJPTTag;
-  edm::InputTag                                            recoJPTTag_;
+  edm::EDGetTokenT<reco::JetFlavourMatchingCollection>     recoJPTToken_;
   std::vector< std::string  >                              JPTJetTagInfos_;
+  edm::EDGetTokenT<reco::JetTagCollection>                 myJPTJetTagsJPToken_;
+  edm::EDGetTokenT<reco::JetTagCollection>                 myJPTJetTagsTCHPToken_;
+  edm::EDGetTokenT<reco::JetTagCollection>                 myJPTJetTagsCSVToken_;
   edm::Handle<reco::JetTagCollection>                      myJPTJetTagsJP;
   edm::Handle<reco::JetTagCollection>                      myJPTJetTagsTCHP;
   edm::Handle<reco::JetTagCollection>                      myJPTJetTagsCSV;
 
-  
-  edm::InputTag                                            PFJetTags_; 
+
+  // pfjet 
+  edm::EDGetTokenT<reco::PFJetCollection>                  PFJetToken_;  
   edm::EDGetTokenT<reco::JetFlavourInfoMatchingCollection> pfJetFlavourInfosToken_;
   edm::Handle<reco::JetFlavourInfoMatchingCollection>      thePFJetFlavourInfos;
   std::vector< std::string  >                              PFJetTagInfos_;
+
+  edm::EDGetTokenT<reco::JetTagCollection>                 myPFJetTagsJPToken_;
+  edm::EDGetTokenT<reco::JetTagCollection>                 myPFJetTagsTCHPToken_;
+  edm::EDGetTokenT<reco::JetTagCollection>                 myPFJetTagsCSVToken_;
+
   edm::Handle<reco::JetTagCollection>                      myPFJetTagsJP;
   edm::Handle<reco::JetTagCollection>                      myPFJetTagsTCHP;
   edm::Handle<reco::JetTagCollection>                      myPFJetTagsCSV;
 
-
+  // default tagging variables
   std::vector< std::string  >                              JetTagCollectionTags_;
+  edm::EDGetTokenT<reco::JetTagCollection>                 jetTagsToken_;
+  edm::EDGetTokenT<reco::JetTagCollection>                 jetTagsCSVToken_;
   edm::Handle<reco::JetTagCollection>                      jetTags;
   edm::Handle<reco::JetTagCollection>                      jetTagsCSV;
 
@@ -474,11 +493,6 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::EDGetTokenT<edm::ValueMap <reco::JetID> >           jetID_ValueMapToken_;
   edm::Handle< edm::ValueMap<reco::JetID> >                jetID_ValueMap_Handle;
 
-
-  //  std::string                                              pfchsJetCorrectionService;
-  // std::string                                              caloJetCorrectionService;
-  // std::string                                              jptJetCorrectionService;
-  //std::string                                              pfJetCorrectionService;
 
   edm::ESHandle<JetCorrectorParametersCollection>          pfchsJetCorParColl;
   edm::ESHandle<JetCorrectorParametersCollection>          caloJetCorParColl;
@@ -496,12 +510,6 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::Handle<reco::JetCorrector>                          jptJetCorr;
   edm::Handle<reco::JetCorrector>                          pfJetCorr;
 
-  //  const JetCorrector*                                      pfchsJetCorr;
-  // const JetCorrector*                                      caloJetCorr;
-  // const JetCorrector*                                      jptJetCorr;
-  // const JetCorrector*                                      pfJetCorr;
-
-
   JetCorrectionUncertainty                                *pfchsJetUnc;
   JetCorrectionUncertainty                                *caloJetUnc;
   JetCorrectionUncertainty                                *jptJetUnc;
@@ -512,74 +520,62 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::EDGetTokenT<double>   FixGridRhoToken_;
   edm::Handle<double>        fixGridRhoHandle;
 
-
-  edm::InputTag              RhoSrcLabel_;
+  edm::EDGetTokenT<double>   RhoSrcToken_;
   edm::Handle<double>        rhoHandle;
 
-  edm::InputTag              SigmaSrcLabel_;
+  edm::EDGetTokenT<double>   SigmaSrcToken_;
   edm::Handle<double>        sigmaHandle;
 
   // CHS
-  edm::InputTag              RhoSrcLabelCHS_;
+  edm::EDGetTokenT<double>   RhoSrcTokenCHS_;
   edm::Handle<double>        rhoHandleCHS;
 
-  edm::InputTag              SigmaSrcLabelCHS_;
+  edm::EDGetTokenT<double>   SigmaSrcTokenCHS_;
   edm::Handle<double>        sigmaHandleCHS;
 
   // Calo
-  edm::InputTag              RhoSrcLabelCalo_;
+  edm::EDGetTokenT<double>   RhoSrcTokenCalo_;
   edm::Handle<double>        rhoHandleCalo;
 
-  edm::InputTag              SigmaSrcLabelCalo_;
+  edm::EDGetTokenT<double>   SigmaSrcTokenCalo_;
   edm::Handle<double>        sigmaHandleCalo;
 
 
-  // Track
-  edm::InputTag              RhoSrcLabelTrack_;
-  edm::Handle<double>        rhoHandleTrack;
-
-  edm::InputTag              SigmaSrcLabelTrack_;
-  edm::Handle<double>        sigmaHandleTrack;
-
 
   // isolation rho and sigma
-  edm::InputTag              RhoIsoSrcLabel_;
+  edm::EDGetTokenT<double>   RhoIsoSrcToken_;
   edm::Handle<double>        rhoIsoHandle;
 
-  edm::InputTag              SigmaIsoSrcLabel_;
+  edm::EDGetTokenT<double>   SigmaIsoSrcToken_;
   edm::Handle<double>        sigmaIsoHandle;
 
 
   //charge hadron rho and sigma
   // eta is within 2.0
-  edm::InputTag              RhoChSrcLabel_;
+  edm::EDGetTokenT<double>   RhoChSrcToken_;
   edm::Handle<double>        rhoChHandle;
 
-
-  edm::InputTag              SigmaChSrcLabel_;
+  edm::EDGetTokenT<double>   SigmaChSrcToken_;
   edm::Handle<double>        sigmaChHandle;
 
   // eta up to 2.4
-  edm::InputTag              RhoCh2p4SrcLabel_;
+  edm::EDGetTokenT<double>   RhoCh2p4SrcToken_;
   edm::Handle<double>        rhoCh2p4Handle;
 
 
-  edm::InputTag              SigmaCh2p4SrcLabel_;
+  edm::EDGetTokenT<double>   SigmaCh2p4SrcToken_;
   edm::Handle<double>        sigmaCh2p4Handle;
 
 
 
+  edm::EDGetTokenT<reco::TrackCollection>          TrackCollectionToken_;   
+  double      trackMinPtWithMCTruth;
+  double      leptonMinPtForComposition;
 
-
-  edm::InputTag      TrackCollectionTags_;
-  double             trackMinPtWithMCTruth;
-  double             leptonMinPtForComposition;
-  edm::InputTag      PhotonCollectionTags_;
-  edm::InputTag      L1ParticleMapCollectionTags_;
-  edm::InputTag      L1GTReadoutRecordLabel_;
-  edm::InputTag      HLTL1GTObjectMapLabel_;
-  edm::InputTag      TriggerResultsLabel_;
-  edm::InputTag      TriggerSummaryLabel_;
+  edm::EDGetTokenT<reco::PhotonCollection>         PhotonCollectionToken_;
+  edm::EDGetTokenT<L1GlobalTriggerReadoutRecord>   L1GTReadoutRecordToken_;
+  edm::EDGetTokenT<edm::TriggerResults>            TriggerResultsToken_;
+  edm::EDGetTokenT<trigger::TriggerEvent>          TriggerSummaryToken_;
 
 
   std::vector< std::string>  triggerNames;
@@ -610,27 +606,24 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   std::string        HLTTriggerElectronLLongName_;
 
 
-  edm::InputTag      GeneratorLevelTag_;
-  edm::InputTag      LHEEventProductTag_;
+  edm::EDGetTokenT<GenEventInfoProduct>     GeneratorLevelToken_;
+  edm::EDGetTokenT<LHEEventProduct>         LHEEventProductToken_;
 
-  edm::InputTag              GenJetAlgorithmTags_;
-  edm::InputTag              akGenJetAlgorithmTags_;
 
+  edm::EDGetTokenT<reco::GenJetCollection>  GenJetAlgorithmToken_;
+  edm::EDGetTokenT<reco::GenJetCollection>  akGenJetAlgorithmToken_;
   edm::EDGetTokenT<reco::JetFlavourInfoMatchingCollection> genJetFlavourInfosToken_;
   edm::Handle<reco::JetFlavourInfoMatchingCollection>      theGenJetFlavourInfos;
-
-
   double                     genJetMinPt;
 
 
-  edm::InputTag              SimTrackTags_;
+  //  edm::InputTag              SimTrackTags_;
   double                     diLeptonMinMass;
-
-  //  std::string                out, open;
-  // std::string                pdf;
-  // int                        subset;
   double                     xmin, xmax, qmin, qmax;
 
+  edm::EDGetTokenT<reco::SuperClusterCollection>           SuperClusterCollectionToken_;
+  edm::EDGetTokenT<reco::ConversionCollection>             ConversionCollectionToken_;
+  edm::EDGetTokenT<reco::GenParticleCollection>            GenParticleCollectionToken_;     
 
 
   bool                                            hasGenJets;
@@ -638,6 +631,8 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   Handle<edm::HepMCProduct>                       mcTruth;
   // Handle<reco::GenParticleCollection>          genParticlesAOD;
   Handle<reco::GenParticleCollection>             genParticles;
+
+  edm::EDGetTokenT<GenEventInfoProduct>          genEventInfoToken_;
   edm::Handle<GenEventInfoProduct>                genEventInfo;
 
   Handle<LHEEventProduct>                         lheEventInfo;
@@ -684,11 +679,13 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
 
 
   // pile up
-  Handle<std::vector< PileupSummaryInfo > >       PupInfo;
+  edm::EDGetTokenT<std::vector< PileupSummaryInfo > > PupInfoToken_;
+  Handle<std::vector< PileupSummaryInfo > >           PupInfo;
 
   //
   // mets
-  edm::Handle< GenMETCollection >      genMEThandle;
+  edm::EDGetTokenT< GenMETCollection >                genMETToken_;
+  edm::Handle< GenMETCollection >                     genMEThandle;
 
   //  edm::Handle< CaloMETCollection >     rawMEThandle;
   //  edm::Handle< METCollection >         tcMEThandle;
@@ -704,9 +701,13 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   // beam spot
   edm::Handle<reco::BeamSpot>          recoBeamSpotHandle;
 
-  edm::Handle<EcalRecHitCollection>    ecalEBRecHitHandle;
-  edm::Handle<EcalRecHitCollection>    ecalEERecHitHandle;
-  edm::Handle<EcalRecHitCollection>    ecalRecHitHandle;
+
+  edm::EDGetTokenT<EBRecHitCollection> ecalEBRecHitToken_;
+  edm::EDGetTokenT<EERecHitCollection> ecalEERecHitToken_;
+
+  edm::Handle<EBRecHitCollection>      ecalEBRecHitHandle;
+  edm::Handle<EERecHitCollection>      ecalEERecHitHandle;
+  //  edm::Handle<EcalRecHitCollection>    ecalRecHitHandle;
 
   Handle< int >                        genProcessID;
   Handle< double >                     genEventScale;
@@ -729,31 +730,43 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   //  const reco::modules::JetFlavourIdentifier     *jetFlavorIdentifier;
 
 
-  edm::Handle<reco::JetFlavourMatchingCollection> theGenTag;
-  edm::Handle<reco::JetFlavourMatchingCollection> theRecoPFTag;
+  edm::EDGetTokenT<reco::JetFlavourMatchingCollection> theGenToken_;
+  edm::EDGetTokenT<reco::JetFlavourMatchingCollection> theRecoPFToken_;
+
+  edm::Handle<reco::JetFlavourMatchingCollection>      theGenTag;
+  edm::Handle<reco::JetFlavourMatchingCollection>      theRecoPFTag;
+
+
 
 
 
 
 
   // TeV Muon Refit
-  Handle <reco::TrackToTrackMap>       tevMapH1;   
-  reco::TrackToTrackMap                tevMap1;
-  Handle <reco::TrackToTrackMap>       tevMapH2;
-  reco::TrackToTrackMap                tevMap2;
-  Handle <reco::TrackToTrackMap>       tevMapH3;
-  reco::TrackToTrackMap                tevMap3;
+  edm::EDGetTokenT<reco::TrackToTrackMap>  tevMapH1Token_; 
+  edm::EDGetTokenT<reco::TrackToTrackMap>  tevMapH2Token_; 
+  edm::EDGetTokenT<reco::TrackToTrackMap>  tevMapH3Token_; 
+  Handle <reco::TrackToTrackMap>           tevMapH1;   
+  reco::TrackToTrackMap                    tevMap1;
+  Handle <reco::TrackToTrackMap>           tevMapH2;
+  reco::TrackToTrackMap                    tevMap2;
+  Handle <reco::TrackToTrackMap>           tevMapH3;
+  reco::TrackToTrackMap                    tevMap3;
 
 
 
   // user code for quark-gluon likelihood separator
-  // QGLikelihoodCalculator              *qgLikelihoodCal;
-  edm::Handle<edm::ValueMap<float> >  QGTagsHandleMLP;
-  edm::Handle<edm::ValueMap<float> >  QGTagsHandleLikelihood;
+
+  edm::EDGetTokenT<edm::ValueMap<float> >  QGTagsHandleMLPToken_;
+  edm::EDGetTokenT<edm::ValueMap<float> >  QGTagsHandleLikelihoodToken_;
+  edm::Handle<edm::ValueMap<float> >       QGTagsHandleMLP;
+  edm::Handle<edm::ValueMap<float> >       QGTagsHandleLikelihood;
 
 
 
-  
+  // edm::EDGetTokenT<LumiSummary>            LumiSummaryToken_;
+  // edm::Handle<LumiSummary>                 lumiSummaryHandle;
+
   
   // output data defintion/access
   // necessary global variables
