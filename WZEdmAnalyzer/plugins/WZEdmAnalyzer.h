@@ -349,6 +349,7 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   bool              _is_debug;  // output debug information
   bool              _is_data;   // data or MC
   bool              _gen_only;  // dealing with gen events only
+  bool              _check_jecref;
   bool              _save_allevents; // determine if it is signal MC
   bool              _vertexing; // determine if performing vertex fitting
   bool              _smoothing; // determine if performing vertex fitting

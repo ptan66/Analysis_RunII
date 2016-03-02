@@ -7,7 +7,7 @@ import string
 #
 #######################################################################
 useAOD   = True
-isData   = False # True data; False MC
+isData   = True # True data; False MC
 
 
 if (isData == True) : 
@@ -29,15 +29,15 @@ else :
     CaloJEC  = "ak4CaloL1FastL2L3Corrector"
     JPTJEC   = "ak4JPTL1FastL2L3Corrector"
     PFJEC    = "ak4PFL1FastL2L3Corrector"
-    HLT_SINGLEMU1 = "HLT_IsoTkMu20_v1"
-    HLT_SINGLEMU2 = "HLT_IsoMu20_v1"
-    HLT_DOUBLEMU1 = "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v1"
-    HLT_DOUBLEMU2 = "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v1"
-    HLT_MUE       = "HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v1"
-    HLT_EMU       = "HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v1"
-    HLT_SINGLEELE1= "HLT_Ele27_WP85_Gsf_v1"
-    HLT_SINGLEELE2= "HLT_Ele23_CaloIdL_TrackIdL_IsoVL_v1"
-    HLT_DOUBLEELE1= "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v1"
+    HLT_SINGLEMU1 = "HLT_IsoTkMu20_v4"
+    HLT_SINGLEMU2 = "HLT_IsoMu20_v3"
+    HLT_DOUBLEMU1 = "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v2"
+    HLT_DOUBLEMU2 = "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v2"
+    HLT_MUE       = "HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v3"
+    HLT_EMU       = "HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v3"
+    HLT_SINGLEELE1= "HLT_Ele23_WPLoose_Gsf_v3"
+    HLT_SINGLEELE2= "HLT_Ele23_CaloIdL_TrackIdL_IsoVL_v3"
+    HLT_DOUBLEELE1= "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v3"
 
 
 process = cms.Process("asym")
@@ -86,7 +86,14 @@ process.maxEvents = cms.untracked.PSet(  input = cms.untracked.int32(-1) )
 process.source = cms.Source("PoolSource", 
        	fileNames = cms.untracked.vstring(
  
-      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_6_3_patch2/src/Analysis_RunII/WZEdmAnalyzer/test/002B97EF-D9BE-E511-9D93-0090FAA57420.root'
+#test data file to check against the JEC reference
+      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_6_3_patch2/src/Analysis_RunII/WZEdmAnalyzer/test/AC63F63B-15A8-E511-AA51-0025905B8576.root'
+
+
+#ttbar MC to check against the JEC reference
+#      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_6_3_patch2/src/Analysis_RunII/WZEdmAnalyzer/test/506BCB1A-41A4-E511-85CB-0CC47A0AD6AA.root'
+#other test files
+ #     'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_6_3_patch2/src/Analysis_RunII/WZEdmAnalyzer/test/002B97EF-D9BE-E511-9D93-0090FAA57420.root'
       # '/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/AODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/002F7FDD-BA13-E511-AA63-0026189437F5.root'
 #'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_4_14/src/Analysis_RunII/WZEdmAnalyzer/test/002F7FDD-BA13-E511-AA63-0026189437F5.root'
 #'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_4_14/src/Analysis_RunII/WZEdmAnalyzer/plugins/00392203-FF0B-E511-AC4F-002590593872.root'
@@ -174,16 +181,25 @@ process.load('RecoJets.Configuration.RecoPFJets_cff')
 # (76x release)
 process.load('JetMETCorrections.Configuration.JetCorrectors_cff')
 
-process.myjecs=cms.Sequence(
-    process.ak4PFCHSL1FastL2L3CorrectorChain * 
-    process.ak4PFCHSL1FastL2L3ResidualCorrectorChain * 
-#    process.ak4CaloL1FastL2L3CorrectorChain * 
-#    process.ak4CaloL1FastL2L3ResidualCorrectorChain * 
-#    process.ak4JPTL1FastL2L3CorrectorChain * 
-#    process.ak4JPTL1FastL2L3ResidualCorrectorChain * 
-    process.ak4PFL1FastL2L3CorrectorChain * 
-    process.ak4PFL1FastL2L3ResidualCorrectorChain 
-)
+if (isData == True) : 
+    process.myjecs=cms.Sequence(
+#        process.ak4PFCHSL1FastL2L3CorrectorChain * 
+        process.ak4PFCHSL1FastL2L3ResidualCorrectorChain * 
+        #    process.ak4CaloL1FastL2L3CorrectorChain * 
+        #    process.ak4CaloL1FastL2L3ResidualCorrectorChain * 
+        #    process.ak4JPTL1FastL2L3CorrectorChain * 
+        #    process.ak4JPTL1FastL2L3ResidualCorrectorChain * 
+ #       process.ak4PFL1FastL2L3CorrectorChain * 
+        process.ak4PFL1FastL2L3ResidualCorrectorChain 
+        )
+else :
+    process.myjecs=cms.Sequence(
+        process.ak4PFCHSL1FastL2L3CorrectorChain * 
+        #    process.ak4CaloL1FastL2L3CorrectorChain * 
+        #    process.ak4JPTL1FastL2L3CorrectorChain * 
+        process.ak4PFL1FastL2L3CorrectorChain  
+        )
+
 
 #from JetMETCorrections.Configuration.JetCorrectors_cff import *
 #process.load('JetMETCorrections.Configuration.DefaultJEC_cff')
@@ -627,6 +643,7 @@ process.analyzer = cms.EDAnalyzer(
     DEBUG                     = cms.bool(False),
     DATA                      = cms.bool( isData ),
     GEN_ONLY                  = cms.bool(False),
+    CHECK_JECREF              = cms.bool(True), 
     SAVE_ALLEVENTS            = cms.bool(True),
     VERTEXING                 = cms.bool(True),
     SMOOTHING                 = cms.bool(True),

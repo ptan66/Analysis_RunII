@@ -664,6 +664,9 @@ WZEdmAnalyzer::copyPFCHSJetInfo(   const edm::Event& iEvent,
 				   _jet_ *myJet) {
 
 
+  if (_check_jecref) {
+    std::cout  << setw(15) << "PFCHS jet: ";
+  }
   copyPFJetInfoCommon(iEvent, iSetup, jet, jetRef, jetCorUnc, scale, theRecoTag, myJet);
 
   // access btagging for PF CHS jet
@@ -689,6 +692,9 @@ WZEdmAnalyzer::copyPFJetInfo(   const edm::Event& iEvent,
 				_jet_ *myJet) {
 
 
+  if (_check_jecref) {
+    std::cout << setw(15) << "PF jet: ";
+  }
   copyPFJetInfoCommon(iEvent, iSetup, jet, jetRef, jetCorUnc, scale, theRecoTag, myJet);
 
   // access btagging for PF jet
@@ -729,6 +735,21 @@ WZEdmAnalyzer::copyPFJetInfoCommon(   const edm::Event& iEvent,
   } else {
     myJet->scaleUnc = 0.0;
   }
+
+  if (_check_jecref) {
+
+    std::cout << setw(10) << iEvent.id().run()
+	      << setw(10) << iEvent.luminosityBlock()
+	      << setw(15) << iEvent.id().event() 
+	      << setw(15) <<  jet->pt()
+	      << setw(15) <<  jet->eta()
+	      << setw(15) <<  jet->phi()
+	      << setw(15) <<  scale * jet->pt()
+	      << setw(15) <<  100*myJet->scaleUnc
+	      << std::endl;
+
+  }
+
 
   myJet->chargedHadronEnergy         = jet->chargedHadronEnergy();
   myJet->neutralHadronEnergy         = jet->neutralHadronEnergy();

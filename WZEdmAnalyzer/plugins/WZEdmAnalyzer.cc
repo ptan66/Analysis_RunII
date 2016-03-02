@@ -128,6 +128,7 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   _is_debug(                    iConfig.getParameter<bool>("DEBUG")),
   _is_data(                     iConfig.getParameter<bool>("DATA")),
   _gen_only(                    iConfig.getParameter<bool>("GEN_ONLY")),
+  _check_jecref(                iConfig.getParameter<bool>("CHECK_JECREF")),
   _save_allevents(              iConfig.getParameter<bool>("SAVE_ALLEVENTS")),
   _vertexing(                   iConfig.getParameter<bool>("VERTEXING")),
   _smoothing(                   iConfig.getParameter<bool>("SMOOTHING")),
@@ -345,6 +346,7 @@ WZEdmAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
   _is_save = false;  // default will not save the event
   
 
+  //    if (iEvent.id().run() != 257613) return;
 
 
 
@@ -497,7 +499,7 @@ Handle<bool> CSCTightHaloFilterHandle;
 
   // (++) Access the uncertainty of the jet energy correction
   // pf jet 
-  iSetup.get<JetCorrectionsRecord>().get("AK5PFCHS",pfchsJetCorParColl);
+  iSetup.get<JetCorrectionsRecord>().get("AK4PFchs",pfchsJetCorParColl);
   if ( pfchsJetCorParColl.isValid() ) {
     pfchsJetUnc = new JetCorrectionUncertainty( (*pfchsJetCorParColl)["Uncertainty"]  );
  
@@ -518,7 +520,7 @@ Handle<bool> CSCTightHaloFilterHandle;
   */
 
   // pf jet 
-  iSetup.get<JetCorrectionsRecord>().get("AK5PF",pfJetCorParColl);
+  iSetup.get<JetCorrectionsRecord>().get("AK4PF",pfJetCorParColl);
   if (pfJetCorParColl.isValid() ) {
     pfJetUnc   = new JetCorrectionUncertainty( (*pfJetCorParColl)["Uncertainty"]  );
   } else {
