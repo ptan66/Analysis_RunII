@@ -170,19 +170,29 @@ process.logErrorTooManyClusters.forcedValue = cms.untracked.bool(False)
 #
 ###############################################################
 process.load('RecoJets.Configuration.RecoPFJets_cff')
-process.load('JetMETCorrections.Configuration.DefaultJEC_cff')
-#from RecoJets.Configuration.RecoPFJets_cff import *
-#from JetMETCorrections.Configuration.DefaultJEC_cff import *
 
-from JetMETCorrections.Configuration.JetCorrectionProducersAllAlgos_cff import *
-from JetMETCorrections.Configuration.JetCorrectionServicesAllAlgos_cff import *
-from JetMETCorrections.Configuration.JetCorrectors_cff import *
+# (76x release)
+process.load('JetMETCorrections.Configuration.JetCorrectors_cff')
+
+process.myjecs=cms.Sequence(
+    process.ak4PFCHSL1FastL2L3CorrectorChain * 
+    process.ak4PFCHSL1FastL2L3ResidualCorrectorChain * 
+#    process.ak4CaloL1FastL2L3CorrectorChain * 
+#    process.ak4CaloL1FastL2L3ResidualCorrectorChain * 
+#    process.ak4JPTL1FastL2L3CorrectorChain * 
+#    process.ak4JPTL1FastL2L3ResidualCorrectorChain * 
+    process.ak4PFL1FastL2L3CorrectorChain * 
+    process.ak4PFL1FastL2L3ResidualCorrectorChain 
+)
+
+#from JetMETCorrections.Configuration.JetCorrectors_cff import *
+#process.load('JetMETCorrections.Configuration.DefaultJEC_cff')
+#from JetMETCorrections.Configuration.JetCorrectionProducersAllAlgos_cff import *
+#from JetMETCorrections.Configuration.JetCorrectionServicesAllAlgos_cff import *
+#from JetMETCorrections.Configuration.JetCorrectors_cff import *
 
 
 
-#process.myjecs = cms.Sequence(
-#    process.ak4PFJetsL1FastL2L3
-#)
 
 #for isolation purpose???
 process.kt6PFJetsForIso = process.kt4PFJets.clone( rParam = 0.6, doRhoFastjet = True )
@@ -657,7 +667,7 @@ process.analyzer = cms.EDAnalyzer(
     PFJets                    = cms.string(  "ak4PFJets"),
     PFJetFlavourInfos         = cms.InputTag("myak4PFJetFlavourInfos"),
     PFJetTagInfos             = cms.vstring( "MyPFTrackCountingHighPurBJetTags",    "MyPFJetProbabilityBJetTags", "MyPFCombinedSecondaryVertexV2BJetTags"),
-    JetTagCollections         = cms.vstring( "trackCountingHighEffBJetTags", "pfCombinedInclusiveSecondaryVertexV2BJetTags"),
+    JetTagCollections         = cms.vstring( "pfTrackCountingHighEffBJetTags", "pfCombinedInclusiveSecondaryVertexV2BJetTags"),
     JetMinPt                  = cms.double(10),    
     LeptonThreshold           = cms.double(10),    
     InputJetIDValueMap        = cms.InputTag("ak4JetID"), 
@@ -723,6 +733,7 @@ if isData == True :
         process.trkPOGFilters*
         process.pfPileUpAllChargedParticlesClone*process.kt6PFJetsForCh*process.kt6PFJetsForCh2p4*
         process.kt6PFJetsForIso*
+        process.myjecs *
  #       process.ak4CaloJetsL1FastL2L3Residual*
         #process.pfiso*
         #                    process.type0PFMEtCorrection*
@@ -757,6 +768,7 @@ else :
         process.flavourByRefGenJet*process.flavourByValGenJet*
         process.pfPileUpAllChargedParticlesClone*process.kt6PFJetsForCh*process.kt6PFJetsForCh2p4*
         process.kt6PFJetsForIso*
+        process.myjecs *
 #        process.ak4CaloJetsL1FastL2L3*
         #process.pfiso*
         #                    process.type0PFMEtCorrection*

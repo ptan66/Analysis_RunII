@@ -263,10 +263,15 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
 
 
 
-  genEventInfoToken_               =  consumes<GenEventInfoProduct>(edm::InputTag("generator"));
+  genEventInfoToken_               = consumes<GenEventInfoProduct>(edm::InputTag("generator"));
 
-  theGenToken_                     =  consumes<reco::JetFlavourMatchingCollection>(edm::InputTag("flavourByValGenJet"));
-  genMETToken_                     =  consumes<GenMETCollection>(edm::InputTag("genMetTrue"));
+  theGenToken_                     = consumes<reco::JetFlavourMatchingCollection>(edm::InputTag("flavourByValGenJet"));
+  genMETToken_                     = consumes<GenMETCollection>(edm::InputTag("genMetTrue"));
+
+
+  tcMETToken_                      = consumes<METCollection>(edm::InputTag("tcMet") );
+  caloMETToken_                    = consumes<CaloMETCollection>(edm::InputTag("caloMet") );
+  pfMETToken_                      = consumes<PFMETCollection>(edm::InputTag("pfMet") );
 
 
   this->displayConfig();
@@ -482,15 +487,10 @@ Handle<bool> CSCTightHaloFilterHandle;
   iEvent.getByToken(jetID_ValueMapToken_,jetID_ValueMap_Handle);
 
 
-  // (++). Access the jet correction
-  //  pfchsJetCorr= JetCorrector::getJetCorrector(pfchsJetCorrectionService,    iSetup);
-  //  caloJetCorr = JetCorrector::getJetCorrector(caloJetCorrectionService,     iSetup);
-  //  jptJetCorr  = JetCorrector::getJetCorrector(jptJetCorrectionService,      iSetup);
-  //  pfJetCorr   = JetCorrector::getJetCorrector(pfJetCorrectionService,       iSetup);
-
+  // (++). Access the jet correction; using JetCorrector since 76x release
   iEvent.getByToken(pfchsJetCorrToken_, pfchsJetCorr);
-  iEvent.getByToken(caloJetCorrToken_,  caloJetCorr);
-  iEvent.getByToken(jptJetCorrToken_,   jptJetCorr);
+  //  iEvent.getByToken(caloJetCorrToken_,  caloJetCorr);
+  // iEvent.getByToken(jptJetCorrToken_,   jptJetCorr);
   iEvent.getByToken(pfJetCorrToken_,    pfJetCorr);
 
 
@@ -506,6 +506,7 @@ Handle<bool> CSCTightHaloFilterHandle;
     pfchsJetUnc = 0;
   }
 
+  /*
   iSetup.get<JetCorrectionsRecord>().get("AK5Calo",caloJetCorParColl);
   if (caloJetCorParColl.isValid()) {
     caloJetUnc = new JetCorrectionUncertainty( (*caloJetCorParColl)["Uncertainty"]  );
@@ -513,10 +514,8 @@ Handle<bool> CSCTightHaloFilterHandle;
   } else {
     caloJetUnc = 0;
   }
-
-  //jpt jet 
   jptJetUnc  = 0;
-
+  */
 
   // pf jet 
   iSetup.get<JetCorrectionsRecord>().get("AK5PF",pfJetCorParColl);
@@ -615,8 +614,8 @@ Handle<bool> CSCTightHaloFilterHandle;
   iEvent.getByToken(MuonCollectionToken_,              muons);
   iEvent.getByToken(ElectronCollectionToken_,          electrons);
   iEvent.getByToken(PFCHSJetToken_,                    pfchsJets);
-  iEvent.getByToken(CaloJetToken_,                     caloJets);
-  iEvent.getByToken(JPTJetToken_,                      jptJets);
+  //  iEvent.getByToken(CaloJetToken_,                     caloJets);
+  // iEvent.getByToken(JPTJetToken_,                      jptJets);
   iEvent.getByToken(PFJetToken_,                       pfJets);
   iEvent.getByToken(PhotonCollectionToken_,            photons);
   iEvent.getByToken(SuperClusterCollectionToken_,      superclusters);
@@ -655,24 +654,6 @@ Handle<bool> CSCTightHaloFilterHandle;
 
 
   // regression electron calibration
-  /*  NOTE74: comment out for now Oct. 19, 2015
-  iEvent.getByLabel(edm::InputTag("calibratedElectrons","calibratedGsfElectrons"), calibratedElectrons);
-  iEvent.getByLabel(edm::InputTag("eleRegressionEnergy","eneRegForGsfEle"), regEne_handle);
-  iEvent.getByLabel(edm::InputTag("eleRegressionEnergy","eneErrorRegForGsfEle"), regErr_handle);
-
-
-  iEvent.getByLabel("mvaTrigV0", mvaTrigV0_handle);
-  iEvent.getByLabel("mvaNonTrigV0", mvaNonTrigV0_handle);
-
-  if (_is_debug) {
-    for (reco::GsfElectronCollection::const_iterator electron = (*calibratedElectrons.product()).begin(); electron != (*calibratedElectrons.product()).end(); electron ++) {
-      
-      std::cout << electron->pt() << ", " << electron->eta() << ", " << electron->phi() << ", " << electron->superCluster()->rawEnergy() << std::endl;
-      
-    }
-  }
-
-  */
 
 
   // btagging 
@@ -685,7 +666,7 @@ Handle<bool> CSCTightHaloFilterHandle;
   iEvent.getByToken(myPFCHSJetTagsJPToken_,    myPFCHSJetTagsJP);
   iEvent.getByToken(myPFCHSJetTagsCSVToken_,   myPFCHSJetTagsCSV);
 
-
+  /*
   iEvent.getByToken(myCaloJetTagsTCHPToken_,   myCaloJetTagsTCHP);
   iEvent.getByToken(myCaloJetTagsJPToken_,     myCaloJetTagsJP);
   iEvent.getByToken(myCaloJetTagsCSVToken_,    myCaloJetTagsCSV);
@@ -694,6 +675,7 @@ Handle<bool> CSCTightHaloFilterHandle;
   iEvent.getByToken(myJPTJetTagsTCHPToken_,    myJPTJetTagsTCHP);
   iEvent.getByToken(myJPTJetTagsJPToken_,      myJPTJetTagsJP);
   iEvent.getByToken(myJPTJetTagsCSVToken_,     myJPTJetTagsCSV);
+  */
 
 
   iEvent.getByToken(myPFJetTagsTCHPToken_,     myPFJetTagsTCHP);
@@ -702,7 +684,6 @@ Handle<bool> CSCTightHaloFilterHandle;
 
 
   // quark gluon likelihood separator
-
   iEvent.getByToken(QGTagsHandleMLPToken_,        QGTagsHandleMLP);
   iEvent.getByToken(QGTagsHandleLikelihoodToken_, QGTagsHandleLikelihood);
 
@@ -718,23 +699,6 @@ Handle<bool> CSCTightHaloFilterHandle;
   iEvent.getByToken(ecalEBRecHitToken_,           ecalEBRecHitHandle);
   iEvent.getByToken(ecalEERecHitToken_,           ecalEERecHitHandle);
  
-
- //  EcalClusterLazyTools *lazyTools(iEvent, iSetup, ecalEBRecHitHandle.product(),ecalEERecHitHandle.product() );
-
-
-
-  
-  // electron pf isolations
-  //  iEvent.getByLabel(ElectronIsoValsTags_[0] ,         electronIsoValsCh);
-  //  iEvent.getByLabel(ElectronIsoValsTags_[1] ,         electronIsoValsPhoton);
-  //  iEvent.getByLabel(ElectronIsoValsTags_[2] ,         electronIsoValsNeutral); 
-
-  //  edm::Handle<reco::ConversionCollection> conversions_h;
-  // iEvent.getByLabel("allConversions", conversions_h);
-
- 
-
-
 
   recoPhotons = 0;
   recoTracks  = 0;
@@ -828,8 +792,8 @@ Handle<bool> CSCTightHaloFilterHandle;
      * jet flavor, for 74x
      *
      *************************************************************************/
-    iEvent.getByToken( recoCaloToken_,              theRecoCaloTag);
-    iEvent.getByToken( recoJPTToken_,               theRecoJPTTag);
+    //    iEvent.getByToken( recoCaloToken_,              theRecoCaloTag);
+    //    iEvent.getByToken( recoJPTToken_,               theRecoJPTTag);
     iEvent.getByToken( pfchsJetFlavourInfosToken_,  thePFCHSJetFlavourInfos );
     iEvent.getByToken( pfJetFlavourInfosToken_,     thePFJetFlavourInfos);
     iEvent.getByToken( genJetFlavourInfosToken_,    theGenJetFlavourInfos);
@@ -837,8 +801,6 @@ Handle<bool> CSCTightHaloFilterHandle;
 
 
     myEvent->setEventWeight(genEventInfo->weight());
-
-
     iEvent.getByToken(genMETToken_,                 genMEThandle);
 
     myEvent->getMETs()->genMET.pt                  = (genMEThandle->front() ).et();
@@ -853,12 +815,9 @@ Handle<bool> CSCTightHaloFilterHandle;
     if (_reco) {
 
       iEvent.getByToken(GeneratorLevelToken_,           mcTruth);
-      //  iEvent.getByLabel(SimTrackTags_,                simTracks);
-      // recoSimTracks                                =  simTracks.product();
-
       this->fillMCInfo(mcTruth,                       myMCTruth);
       this->fillGenWZ(mcTruth,                        myGenWZ);
-      // this->fillSimTracks();
+ 
 
     } else {
 
@@ -909,8 +868,8 @@ Handle<bool> CSCTightHaloFilterHandle;
 
 
   if (pfchsJetUnc) delete pfchsJetUnc;
-  if (jptJetUnc)   delete jptJetUnc;
-  if (caloJetUnc)  delete caloJetUnc;
+  // if (jptJetUnc)   delete jptJetUnc;
+  // if (caloJetUnc)  delete caloJetUnc;
   if (pfJetUnc)    delete pfJetUnc;
   return;
 }

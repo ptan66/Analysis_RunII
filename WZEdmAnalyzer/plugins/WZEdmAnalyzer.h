@@ -687,6 +687,17 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::EDGetTokenT< GenMETCollection >                genMETToken_;
   edm::Handle< GenMETCollection >                     genMEThandle;
 
+  edm::EDGetTokenT< METCollection >                   tcMETToken_;
+  edm::Handle< METCollection >                        tcMEThandle;
+
+  edm::EDGetTokenT< PFMETCollection >                 pfMETToken_;
+  edm::Handle< PFMETCollection >                      pfMEThandle;
+
+  edm::EDGetTokenT< CaloMETCollection >               caloMETToken_;
+  edm::Handle< CaloMETCollection >                    muCorrMEThandle;
+    
+
+
   //  edm::Handle< CaloMETCollection >     rawMEThandle;
   //  edm::Handle< METCollection >         tcMEThandle;
   //  edm::Handle< CaloMETCollection >     muCorrMEThandle;

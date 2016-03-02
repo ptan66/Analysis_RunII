@@ -2109,8 +2109,7 @@ void WZEdmAnalyzer::copyMET(const edm::Event& iEvent, const char *mettype, _met_
 
   if (!mymet.compare("tcMet")) { // tcmet
     
-    edm::Handle< METCollection >         tcMEThandle;
-    iEvent.getByLabel("tcMet",                          tcMEThandle);
+    iEvent.getByToken(tcMETToken_,             tcMEThandle);
     
 
     amet.pt  = (tcMEThandle->front() ).et();
@@ -2126,8 +2125,7 @@ void WZEdmAnalyzer::copyMET(const edm::Event& iEvent, const char *mettype, _met_
 
   } else if (!mymet.compare("caloMet") ) {
     
-    edm::Handle< CaloMETCollection >     muCorrMEThandle;
-    iEvent.getByLabel("caloMet",              muCorrMEThandle);
+    iEvent.getByToken(caloMETToken_,          muCorrMEThandle);
 
 
     amet.pt  = (muCorrMEThandle->front() ).et();
@@ -2142,9 +2140,9 @@ void WZEdmAnalyzer::copyMET(const edm::Event& iEvent, const char *mettype, _met_
   } else {
 
 
-    edm::Handle< PFMETCollection >       pfMEThandle;
-    //iEvent.getByLabel("pfMet",                          pfMEThandle);
-    iEvent.getByLabel(mettype,                          pfMEThandle);
+
+    //    iEvent.getByLabe(mettype,                          pfMEThandle);
+    iEvent.getByToken(pfMETToken_,             pfMEThandle);
 
     amet.pt  = (pfMEThandle->front() ).et();
     amet.phi = (pfMEThandle->front() ).phi();
@@ -2436,6 +2434,12 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
     if ( jec * jet->pt() < jetMinPt) continue;    
     _jet_ *myjet = myEvent->addJet();
     this->copyPFCHSJetInfo(iEvent, iSetup, jet, jetRef, pfchsJetUnc, jec, thePFCHSJetFlavourInfos, myjet);
+
+    // have identical copy for the old calo jet collection
+    _jet_ *mycalojet = myEvent->addCaloJet();
+    this->copyPFCHSJetInfo(iEvent, iSetup, jet, jetRef, pfchsJetUnc, jec, thePFCHSJetFlavourInfos, mycalojet);
+
+
   }
 
 
@@ -2445,6 +2449,7 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
    * calo jet collections
    *
    *************************************************************************/
+  /*
   if (_is_debug) std::cout << "copy Calo jet information ..." << std::endl;
   for (reco::CaloJetCollection::const_iterator jet = ( *(caloJets.product()) ).begin(); jet != (  *(caloJets.product()) ).end(); jet ++) {
 
@@ -2467,6 +2472,7 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
     myjet->fHPD = jetID.fHPD;
     myjet->fRBX = jetID.fRBX;
   }
+  */
 
   /*************************************************************************
    *
@@ -2475,6 +2481,7 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
    * for this jet collection we check if it exists in the sample
    *
    *************************************************************************/
+  /*
   if (jptJets.isValid() ) {
     if (_is_debug) std::cout << "copy JPT jet information ..." << std::endl;
  
@@ -2494,7 +2501,7 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
 
     }
   }
-
+  */
 
   /*************************************************************************
    *
@@ -2570,7 +2577,6 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
        muon ++) {
     
     myMuon = myEvent->addMuon();
-    //    myW    = myEvent->addW();
     this->copyMuonInfo(muon, myMuon);
     
   }
@@ -2609,8 +2615,7 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
   int index = 0;
   for (reco::GsfElectronCollection::const_iterator electron = (*recoElectrons).begin(); electron != (*recoElectrons).end(); electron ++, index ++) {
 
-    //NOTE74
-  
+    //NOTE74  
     myElectron = myEvent->addElectron(); 
     reco::GsfElectronRef electronRef(electrons, index);
     this->copyElectronInfo(electron, myElectron, electronRef, electron - (*recoElectrons).begin() );      
