@@ -2646,7 +2646,41 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
     reco::GsfElectronRef electronRef(electrons, index);
     this->copyElectronInfo(electron, myElectron, electronRef, electron - (*recoElectrons).begin() );      
 
-    
+
+    // find corresponding calibrated electron; the list could be different 
+    int caliIndex = 0;
+    bool caliEle = false;
+    for (reco::GsfElectronCollection::const_iterator caliElec = calibratedElectrons->begin(); caliElec != calibratedElectrons->end(); caliElec++, caliIndex++) {
+
+      double dist = ROOT::Math::VectorUtil::DeltaR( electron->momentum(), 
+						    caliElec->momentum());
+
+      if (dist<0.01) {
+
+
+	myElectron->calibratedSCEt        = caliElec->superCluster()->energy()/TMath::CosH( caliElec->superCluster()->eta()  );
+	myElectron->calibratedSCEta       = caliElec->superCluster()->eta();
+	myElectron->calibratedSCPhi       = caliElec->superCluster()->phi();
+	myElectron->calibratedEnergy      = caliElec->superCluster()->energy();
+
+
+	myElectron->calibratedPt          =  caliElec->pt();
+	myElectron->calibratedEta         =  caliElec->eta();
+	myElectron->calibratedPhi         =  caliElec->phi();
+	caliEle = true;
+	break;
+      }
+    }
+    if (!caliEle) {
+
+      myElectron->calibratedPt    = 0;
+      myElectron->calibratedSCEt  = 0;
+
+      std::cout << "can't find the calibrated electron " 
+		<< setw(20) << electron->pt()
+		<< setw(20) << electron->eta()
+		<< std::endl;
+    }
     //    std::cout << setw(20) << (*regEne_handle.product()).get(index) * TMath::Sin( 2* TMath::ATan( TMath::Exp( - ((*calibratedElectrons.product())[index]).eta()  ) ) ) 
     //      << setw(20)  << ((*calibratedElectrons.product())[index]).superCluster()->energy()
     //      << setw(20)  << (*regEne_handle.product()).get(index) 

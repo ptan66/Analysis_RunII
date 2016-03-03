@@ -284,6 +284,8 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   caloMETToken_                    = consumes<CaloMETCollection>(edm::InputTag("caloMet") );
   pfMETToken_                      = consumes<PFMETCollection>(edm::InputTag("pfMet") );
 
+  calibratedElectronsToken_        = consumes<reco::GsfElectronCollection> ( edm::InputTag("calibratedElectrons" ));
+
 
   this->displayConfig();
   totalProcessedEvts = 0;
@@ -634,7 +636,7 @@ Handle<bool> CSCTightHaloFilterHandle;
   iEvent.getByToken(ConversionCollectionToken_,        convCol);
 
 
-
+  iEvent.getByToken(calibratedElectronsToken_,         calibratedElectrons);
 
   /*********************************************************************
    *

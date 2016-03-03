@@ -7,7 +7,7 @@ import string
 #
 #######################################################################
 useAOD   = True
-isData   = True # True data; False MC
+isData   = False # True data; False MC
 
 
 if (isData == True) : 
@@ -87,11 +87,11 @@ process.source = cms.Source("PoolSource",
        	fileNames = cms.untracked.vstring(
  
 #test data file to check against the JEC reference
-      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_6_3_patch2/src/Analysis_RunII/WZEdmAnalyzer/test/AC63F63B-15A8-E511-AA51-0025905B8576.root'
+#      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_6_3_patch2/src/Analysis_RunII/WZEdmAnalyzer/test/AC63F63B-15A8-E511-AA51-0025905B8576.root'
 
 
 #ttbar MC to check against the JEC reference
-#      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_6_3_patch2/src/Analysis_RunII/WZEdmAnalyzer/test/506BCB1A-41A4-E511-85CB-0CC47A0AD6AA.root'
+      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_6_3_patch2/src/Analysis_RunII/WZEdmAnalyzer/test/506BCB1A-41A4-E511-85CB-0CC47A0AD6AA.root'
 #other test files
  #     'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_6_3_patch2/src/Analysis_RunII/WZEdmAnalyzer/test/002B97EF-D9BE-E511-9D93-0090FAA57420.root'
       # '/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/AODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/002F7FDD-BA13-E511-AA63-0026189437F5.root'
@@ -107,15 +107,15 @@ process.source = cms.Source("PoolSource",
 
 
 # Output definition
-process.output = cms.OutputModule("PoolOutputModule",
-    splitLevel = cms.untracked.int32(0),
-    fileName = cms.untracked.string('step2_RAW2DIGI_L1Reco_RECO_PU.root'),
-    dataset = cms.untracked.PSet(
-        dataTier = cms.untracked.string('AOD'),
-        filterName = cms.untracked.string('')
-    )
-)
-process.out_step = cms.EndPath(process.output)
+#process.output = cms.OutputModule("PoolOutputModule",
+#    splitLevel = cms.untracked.int32(0),
+#    fileName = cms.untracked.string('step2_RAW2DIGI_L1Reco_RECO_PU.root'),
+#    dataset = cms.untracked.PSet(
+#        dataTier = cms.untracked.string('AOD'),
+#        filterName = cms.untracked.string('')
+#    )
+#)
+#process.out_step = cms.EndPath(process.output)
 
 
 
@@ -342,49 +342,30 @@ for idmod in my_id_modules:
 
 
 
-#NOTE74
-#process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
-#    calibratedElectrons = cms.PSet(
-#        initialSeed = cms.untracked.uint32(1),
-#        engineName = cms.untracked.string('TRandom3')
-#    ),
-#)
-
-#process.load("EgammaAnalysis.ElectronTools.calibratedElectrons_cfi")
-
-# dataset to correct
-#process.calibratedElectrons.isMC = cms.bool(True)
-#process.calibratedElectrons.inputDataset = cms.string("Summer12_LegacyPaper")
-#process.calibratedElectrons.updateEnergyError = cms.bool(True)
-#process.calibratedElectrons.correctionsType = cms.int32(2)
-#process.calibratedElectrons.combinationType = cms.int32(3)
-#process.calibratedElectrons.lumiRatio = cms.double(0.607)
-#process.calibratedElectrons.verbose = cms.bool(False)
-#process.calibratedElectrons.synchronization = cms.bool(False)
+process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
+                                                   calibratedElectrons = cms.PSet(
+        initialSeed = cms.untracked.uint32(1),
+        engineName = cms.untracked.string('TRandom3')
+        ),
+                                                   )
 
 
-# this was commnented out
-#if (isRealData):
-#  process.calibratedElectrons.isMC = cms.bool(False)
-#  process.calibratedElectrons.inputDataset = cms.string("22Jan2013ReReco")
-#else:
-#  process.calibratedElectrons.isMC = cms.bool(True)
-#  process.calibratedElectrons.inputDataset = cms.string("Summer12_LegacyPaper")
+process.selectedElectrons = cms.EDFilter("GsfElectronSelector", 
+                                         src = cms.InputTag("gedGsfElectrons"),
+                                         cut = cms.string("pt > 5 && abs(eta)<2.5") 
+                                         ) 
 
-
-
-#process.load('EgammaAnalysis.ElectronTools.electronRegressionEnergyProducer_cfi')
-#process.eleRegressionEnergy.inputElectronsTag = cms.InputTag('gsfElectrons')
-#process.eleRegressionEnergy.inputCollectionType = cms.uint32(0)
-#process.eleRegressionEnergy.useRecHitCollections = cms.bool(True)
-#process.eleRegressionEnergy.produceValueMaps = cms.bool(True)
-#process.eleRegressionEnergy.regressionInputFile = cms.string("EgammaAnalysis/ElectronTools/data/eleEnergyRegWeights_WithSubClusters_VApr15.root")
-#process.eleRegressionEnergy.energyRegressionType = cms.uint32(2)
+process.load('EgammaAnalysis.ElectronTools.calibratedElectronsRun2_cfi')
+process.calibratedElectrons.electrons = cms.InputTag('selectedElectrons')
+if (isData == True) : 
+    process.calibratedElectrons.isMC = cms.bool(False)
+else :
+    process.calibratedElectrons.isMC = cms.bool(True)
 
 
 
 
-#process.load('EgammaAnalysis/ElectronTools/electronIdMVAProducer_cfi')
+
 
 from RecoJets.JetPlusTracks.JetPlusTrackCorrections_cff import *
 process.myJPTeidTight = process.JPTeidTight.clone()
@@ -768,9 +749,7 @@ if isData == True :
         process.myJetPlusTrackCorrectionsAntiKt4*
         process.myPFCHSBTaggers*process.myPFBTaggers*process.myCaloBTaggers*process.myJPTBTaggers*
         #                    process.QuarkGluonTagger*	
-        #                    process.recoPuJetId * process.recoPuJetMva*
-        #                    process.eleRegressionEnergy * process.calibratedElectrons*
-        #                    process.mvaTrigV0  * process.mvaNonTrigV0*
+        process.selectedElectrons * process.calibratedElectrons *
         process.egmGsfElectronIDSequence*
         process.analyzer)
     
@@ -805,9 +784,7 @@ else :
         process.flavourByRefJPT*process.flavourByValJPT*
         process.myPFCHSBTaggers*process.myPFBTaggers*process.myCaloBTaggers*process.myJPTBTaggers*
         #                    process.QuarkGluonTagger*	
-        #                    process.recoPuJetId * process.recoPuJetMva*
-        #                    process.eleRegressionEnergy * process.calibratedElectrons*
-        #                    process.mvaTrigV0  * process.mvaNonTrigV0*
+        process.selectedElectrons * process.calibratedElectrons *
         process.egmGsfElectronIDSequence*
         #process.pfWeightedIsoSeq *
         process.analyzer)

@@ -2,7 +2,6 @@ notes for 76x release
 
 
 git cms-merge-topic -u matteosan1:smearer_76X
-git clone https://github.com/ptan66/Analysis_RunII
 
 #git cms-init
 git cms-addpkg RecoJets/JetProducers
@@ -14,8 +13,12 @@ wget https://github.com/jbrands/RecoJets-JetProducers/raw/3dad903ed25d025f68be94
 wget https://github.com/jbrands/RecoJets-JetProducers/raw/3dad903ed25d025f68be94d6f781ca957d6f86ac/pileupJetId_76x_Eta2p75to3_BDT.weights.xml.gz
 wget https://github.com/jbrands/RecoJets-JetProducers/raw/3dad903ed25d025f68be94d6f781ca957d6f86ac/pileupJetId_76x_Eta3to5_BDT.weights.xml.gz
 
+git cms-merge-topic -u matteosan1:smearer_76X
+git clone https://github.com/ptan66/Analysis_RunII
 
+scramv1 b distclean
 
+scramv1 b -j10
 
 
 

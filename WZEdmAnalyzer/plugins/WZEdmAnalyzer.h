@@ -646,12 +646,15 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   Handle<reco::MuonCollection>                    muons;
   Handle<reco::GsfElectronCollection>             electrons;
   edm::Handle<reco::ConversionCollection>         convCol;
-  Handle<reco::GsfElectronCollection > calibratedElectrons;
-  edm::Handle<edm::ValueMap<double>> regEne_handle;
-  edm::Handle<edm::ValueMap<double>> regErr_handle;
+
+  edm::EDGetTokenT<reco::GsfElectronCollection>   calibratedElectronsToken_;
+  Handle<reco::GsfElectronCollection >            calibratedElectrons;
+
+  edm::Handle<edm::ValueMap<double>>              regEne_handle;
+  edm::Handle<edm::ValueMap<double>>              regErr_handle;
  
-  edm::Handle<edm::ValueMap<float>> mvaTrigV0_handle;
-  edm::Handle<edm::ValueMap<float>> mvaNonTrigV0_handle;
+  edm::Handle<edm::ValueMap<float>>               mvaTrigV0_handle;
+  edm::Handle<edm::ValueMap<float>>               mvaNonTrigV0_handle;
    
 
 
