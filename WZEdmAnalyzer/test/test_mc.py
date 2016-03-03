@@ -82,7 +82,7 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 
 
-process.maxEvents = cms.untracked.PSet(  input = cms.untracked.int32(-1) )
+process.maxEvents = cms.untracked.PSet(  input = cms.untracked.int32(100) )
 process.source = cms.Source("PoolSource", 
        	fileNames = cms.untracked.vstring(
  
@@ -107,15 +107,15 @@ process.source = cms.Source("PoolSource",
 
 
 # Output definition
-#process.output = cms.OutputModule("PoolOutputModule",
-#    splitLevel = cms.untracked.int32(0),
-#    fileName = cms.untracked.string('step2_RAW2DIGI_L1Reco_RECO_PU.root'),
-#    dataset = cms.untracked.PSet(
-#        dataTier = cms.untracked.string('AOD'),
-#        filterName = cms.untracked.string('')
-#    )
-#)
-#process.out_step = cms.EndPath(process.output)
+process.output = cms.OutputModule("PoolOutputModule",
+    splitLevel = cms.untracked.int32(0),
+    fileName = cms.untracked.string('step2_RAW2DIGI_L1Reco_RECO_PU.root'),
+    dataset = cms.untracked.PSet(
+        dataTier = cms.untracked.string('AOD'),
+        filterName = cms.untracked.string('')
+    )
+)
+process.out_step = cms.EndPath(process.output)
 
 
 
@@ -287,22 +287,28 @@ process.superClusters = cms.EDProducer("SuperClusterMerger",
 
 
 
+process.load("RecoJets.JetProducers.PileupJetID_cfi")
+process.pfPileupJetId = process.pileupJetId.clone(
+   jets= cms.InputTag("ak4PFJets"), 
+   jec = cms.string("AK4PF"), 
+   inputIsCorrected=cms.bool(False), 
+   applyJec=cms.bool(True),
+   vertexes=cms.InputTag("offlinePrimaryVertices")
+)
+process.pfchsPileupJetId = process.pileupJetId.clone(
+   jets= cms.InputTag("ak4PFJetsCHS"), 
+   jec = cms.string("AK4PFchs"), 
+   inputIsCorrected=cms.bool(False), 
+   applyJec=cms.bool(True),
+   vertexes=cms.InputTag("offlinePrimaryVertices")
+)
 
-#NOTE74
-#from RecoJets.JetProducers.pujetidsequence_cff import *
-#process.recoPuJetId = puJetId.clone(
-#   jets = cms.InputTag("ak4PFJets"),
-#   applyJec = cms.bool(True),
-#   inputIsCorrected = cms.bool(False),                
-#)
 
-#process.recoPuJetMva = puJetMva.clone(
-#   jets = cms.InputTag("ak4PFJets"),
-#   jetids = cms.InputTag("recoPuJetId"),
-#   applyJec = cms.bool(True),
-#   inputIsCorrected = cms.bool(False),                
-#)
 
+#process.pileupJetId.jets=cms.InputTag("ak4PFJetsCHS")
+#process.pileupJetId.inputIsCorrected=False
+#process.pileupJetId.applyJec=True
+#process.pileupJetId.vertexes=cms.InputTag("offlinePrimaryVertices")
 
 
 
@@ -643,7 +649,7 @@ process.analyzer = cms.EDAnalyzer(
     DEBUG                     = cms.bool(False),
     DATA                      = cms.bool( isData ),
     GEN_ONLY                  = cms.bool(False),
-    CHECK_JECREF              = cms.bool(True), 
+    CHECK_JECREF              = cms.bool(False), 
     SAVE_ALLEVENTS            = cms.bool(True),
     VERTEXING                 = cms.bool(True),
     SMOOTHING                 = cms.bool(True),
@@ -751,6 +757,7 @@ if isData == True :
         process.pfPileUpAllChargedParticlesClone*process.kt6PFJetsForCh*process.kt6PFJetsForCh2p4*
         process.kt6PFJetsForIso*
         process.myjecs *
+        process.pfPileupJetId*process.pfchsPileupJetId *
  #       process.ak4CaloJetsL1FastL2L3Residual*
         #process.pfiso*
         #                    process.type0PFMEtCorrection*
@@ -786,6 +793,7 @@ else :
         process.pfPileUpAllChargedParticlesClone*process.kt6PFJetsForCh*process.kt6PFJetsForCh2p4*
         process.kt6PFJetsForIso*
         process.myjecs *
+        process.pfPileupJetId*process.pfchsPileupJetId *
 #        process.ak4CaloJetsL1FastL2L3*
         #process.pfiso*
         #                    process.type0PFMEtCorrection*

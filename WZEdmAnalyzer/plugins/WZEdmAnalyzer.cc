@@ -252,6 +252,16 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   QGTagsHandleMLPToken_            = consumes<edm::ValueMap<float> > (  edm::InputTag("QGTagger","qgMLP") );
   QGTagsHandleLikelihoodToken_     = consumes<edm::ValueMap<float> > (  edm::InputTag("QGTagger","qgLikelihood") );
 
+
+  // pujetID
+  puJetIdFlagToken_                = consumes<edm::ValueMap<int> > (edm::InputTag("pfPileupJetId","fullId") );
+  puJetIdMvaToken_                 = consumes<edm::ValueMap<float> > (edm::InputTag("pfPileupJetId","fullDiscriminant") );
+
+  puJetIdFlagCHSToken_             = consumes<edm::ValueMap<int> > (edm::InputTag("pfchsPileupJetId","fullId") );
+  puJetIdMvaCHSToken_              = consumes<edm::ValueMap<float> > (edm::InputTag("pfchsPileupJetId","fullDiscriminant") );
+
+
+
   ecalEBRecHitToken_               = consumes<EBRecHitCollection> (edm::InputTag("reducedEcalRecHitsEB") );
   ecalEERecHitToken_               = consumes<EERecHitCollection> (edm::InputTag("reducedEcalRecHitsEE") );
  

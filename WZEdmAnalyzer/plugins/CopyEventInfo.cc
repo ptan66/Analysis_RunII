@@ -2442,6 +2442,9 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
    *
    ************************************************************************/
   if (_is_debug) std::cout << "copy PF CHS jet information ..." << std::endl;
+  iEvent.getByToken(puJetIdFlagCHSToken_,puJetIdFlagCHS);
+  iEvent.getByToken(puJetIdMvaCHSToken_, puJetIdMvaCHS);
+
   for (reco::PFJetCollection::const_iterator jet = ( *(pfchsJets.product()) ).begin(); jet != ( *(pfchsJets.product())  ).end(); jet ++) {
 
     int index = jet - pfchsJets->begin();
@@ -2459,6 +2462,15 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
     // have identical copy for the old calo jet collection
     _jet_ *mycalojet = myEvent->addCaloJet();
     this->copyPFCHSJetInfo(iEvent, iSetup, jet, jetRef, pfchsJetUnc, jec, thePFCHSJetFlavourInfos, mycalojet);
+
+
+    int    idflag = (*puJetIdFlagCHS)[ jetRef ];
+    myjet->puIDFlag   = idflag;
+    myjet->puIDMva    =  (*puJetIdMvaCHS)[ jetRef ];
+    myjet->puIDLoose  = PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kLoose  ) ;
+    myjet->puIDMedium = PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kMedium ) ;
+    myjet->puIDTight  = PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kTight  );
+
 
 
   }
@@ -2532,16 +2544,9 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
    *************************************************************************/
   if (_is_debug) std::cout << "copy PF (no CHS) jet information ..." << std::endl;
 
-  // iEvent.getByLabel("fullDiscriminant",puJetMva);
-
-  //  Handle<ValueMap<int> > puJetIdFlag;
-  // iEvent.getByLabel("fullId",puJetMva);
-  Handle<ValueMap<int> > puJetIdFlag;
-  iEvent.getByLabel("recoPuJetMva","fullId",puJetIdFlag);
-
-  Handle<ValueMap<float> > puJetIdMva;
-  iEvent.getByLabel("recoPuJetMva","fullDiscriminant",puJetIdMva);
-
+  // pileup jet ID
+  iEvent.getByToken(puJetIdFlagToken_,puJetIdFlag);
+  iEvent.getByToken(puJetIdMvaToken_, puJetIdMva);
   for (reco::PFJetCollection::const_iterator jet = ( *(pfJets.product()) ).begin(); jet != (  *(pfJets.product()) ).end(); jet ++) {
 
 
@@ -2564,7 +2569,7 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
     // NOTE74
     // pujet ID
     // jet ID
-    continue;
+    //    continue;
     int    idflag = (*puJetIdFlag)[ jetRef ];
     myjet->puIDFlag   = idflag;
     myjet->puIDMva    =  (*puJetIdMva)[ jetRef ];

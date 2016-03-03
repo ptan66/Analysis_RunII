@@ -633,7 +633,7 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   // Handle<reco::GenParticleCollection>          genParticlesAOD;
   Handle<reco::GenParticleCollection>             genParticles;
 
-  edm::EDGetTokenT<GenEventInfoProduct>          genEventInfoToken_;
+  edm::EDGetTokenT<GenEventInfoProduct>           genEventInfoToken_;
   edm::Handle<GenEventInfoProduct>                genEventInfo;
 
   Handle<LHEEventProduct>                         lheEventInfo;
@@ -764,6 +764,20 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   reco::TrackToTrackMap                    tevMap2;
   Handle <reco::TrackToTrackMap>           tevMapH3;
   reco::TrackToTrackMap                    tevMap3;
+
+  // pileup jet id
+  edm::EDGetTokenT<edm::ValueMap<float> >  puJetIdMvaCHSToken_;
+  edm::Handle<edm::ValueMap<float> >       puJetIdMvaCHS;
+
+  edm::EDGetTokenT<edm::ValueMap<int> >    puJetIdFlagCHSToken_;
+  edm::Handle<edm::ValueMap<int> >         puJetIdFlagCHS;
+
+
+  edm::EDGetTokenT<edm::ValueMap<float> >  puJetIdMvaToken_;
+  edm::Handle<edm::ValueMap<float> >       puJetIdMva;
+
+  edm::EDGetTokenT<edm::ValueMap<int> >    puJetIdFlagToken_;
+  edm::Handle<edm::ValueMap<int> >         puJetIdFlag;
 
 
 

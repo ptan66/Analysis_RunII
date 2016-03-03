@@ -1,3 +1,25 @@
+notes for 76x release
+
+
+git cms-merge-topic -u matteosan1:smearer_76X
+git clone https://github.com/ptan66/Analysis_RunII
+
+#git cms-init
+git cms-addpkg RecoJets/JetProducers
+git remote add -f PUJetId https://github.com/jbrands/cmssw.git
+git checkout PUJetId/pileupJetId76X -b pileupJetId76X
+cd RecoJets/JetProducers/data/
+wget https://github.com/jbrands/RecoJets-JetProducers/raw/3dad903ed25d025f68be94d6f781ca957d6f86ac/pileupJetId_76x_Eta0to2p5_BDT.weights.xml.gz
+wget https://github.com/jbrands/RecoJets-JetProducers/raw/3dad903ed25d025f68be94d6f781ca957d6f86ac/pileupJetId_76x_Eta2p5to2p75_BDT.weights.xml.gz
+wget https://github.com/jbrands/RecoJets-JetProducers/raw/3dad903ed25d025f68be94d6f781ca957d6f86ac/pileupJetId_76x_Eta2p75to3_BDT.weights.xml.gz
+wget https://github.com/jbrands/RecoJets-JetProducers/raw/3dad903ed25d025f68be94d6f781ca957d6f86ac/pileupJetId_76x_Eta3to5_BDT.weights.xml.gz
+
+
+
+
+
+
+
 set up guide for version 7.4.14.v1-patch1
 ++++++++++++++++++++++++++++++++++
 
