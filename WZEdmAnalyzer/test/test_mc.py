@@ -623,6 +623,22 @@ process.myJPTBTaggers = cms.Sequence(
 )
 
 
+#ak5 gen jets
+process.load("RecoJets.Configuration.GenJetParticles_cff")
+process.load("RecoJets.JetProducers.ak5GenJets_cfi")
+#from RecoJets.JetProducers.GenJetParameters_cfi import *
+#from RecoJets.JetProducers.AnomalousCellParameters_cfi import *
+#process.myAK5GenJets = cms.EDProducer(
+#    "FastjetJetProducer",
+#    GenJetParameters,
+#    AnomalousCellParameters,
+#    jetAlgorithm = cms.string("AntiKt"),
+#    rParam       = cms.double(0.5)     )
+
+
+
+
+
 
 process.analyzer = cms.EDAnalyzer(
     "WZEdmAnalyzer",
@@ -708,7 +724,7 @@ process.analyzer = cms.EDAnalyzer(
     HLTTriggerElectrons       = cms.vstring(HLT_SINGLEELE1, HLT_SINGLEELE2, HLT_DOUBLEELE1), 
     GeneratorLevelTag         = cms.string("generator"),
     LHEEventProductTag        = cms.InputTag("externalLHEProducer"),
-    GenJets                   = cms.string(  "ak4GenJets"),
+    GenJets                   = cms.string(  "ak5GenJets"),
     akGenJets                 = cms.string(  "ak4GenJets"),
     akGenJetFlavourInfos      = cms.InputTag("myak4GenJetFlavourInfos"),
     GenJetMinPt               = cms.double(5),
@@ -769,6 +785,8 @@ else :
         process.flavourByRefPF*process.flavourByValPF*
         process.flavourByRefCalo*process.flavourByValCalo*
         process.flavourByRefGenJet*process.flavourByValGenJet*
+        process.genParticlesForJets*
+        process.ak5GenJets*
         process.pfPileUpAllChargedParticlesClone*process.kt6PFJetsForCh*process.kt6PFJetsForCh2p4*
         process.kt6PFJetsForIso*
         process.myjecs *

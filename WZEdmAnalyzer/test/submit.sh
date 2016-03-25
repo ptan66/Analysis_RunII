@@ -26,12 +26,12 @@ set runconfig  = ${6}
 set dataset    = ${7}
 
 set runrange   = "0-999999"
-set jsonfile   = "Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_Silver_v2.txt"
+set jsonfile   = "Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
 
 
 set useaod        = "True"
 set isdata        = "False"
-set subdir        = "Summer2015/${prodtag}"
+set subdir        = "noreplica/Summer2015/${prodtag}"
 set temp          = `echo ${dataset} | awk -F/ '{print $2"_"$3}'`
 
 set user          = "group/lpclljj"
@@ -46,7 +46,7 @@ endif
 if (${dataflag} == "data") then
 
 set isdata          = "True"
-set subdir          = "Run2015/${prodtag}"
+set subdir          = "noreplica/Run2015/${prodtag}"
 endif
 
 # output datatag

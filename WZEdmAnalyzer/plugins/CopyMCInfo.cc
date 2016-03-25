@@ -114,9 +114,11 @@ WZEdmAnalyzer::fillGenJets(void)
     if (gen->pt() < genJetMinPt ) continue;
     
     _gen_jet_ *myJet = myEvent->addGenJet();
-    myJet->pt  =  gen->pt();
-    myJet->eta =  gen->eta();
-    myJet->phi =  gen->phi();
+    myJet->pt           =  gen->pt();
+    myJet->eta          =  gen->eta();
+    myJet->phi          =  gen->phi();
+
+    myJet->energy       =  gen->energy();
 
     
     // jet flavor information need to be fix latter.
