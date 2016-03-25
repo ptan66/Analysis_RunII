@@ -2459,10 +2459,6 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
     _jet_ *myjet = myEvent->addJet();
     this->copyPFCHSJetInfo(iEvent, iSetup, jet, jetRef, pfchsJetUnc, jec, thePFCHSJetFlavourInfos, myjet);
 
-    // have identical copy for the old calo jet collection
-    _jet_ *mycalojet = myEvent->addCaloJet();
-    this->copyPFCHSJetInfo(iEvent, iSetup, jet, jetRef, pfchsJetUnc, jec, thePFCHSJetFlavourInfos, mycalojet);
-
 
     int    idflag = (*puJetIdFlagCHS)[ jetRef ];
     myjet->puIDFlag   = idflag;
@@ -2470,6 +2466,20 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
     myjet->puIDLoose  = PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kLoose  ) ;
     myjet->puIDMedium = PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kMedium ) ;
     myjet->puIDTight  = PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kTight  );
+
+
+
+    // have identical copy for the old calo jet collection
+    _jet_ *mycalojet = myEvent->addCaloJet();
+    this->copyPFCHSJetInfo(iEvent, iSetup, jet, jetRef, pfchsJetUnc, jec, thePFCHSJetFlavourInfos, mycalojet);
+
+
+
+    mycalojet->puIDFlag   = idflag;
+    mycalojet->puIDMva    =  (*puJetIdMvaCHS)[ jetRef ];
+    mycalojet->puIDLoose  = PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kLoose  ) ;
+    mycalojet->puIDMedium = PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kMedium ) ;
+    mycalojet->puIDTight  = PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kTight  );
 
 
 
