@@ -156,6 +156,10 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   PFCHSJetToken_(               consumes<reco::PFJetCollection>( iConfig.getParameter<std::string>("PFCHSJets"))),
   pfchsJetFlavourInfosToken_(   consumes<reco::JetFlavourInfoMatchingCollection>( iConfig.getParameter<edm::InputTag>("PFCHSJetFlavourInfos") ) ), 
   PFCHSJetTagInfos_(            iConfig.getParameter<std::vector< std::string> >("PFCHSJetTagInfos")), 
+  // temporarily set to ak5 jet, 
+  ak5PFJetToken_(               consumes<reco::PFJetCollection>( iConfig.getParameter<std::string>("AK5PFJets"))),
+  ak5PFJetFlavourInfosToken_(   consumes<reco::JetFlavourInfoMatchingCollection>( iConfig.getParameter<edm::InputTag>("AK5PFJetFlavourInfos") ) ), 
+  ak5PFJetTagInfos_(            iConfig.getParameter<std::vector< std::string> >("AK5PFJetTagInfos")), 
   CaloJetToken_(                consumes<reco::CaloJetCollection>( iConfig.getParameter<std::string>("CaloJets"))),
   recoCaloToken_(               consumes<reco::JetFlavourMatchingCollection>(iConfig.getParameter<edm::InputTag>("CaloJetFlavourInfos"))), 
   CaloJetTagInfos_(             iConfig.getParameter<std::vector< std::string> >("CaloJetTagInfos")), 
@@ -236,9 +240,16 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   myPFCHSJetTagsJPToken_           = consumes<reco::JetTagCollection>( edm::InputTag( PFCHSJetTagInfos_[1] ) );
   myPFCHSJetTagsCSVToken_          = consumes<reco::JetTagCollection>( edm::InputTag( PFCHSJetTagInfos_[2] ) );
 
+
+  myAK5PFJetTagsTCHPToken_         = consumes<reco::JetTagCollection>( edm::InputTag( ak5PFJetTagInfos_[0] ) );
+  myAK5PFJetTagsJPToken_           = consumes<reco::JetTagCollection>( edm::InputTag( ak5PFJetTagInfos_[1] ) );
+  myAK5PFJetTagsCSVToken_          = consumes<reco::JetTagCollection>( edm::InputTag( ak5PFJetTagInfos_[2] ) );
+
+
   myCaloJetTagsTCHPToken_          = consumes<reco::JetTagCollection>( edm::InputTag( CaloJetTagInfos_[0] ) );
   myCaloJetTagsJPToken_            = consumes<reco::JetTagCollection>( edm::InputTag( CaloJetTagInfos_[1] ) );
   myCaloJetTagsCSVToken_           = consumes<reco::JetTagCollection>( edm::InputTag( CaloJetTagInfos_[2] ) );
+
 
   myJPTJetTagsTCHPToken_           = consumes<reco::JetTagCollection>( edm::InputTag( JPTJetTagInfos_[0] ) );
   myJPTJetTagsJPToken_             = consumes<reco::JetTagCollection>( edm::InputTag( JPTJetTagInfos_[1] ) );
@@ -256,6 +267,11 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   // pujetID
   puJetIdFlagToken_                = consumes<edm::ValueMap<int> > (edm::InputTag("pfPileupJetId","fullId") );
   puJetIdMvaToken_                 = consumes<edm::ValueMap<float> > (edm::InputTag("pfPileupJetId","fullDiscriminant") );
+
+  // ak5 pujetID
+  puJetIdFlagAK5Token_             = consumes<edm::ValueMap<int> > (edm::InputTag("ak5PFPileupJetId","fullId") );
+  puJetIdMvaAK5Token_              = consumes<edm::ValueMap<float> > (edm::InputTag("ak5PFPileupJetId","fullDiscriminant") );
+
 
   puJetIdFlagCHSToken_             = consumes<edm::ValueMap<int> > (edm::InputTag("pfchsPileupJetId","fullId") );
   puJetIdMvaCHSToken_              = consumes<edm::ValueMap<float> > (edm::InputTag("pfchsPileupJetId","fullDiscriminant") );
@@ -628,7 +644,9 @@ Handle<bool> CSCTightHaloFilterHandle;
   iEvent.getByToken(MuonCollectionToken_,              muons);
   iEvent.getByToken(ElectronCollectionToken_,          electrons);
   iEvent.getByToken(PFCHSJetToken_,                    pfchsJets);
-  //  iEvent.getByToken(CaloJetToken_,                     caloJets);
+  iEvent.getByToken(ak5PFJetToken_,                    ak5pfJets);
+
+  // iEvent.getByToken(CaloJetToken_,                     caloJets);
   // iEvent.getByToken(JPTJetToken_,                      jptJets);
   iEvent.getByToken(PFJetToken_,                       pfJets);
   iEvent.getByToken(PhotonCollectionToken_,            photons);
@@ -679,6 +697,14 @@ Handle<bool> CSCTightHaloFilterHandle;
   iEvent.getByToken(myPFCHSJetTagsTCHPToken_,  myPFCHSJetTagsTCHP);
   iEvent.getByToken(myPFCHSJetTagsJPToken_,    myPFCHSJetTagsJP);
   iEvent.getByToken(myPFCHSJetTagsCSVToken_,   myPFCHSJetTagsCSV);
+
+
+
+  iEvent.getByToken(myAK5PFJetTagsTCHPToken_,     myAK5PFJetTagsTCHP);
+  iEvent.getByToken(myAK5PFJetTagsJPToken_,       myAK5PFJetTagsJP);
+  iEvent.getByToken(myAK5PFJetTagsCSVToken_,      myAK5PFJetTagsCSV);
+
+
 
   /*
   iEvent.getByToken(myCaloJetTagsTCHPToken_,   myCaloJetTagsTCHP);
@@ -803,12 +829,13 @@ Handle<bool> CSCTightHaloFilterHandle;
 
     /*************************************************************************
      *
-     * jet flavor, for 74x
+     * jet flavor, for 76x
      *
      *************************************************************************/
     //    iEvent.getByToken( recoCaloToken_,              theRecoCaloTag);
     //    iEvent.getByToken( recoJPTToken_,               theRecoJPTTag);
     iEvent.getByToken( pfchsJetFlavourInfosToken_,  thePFCHSJetFlavourInfos );
+    iEvent.getByToken( ak5PFJetFlavourInfosToken_,  theAK5PFJetFlavourInfos);
     iEvent.getByToken( pfJetFlavourInfosToken_,     thePFJetFlavourInfos);
     iEvent.getByToken( genJetFlavourInfosToken_,    theGenJetFlavourInfos);
 

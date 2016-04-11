@@ -314,6 +314,20 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
 			     double scale, 
 			     edm::Handle<reco::JetFlavourInfoMatchingCollection> & theRecoTag, 
 			     _jet_ *myJet);
+
+ void   copyAK5PFJetInfo(      const edm::Event& iEvent,
+			     const edm::EventSetup& iSetup, 
+			     reco::PFJetCollection::const_iterator jet, 
+			     edm::RefToBase<reco::Jet> &jetRef, 
+			     JetCorrectionUncertainty *jetCorUnc, 
+			     double scale, 
+			     edm::Handle<reco::JetFlavourInfoMatchingCollection> & theRecoTag, 
+			     _jet_ *myJet);
+
+
+
+
+
   void   copyPFJetInfoCommon(      const edm::Event& iEvent,
 				   const edm::EventSetup& iSetup, 
 				   reco::PFJetCollection::const_iterator jet, 
@@ -436,6 +450,24 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::Handle<reco::JetTagCollection>                      myPFCHSJetTagsTCHP;
   edm::Handle<reco::JetTagCollection>                      myPFCHSJetTagsCSV;
 
+
+
+  // ak5 pfjet 
+  edm::EDGetTokenT<reco::PFJetCollection>                  ak5PFJetToken_;  
+  edm::EDGetTokenT<reco::JetFlavourInfoMatchingCollection> ak5PFJetFlavourInfosToken_;
+  edm::Handle<reco::JetFlavourInfoMatchingCollection>      theAK5PFJetFlavourInfos;
+  std::vector< std::string  >                              ak5PFJetTagInfos_;
+
+  edm::EDGetTokenT<reco::JetTagCollection>                 myAK5PFJetTagsJPToken_;
+  edm::EDGetTokenT<reco::JetTagCollection>                 myAK5PFJetTagsTCHPToken_;
+  edm::EDGetTokenT<reco::JetTagCollection>                 myAK5PFJetTagsCSVToken_;
+
+  edm::Handle<reco::JetTagCollection>                      myAK5PFJetTagsJP;
+  edm::Handle<reco::JetTagCollection>                      myAK5PFJetTagsTCHP;
+  edm::Handle<reco::JetTagCollection>                      myAK5PFJetTagsCSV;
+
+
+
   
   // calo jet
   edm::EDGetTokenT<reco::CaloJetCollection>                CaloJetToken_;
@@ -448,6 +480,9 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::Handle<reco::JetTagCollection>                      myCaloJetTagsJP;
   edm::Handle<reco::JetTagCollection>                      myCaloJetTagsTCHP;
   edm::Handle<reco::JetTagCollection>                      myCaloJetTagsCSV;
+
+
+
 
    
   // jpt jet
@@ -463,6 +498,11 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::Handle<reco::JetTagCollection>                      myJPTJetTagsCSV;
 
 
+
+
+
+
+
   // pfjet 
   edm::EDGetTokenT<reco::PFJetCollection>                  PFJetToken_;  
   edm::EDGetTokenT<reco::JetFlavourInfoMatchingCollection> pfJetFlavourInfosToken_;
@@ -476,6 +516,11 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::Handle<reco::JetTagCollection>                      myPFJetTagsJP;
   edm::Handle<reco::JetTagCollection>                      myPFJetTagsTCHP;
   edm::Handle<reco::JetTagCollection>                      myPFJetTagsCSV;
+
+
+
+
+
 
   // default tagging variables
   std::vector< std::string  >                              JetTagCollectionTags_;
@@ -664,6 +709,7 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   Handle<GenJetCollection>                        genJets;
   Handle<GenJetCollection>                        akGenJets;
   Handle<reco::PFJetCollection>                   pfchsJets;
+  Handle<reco::PFJetCollection>                   ak5pfJets;
   Handle<reco::CaloJetCollection>                 caloJets;
   Handle<reco::JPTJetCollection>                  jptJets;
   Handle<reco::PFJetCollection>                   pfJets;
@@ -781,6 +827,14 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
 
   edm::EDGetTokenT<edm::ValueMap<int> >    puJetIdFlagToken_;
   edm::Handle<edm::ValueMap<int> >         puJetIdFlag;
+
+
+  // ak5 pu jet id
+  edm::EDGetTokenT<edm::ValueMap<float> >  puJetIdMvaAK5Token_;
+  edm::Handle<edm::ValueMap<float> >       puJetIdMvaAK5;
+
+  edm::EDGetTokenT<edm::ValueMap<int> >    puJetIdFlagAK5Token_;
+  edm::Handle<edm::ValueMap<int> >         puJetIdFlagAK5;
 
 
 

@@ -708,6 +708,36 @@ WZEdmAnalyzer::copyPFJetInfo(   const edm::Event& iEvent,
 }
 
 
+
+
+void
+WZEdmAnalyzer::copyAK5PFJetInfo(   const edm::Event& iEvent,
+				const edm::EventSetup& iSetup, 
+				reco::PFJetCollection::const_iterator jet,
+				edm::RefToBase<reco::Jet> &jetRef, 
+				JetCorrectionUncertainty *jetCorUnc, 
+				double scale, 
+				edm::Handle<reco::JetFlavourInfoMatchingCollection> & theRecoTag, 
+				//edm::Handle<reco::JetTagCollection> & jetTags, 
+				_jet_ *myJet) {
+
+
+  if (_check_jecref) {
+    std::cout << setw(15) << "PF jet: ";
+  }
+  copyPFJetInfoCommon(iEvent, iSetup, jet, jetRef, jetCorUnc, scale, theRecoTag, myJet);
+
+  // access btagging for PF jet
+  myJet->flavor[0]                   = btaggingAssociation( (reco::Jet)(*jet), jetTags.product());
+  myJet->flavor[1]                   = btaggingAssociation( (reco::Jet)(*jet), jetTagsCSV.product());
+
+  myJet->flavor[2]                   = btaggingAssociation( jetRef, myAK5PFJetTagsJP, _is_debug);
+  myJet->flavor[3]                   = btaggingAssociation( jetRef, myAK5PFJetTagsTCHP, _is_debug);
+  myJet->flavor[4]                   = btaggingAssociation( jetRef, myAK5PFJetTagsCSV, _is_debug);
+  
+}
+
+
 void
 WZEdmAnalyzer::copyPFJetInfoCommon(   const edm::Event& iEvent,
 				      const edm::EventSetup& iSetup, 
@@ -2470,20 +2500,51 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
 
 
     // have identical copy for the old calo jet collection
-    _jet_ *mycalojet = myEvent->addCaloJet();
-    this->copyPFCHSJetInfo(iEvent, iSetup, jet, jetRef, pfchsJetUnc, jec, thePFCHSJetFlavourInfos, mycalojet);
+    //    _jet_ *mycalojet = myEvent->addCaloJet();
+    // this->copyPFCHSJetInfo(iEvent, iSetup, jet, jetRef, pfchsJetUnc, jec, thePFCHSJetFlavourInfos, mycalojet);
 
 
 
-    mycalojet->puIDFlag   = idflag;
-    mycalojet->puIDMva    =  (*puJetIdMvaCHS)[ jetRef ];
-    mycalojet->puIDLoose  = PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kLoose  ) ;
-    mycalojet->puIDMedium = PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kMedium ) ;
-    mycalojet->puIDTight  = PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kTight  );
+    //    mycalojet->puIDFlag   = idflag;
+    // mycalojet->puIDMva    =  (*puJetIdMvaCHS)[ jetRef ];
+    // mycalojet->puIDLoose  = PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kLoose  ) ;
+    // mycalojet->puIDMedium = PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kMedium ) ;
+    // mycalojet->puIDTight  = PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kTight  );
+  }
 
 
+
+  if (_is_debug) std::cout << "copy ak5 PF (no CHS) jet information ..." << std::endl;
+
+  // pileup jet ID
+  iEvent.getByToken(puJetIdFlagAK5Token_,puJetIdFlagAK5);
+  iEvent.getByToken(puJetIdMvaAK5Token_, puJetIdMvaAK5);
+  for (reco::PFJetCollection::const_iterator jet = ( *(ak5pfJets.product()) ).begin(); jet != (  *(ak5pfJets.product()) ).end(); jet ++) {
+
+
+    // Jun 10, 2014
+    int index = jet - ak5pfJets->begin();
+    edm::RefToBase<reco::Jet> jetRef(edm::Ref<PFJetCollection>(ak5pfJets, index));
+
+      
+    double jec = pfJetCorr->correction(*jet);
+    //std::cout << "jet pt = " << jet->pt() << "afer " << std::endl;
+  
+    if ( jec * jet->pt() < jetMinPt) continue;    
+    _jet_ *myjet = myEvent->addCaloJet();
+
+    this->copyAK5PFJetInfo(iEvent, iSetup, jet, jetRef, pfJetUnc, jec, theAK5PFJetFlavourInfos, myjet);
+
+    int    idflag = (*puJetIdFlagAK5)[ jetRef ];
+    myjet->puIDFlag   = idflag;
+    myjet->puIDMva    =  (*puJetIdMvaAK5)[ jetRef ];
+    myjet->puIDLoose  = PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kLoose  ) ;
+    myjet->puIDMedium = PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kMedium ) ;
+    myjet->puIDTight  = PileupJetIdentifier::passJetId( idflag, PileupJetIdentifier::kTight  );
 
   }
+
+
 
 
   /*************************************************************************
