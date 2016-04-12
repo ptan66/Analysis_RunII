@@ -177,6 +177,8 @@ process.logErrorTooManyClusters.forcedValue = cms.untracked.bool(False)
 #
 ###############################################################
 process.load('RecoJets.Configuration.RecoPFJets_cff')
+process.load("RecoJets.JetProducers.ak5PFJets_cfi")
+
 
 # (76x release)
 process.load('JetMETCorrections.Configuration.JetCorrectors_cff')
@@ -304,6 +306,17 @@ process.pfchsPileupJetId = process.pileupJetId.clone(
 )
 
 
+#for ak5 PF jets
+process.ak5PFPileupJetId = process.pileupJetId.clone(
+   jets= cms.InputTag("ak5PFJets"), 
+   jec = cms.string("AK4PF"), 
+   inputIsCorrected=cms.bool(False), 
+   applyJec=cms.bool(True),
+   vertexes=cms.InputTag("offlinePrimaryVertices")
+)
+
+
+
 
 #process.pileupJetId.jets=cms.InputTag("ak4PFJetsCHS")
 #process.pileupJetId.inputIsCorrected=False
@@ -405,6 +418,11 @@ process.flavourByValPF = cms.EDProducer("JetFlavourIdentifier",
                                         srcByReference = cms.InputTag("flavourByRefPF"),
                                         physicsDefinition = cms.bool(False)
                                         )
+
+
+
+
+
 #for reco Calo jet
 process.flavourByRefCalo = cms.EDProducer("JetPartonMatcher",
                                           jets = cms.InputTag("ak4CaloJets"),
@@ -449,6 +467,11 @@ process.selectedHadronsAndPartons = selectedHadronsAndPartons.clone()
 
 from PhysicsTools.JetMCAlgos.AK4PFJetsMCFlavourInfos_cfi import ak4JetFlavourInfos
 process.myak4PFJetFlavourInfos = ak4JetFlavourInfos.clone(jets = cms.InputTag("ak4PFJets"))
+
+#ak5 jets
+from PhysicsTools.JetMCAlgos.AK5PFJetsMCFlavourInfos_cfi import ak5JetFlavourInfos
+process.myak5PFJetFlavourInfos = ak5JetFlavourInfos.clone(jets = cms.InputTag("ak5PFJets"))
+
 
 from PhysicsTools.JetMCAlgos.AK4PFJetsMCFlavourInfos_cfi import ak4JetFlavourInfos
 process.myak4PFJetCHSFlavourInfos = ak4JetFlavourInfos.clone(jets = cms.InputTag("ak4PFJetsCHS"))
@@ -538,6 +561,42 @@ process.myPFBTaggers = cms.Sequence(
 
 
 
+#ak5 pf jets
+process.MyAK5PFImpactParameterTagInfos = process.pfImpactParameterTagInfos.clone(
+    jets = cms.InputTag("ak5PFJets") # use ak4PFJetsCHS stored in AOD as input
+)
+process.MyAK5PFSecondaryVertexTagInfos = process.pfInclusiveSecondaryVertexFinderTagInfos.clone(
+    trackIPTagInfos = cms.InputTag("MyAK5PFImpactParameterTagInfos") # use the above IP TagInfos as input
+)
+
+process.MyAK5PFTrackCountingHighPurBJetTags = process.pfTrackCountingHighPurBJetTags.clone(
+  tagInfos = cms.VInputTag(cms.InputTag("MyAK5PFImpactParameterTagInfos"))
+)
+
+process.MyAK5PFCombinedSecondaryVertexV2BJetTags = process.pfCombinedInclusiveSecondaryVertexV2BJetTags.clone(
+  tagInfos = cms.VInputTag(cms.InputTag("MyAK5PFImpactParameterTagInfos"), 
+                           cms.InputTag("MyAK5PFSecondaryVertexTagInfos")			
+	)
+)
+process.MyAK5PFJetProbabilityBJetTags = process.pfJetProbabilityBJetTags.clone(
+  tagInfos = cms.VInputTag(cms.InputTag("MyAK5PFImpactParameterTagInfos"))
+)
+
+process.myAK5PFBTaggers = cms.Sequence(
+  process.MyAK5PFImpactParameterTagInfos *
+  (
+     process.MyAK5PFTrackCountingHighPurBJetTags +
+     process.MyAK5PFJetProbabilityBJetTags + 
+     (  process.MyAK5PFSecondaryVertexTagInfos *
+        process.MyAK5PFCombinedSecondaryVertexV2BJetTags
+        )
+     )
+)
+
+
+
+
+
 #btagging with calojets
 process.MyAk4CaloJetTracksAssociatorAtVertex = cms.EDProducer("JetTracksAssociatorAtVertex",
    process.j2tParametersVX,
@@ -623,9 +682,7 @@ process.myJPTBTaggers = cms.Sequence(
 )
 
 
-
-
-#ak5 gen jets
+#ak5 jets
 process.load("RecoJets.Configuration.GenJetParticles_cff")
 process.load("RecoJets.JetProducers.ak5GenJets_cfi")
 #from RecoJets.JetProducers.GenJetParameters_cfi import *
@@ -636,6 +693,8 @@ process.load("RecoJets.JetProducers.ak5GenJets_cfi")
 #    AnomalousCellParameters,
 #    jetAlgorithm = cms.string("AntiKt"),
 #    rParam       = cms.double(0.5)     )
+
+
 
 
 
@@ -678,6 +737,9 @@ process.analyzer = cms.EDAnalyzer(
     PFCHSJets                 = cms.string(  "ak4PFJetsCHS"),
     PFCHSJetFlavourInfos      = cms.InputTag("myak4PFJetCHSFlavourInfos"),
     PFCHSJetTagInfos          = cms.vstring( "MyPFCHSTrackCountingHighPurBJetTags", "MyPFCHSJetProbabilityBJetTags", "MyPFCHSCombinedSecondaryVertexV2BJetTags"),
+    AK5PFJets                  = cms.string(  "ak5PFJets"),
+    AK5PFJetFlavourInfos       = cms.InputTag("myak5PFJetFlavourInfos"), 
+    AK5PFJetTagInfos           = cms.vstring( "MyAK5PFTrackCountingHighPurBJetTags", "MyAK5PFJetProbabilityBJetTags", "MyAK5PFCombinedSecondaryVertexV2BJetTags"),
     CaloJets                  = cms.string(  "ak4CaloJets"),
     CaloJetFlavourInfos       = cms.InputTag("flavourByValCalo"), 
     CaloJetTagInfos           = cms.vstring( "MyCaloTrackCountingHighPurBJetTags",  "MyCaloJetProbabilityBJetTags", "MyCaloCombinedSecondaryVertexV2BJetTags"),
@@ -749,12 +811,13 @@ if isData == True :
         process.primaryVertexFilter*
         #                     process.HBHENoiseFilter*
         process.goodVertices * 
+        process.ak5PFJets *
 #process.trackingFailureFilter *
         process.trkPOGFilters*
         process.pfPileUpAllChargedParticlesClone*process.kt6PFJetsForCh*process.kt6PFJetsForCh2p4*
         process.kt6PFJetsForIso*
         process.myjecs *
-        process.pfPileupJetId*process.pfchsPileupJetId *
+        process.ak5PFPileupJetId * process.pfPileupJetId*process.pfchsPileupJetId *
  #       process.ak4CaloJetsL1FastL2L3Residual*
         #process.pfiso*
         #                    process.type0PFMEtCorrection*
@@ -763,7 +826,7 @@ if isData == True :
         #                    process.mymets*
         process.superClusters*
         process.myJetPlusTrackCorrectionsAntiKt4*
-        process.myPFCHSBTaggers*process.myPFBTaggers*process.myCaloBTaggers*process.myJPTBTaggers*
+        process.myPFCHSBTaggers*process.myPFBTaggers*process.myAK5PFBTaggers*process.myCaloBTaggers*process.myJPTBTaggers*
         #                    process.QuarkGluonTagger*	
         process.selectedElectrons * process.calibratedElectrons *
         process.egmGsfElectronIDSequence*
@@ -777,19 +840,21 @@ else :
         process.primaryVertexFilter*
         #                     process.HBHENoiseFilter*
         process.goodVertices *
+        process.ak5PFJets *
 # process.trackingFailureFilter *
 #        process.trkPOGFilters*
         process.selectedHadronsAndPartons*
-        process.myak4PFJetFlavourInfos*process.myak4PFJetCHSFlavourInfos*process.myak4GenJetFlavourInfos*
+        process.myak4PFJetFlavourInfos* process.myak5PFJetFlavourInfos* process.myak4PFJetCHSFlavourInfos*process.myak4GenJetFlavourInfos*
         process.myPartons*
         process.flavourByRefPF*process.flavourByValPF*
         process.flavourByRefCalo*process.flavourByValCalo*
         process.flavourByRefGenJet*process.flavourByValGenJet*
-        process.genParticlesForJets*process.ak5GenJets*
+        process.genParticlesForJets*
+        process.ak5GenJets*
         process.pfPileUpAllChargedParticlesClone*process.kt6PFJetsForCh*process.kt6PFJetsForCh2p4*
         process.kt6PFJetsForIso*
         process.myjecs *
-        process.pfPileupJetId*process.pfchsPileupJetId *
+        process.ak5PFPileupJetId * process.pfPileupJetId*process.pfchsPileupJetId *
 #        process.ak4CaloJetsL1FastL2L3*
         #process.pfiso*
         #                    process.type0PFMEtCorrection*
@@ -799,7 +864,7 @@ else :
         process.superClusters*
         process.myJetPlusTrackCorrectionsAntiKt4*
         process.flavourByRefJPT*process.flavourByValJPT*
-        process.myPFCHSBTaggers*process.myPFBTaggers*process.myCaloBTaggers*process.myJPTBTaggers*
+        process.myPFCHSBTaggers*process.myPFBTaggers*process.myAK5PFBTaggers*process.myCaloBTaggers*process.myJPTBTaggers*
         #                    process.QuarkGluonTagger*	
         process.selectedElectrons * process.calibratedElectrons *
         process.egmGsfElectronIDSequence*
