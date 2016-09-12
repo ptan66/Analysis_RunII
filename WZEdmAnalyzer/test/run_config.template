@@ -9,35 +9,46 @@ import string
 useAOD   = ?useaod
 isData   = ?isdata # True data; False MC
 
+HLT_SINGLEMU1 = '?hltSINGLEMU1'
+HLT_SINGLEMU2 = '?hltSINGLEMU2'
+HLT_DOUBLEMU1 = '?hltDOUBLEMU1'
+HLT_DOUBLEMU2 = '?hltDOUBLEMU2'
+HLT_MUE       = '?hltMUE'
+HLT_EMU       = '?hltEMU'
+HLT_SINGLEELE1= '?hltSINGLEELE1'
+HLT_SINGLEELE2= '?hltSINGLEELE2'
+HLT_DOUBLEELE1= '?hltDOUBLEELE1'
+
+
 
 if (isData == True) : 
     PFCHSJEC = "ak4PFCHSL1FastL2L3ResidualCorrector"
     CaloJEC  = "ak4CaloL1FastL2L3ResidualCorrector"
     JPTJEC   = "ak4JPTL1FastL2L3ResidualCorrector"
     PFJEC    = "ak4PFL1FastL2L3ResidualCorrector"
-    HLT_SINGLEMU1 = "HLT_IsoTkMu20_vVERSION"
-    HLT_SINGLEMU2 = "HLT_IsoMu20_vVERSION"
-    HLT_DOUBLEMU1 = "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_vVERSION"
-    HLT_DOUBLEMU2 = "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_vVERSION"
-    HLT_MUE       = "HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_vVERSION"
-    HLT_EMU       = "HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_vVERSION"
-    HLT_SINGLEELE1= "HLT_Ele23_WPLoose_Gsf_vVERSION"
-    HLT_SINGLEELE2= "HLT_Ele23_WPLoose_Gsf_vVERSION"
-    HLT_DOUBLEELE1= "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_vVERSION"
+#    HLT_SINGLEMU1 = "HLT_IsoTkMu20_vVERSION"
+#    HLT_SINGLEMU2 = "HLT_IsoMu20_vVERSION"
+#    HLT_DOUBLEMU1 = "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_vVERSION"
+#    HLT_DOUBLEMU2 = "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_vVERSION"
+#    HLT_MUE       = "HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_vVERSION"
+#    HLT_EMU       = "HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_vVERSION"
+#    HLT_SINGLEELE1= "HLT_Ele23_WPLoose_Gsf_vVERSION"
+#    HLT_SINGLEELE2= "HLT_Ele23_WPLoose_Gsf_vVERSION"
+#    HLT_DOUBLEELE1= "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_vVERSION"
 else :
     PFCHSJEC = "ak4PFCHSL1FastL2L3Corrector"
     CaloJEC  = "ak4CaloL1FastL2L3Corrector"
     JPTJEC   = "ak4JPTL1FastL2L3Corrector"
     PFJEC    = "ak4PFL1FastL2L3Corrector"
-    HLT_SINGLEMU1 = "HLT_IsoTkMu20_v4"
-    HLT_SINGLEMU2 = "HLT_IsoMu20_v3"
-    HLT_DOUBLEMU1 = "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v2"
-    HLT_DOUBLEMU2 = "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v2"
-    HLT_MUE       = "HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v3"
-    HLT_EMU       = "HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v3"
-    HLT_SINGLEELE1= "HLT_Ele23_WPLoose_Gsf_v3"
-    HLT_SINGLEELE2= "HLT_Ele23_CaloIdL_TrackIdL_IsoVL_v3"
-    HLT_DOUBLEELE1= "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v3"
+#    HLT_SINGLEMU1 = "HLT_IsoTkMu20_v4"
+#    HLT_SINGLEMU2 = "HLT_IsoMu20_v3"
+#    HLT_DOUBLEMU1 = "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v2"
+#    HLT_DOUBLEMU2 = "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v2"
+#    HLT_MUE       = "HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v3"
+#    HLT_EMU       = "HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v3"
+#    HLT_SINGLEELE1= "HLT_Ele23_WPLoose_Gsf_v3"
+#    HLT_SINGLEELE2= "HLT_Ele23_CaloIdL_TrackIdL_IsoVL_v3"
+#    HLT_DOUBLEELE1= "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v3"
 
 
 process = cms.Process("asym")
@@ -68,10 +79,12 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 
 if isData == True :
-    process.GlobalTag.globaltag = '76X_dataRun2_16Dec2015_v0'
+    process.GlobalTag.globaltag = '80X_dataRun2_Prompt_v10'
+#    process.GlobalTag.globaltag = '76X_dataRun2_16Dec2015_v0'
 #    process.GlobalTag.globaltag = '74X_dataRun2_Prompt_v2'
 else :
-    process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_RunIIFall15DR76_v1'
+    process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_v3'
+#    process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_RunIIFall15DR76_v1'
 #    process.GlobalTag.globaltag = '74X_mcRun2_asymptotic_v4'
 
 
@@ -778,11 +791,8 @@ process.analyzer = cms.EDAnalyzer(
     TriggerResultsLabel       = cms.InputTag("TriggerResults","","HLT"),
     TriggerSummaryLabel       = cms.InputTag("hltTriggerSummaryAOD","","HLT"),
     TriggerRefPath            = cms.string("HLTriggerFinalPath"), 
-    #HLTTriggerMuons           = cms.vstring("HLT_IsoTkMu20_v1", "HLT_IsoMu20_v1", "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v1", "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v1"),
     HLTTriggerMuons           = cms.vstring(HLT_SINGLEMU1, HLT_SINGLEMU2, HLT_DOUBLEMU1, HLT_DOUBLEMU2),
-    #HLTTriggerMuonElectrons   = cms.vstring("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v1", "HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v1"),
     HLTTriggerMuonElectrons   = cms.vstring(HLT_MUE, HLT_EMU),
-    #HLTTriggerElectrons       = cms.vstring("HLT_Ele23_CaloIdL_TrackIdL_IsoVL_v1", "HLT_Ele27_WP85_Gsf_v1", "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v1"), 
     HLTTriggerElectrons       = cms.vstring(HLT_SINGLEELE1, HLT_SINGLEELE2, HLT_DOUBLEELE1), 
     GeneratorLevelTag         = cms.string("generator"),
     LHEEventProductTag        = cms.InputTag("externalLHEProducer"),
@@ -790,7 +800,6 @@ process.analyzer = cms.EDAnalyzer(
     akGenJets                 = cms.string(  "ak4GenJets"),
     akGenJetFlavourInfos      = cms.InputTag("myak4GenJetFlavourInfos"),
     GenJetMinPt               = cms.double(5),
-  #  SimTracks                 = cms.string("g4SimHits"),
     DiLeptonMinMass           = cms.double(5)
     )
 

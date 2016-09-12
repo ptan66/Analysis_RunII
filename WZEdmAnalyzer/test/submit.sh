@@ -31,7 +31,7 @@ set jsonfile   = "Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.tx
 
 set useaod        = "True"
 set isdata        = "False"
-set subdir        = "noreplica/Summer2015/${prodtag}"
+set subdir        = "noreplica/Summer2016/${prodtag}"
 set temp          = `echo ${dataset} | awk -F/ '{print $2"_"$3}'`
 
 set user          = "group/lpclljj"
@@ -46,15 +46,31 @@ endif
 if (${dataflag} == "data") then
 
 set isdata          = "True"
-set subdir          = "noreplica/Run2015/${prodtag}"
+set subdir          = "noreplica/Run2016/${prodtag}"
 endif
+
+
+
+set hlt_nonisoelectron  = `echo ${8} | awk -F: '{print $1}'`
+set hlt_electron        = `echo ${8} | awk -F: '{print $2}'`
+set hlt_electronl       = `echo ${8} | awk -F: '{print $3}'`
+
+set hlt_muonelectron  = `echo ${9} | awk -F: '{print $1}'`
+set hlt_electronmuon  = `echo ${9} | awk -F: '{print $2}'`
+
+set hlt_nonisomuon  = `echo ${10} | awk -F: '{print $1}'`
+set hlt_muon        = `echo ${10} | awk -F: '{print $2}'`
+set hlt_muonl       = `echo ${10} | awk -F: '{print $3}'`
+set hlt_muon2       = `echo ${10} | awk -F: '{print $4}'`
+
+
 
 # output datatag
 set outputdatatag   = "${temp}"
-if ($#argv >= 8) then
+if ($#argv >= 11) then
 
-set runrange        = "${8}"
-set outputdatatag   = "${temp}_${8}"
+set runrange        = "${11}"
+set outputdatatag   = "${temp}_${11}"
 endif
 
 set crabfile_template = "./crab3_config.template"
@@ -64,10 +80,12 @@ set crab_file         = "${prodtag}_${outputdatatag}_crab3.py"
 
 
 #json file
-if ($#argv >= 9) then
+if ($#argv >= 12) then
 
-set jsonfile   = "${9}"
+set jsonfile   = "${12}"
 endif
+
+
 
 echo "production tag = ${prodtag}";
 echo "useaod  = ${useaod}";
@@ -86,6 +104,15 @@ echo "jsonfile      = ${jsonfile}";
 sed -e "s:?useaod:${useaod}:g" \
     -e "s:?outputrootfile:${output_rootfile}:g" \
     -e "s:?isdata:${isdata}:g" \
+    -e "s:?hltSINGLEELE1:${hlt_nonisoelectron}:g" \
+    -e "s:?hltSINGLEELE2:${hlt_electron}:g" \
+    -e "s:?hltDOUBLEELE1:${hlt_electronl}:g" \
+    -e "s:?hltMUE:${hlt_muonelectron}:g" \
+    -e "s:?hltEMU:${hlt_electronmuon}:g" \
+    -e "s:?hltSINGLEMU1:${hlt_nonisomuon}:g" \
+    -e "s:?hltSINGLEMU2:${hlt_muon}:g" \
+    -e "s:?hltDOUBLEMU1:${hlt_muonl}:g" \
+    -e "s:?hltDOUBLEMU2:${hlt_muon2}:g" \
         ${runconfig} > ${config_py}
 
 sed -e "s:?isdata:${isdata}:g" \

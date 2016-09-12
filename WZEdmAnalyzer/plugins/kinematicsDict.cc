@@ -56,7 +56,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_event_filterBit_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_event_filterBit_", ::_event_filterBit_::Class_Version(), "kinematics.h", 33,
-                  typeid(::_event_filterBit_), DefineBehavior(ptr, ptr),
+                  typeid(::_event_filterBit_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_event_filterBit_::Dictionary, isa_proxy, 4,
                   sizeof(::_event_filterBit_) );
       instance.SetNew(&new__event_filterBit_);
@@ -88,7 +88,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_gen_eventInfo_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_gen_eventInfo_", ::_gen_eventInfo_::Class_Version(), "kinematics.h", 66,
-                  typeid(::_gen_eventInfo_), DefineBehavior(ptr, ptr),
+                  typeid(::_gen_eventInfo_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_gen_eventInfo_::Dictionary, isa_proxy, 4,
                   sizeof(::_gen_eventInfo_) );
       instance.SetNew(&new__gen_eventInfo_);
@@ -120,7 +120,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_gen_ttbar_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_gen_ttbar_", ::_gen_ttbar_::Class_Version(), "kinematics.h", 161,
-                  typeid(::_gen_ttbar_), DefineBehavior(ptr, ptr),
+                  typeid(::_gen_ttbar_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_gen_ttbar_::Dictionary, isa_proxy, 4,
                   sizeof(::_gen_ttbar_) );
       instance.SetNew(&new__gen_ttbar_);
@@ -152,7 +152,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_gen_DrellYan_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_gen_DrellYan_", ::_gen_DrellYan_::Class_Version(), "kinematics.h", 213,
-                  typeid(::_gen_DrellYan_), DefineBehavior(ptr, ptr),
+                  typeid(::_gen_DrellYan_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_gen_DrellYan_::Dictionary, isa_proxy, 4,
                   sizeof(::_gen_DrellYan_) );
       instance.SetNew(&new__gen_DrellYan_);
@@ -184,7 +184,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_mc_process_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_mc_process_", ::_mc_process_::Class_Version(), "kinematics.h", 99,
-                  typeid(::_mc_process_), DefineBehavior(ptr, ptr),
+                  typeid(::_mc_process_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_mc_process_::Dictionary, isa_proxy, 4,
                   sizeof(::_mc_process_) );
       instance.SetNew(&new__mc_process_);
@@ -216,7 +216,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_genwz_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_genwz_", ::_genwz_::Class_Version(), "kinematics.h", 267,
-                  typeid(::_genwz_), DefineBehavior(ptr, ptr),
+                  typeid(::_genwz_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_genwz_::Dictionary, isa_proxy, 4,
                   sizeof(::_genwz_) );
       instance.SetNew(&new__genwz_);
@@ -248,7 +248,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_vec4_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_vec4_", ::_vec4_::Class_Version(), "kinematics.h", 306,
-                  typeid(::_vec4_), DefineBehavior(ptr, ptr),
+                  typeid(::_vec4_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_vec4_::Dictionary, isa_proxy, 4,
                   sizeof(::_vec4_) );
       instance.SetNew(&new__vec4_);
@@ -280,7 +280,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_trg_bits_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_trg_bits_", ::_trg_bits_::Class_Version(), "kinematics.h", 404,
-                  typeid(::_trg_bits_), DefineBehavior(ptr, ptr),
+                  typeid(::_trg_bits_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_trg_bits_::Dictionary, isa_proxy, 4,
                   sizeof(::_trg_bits_) );
       instance.SetNew(&new__trg_bits_);
@@ -312,7 +312,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_hlt_info_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_hlt_info_", ::_hlt_info_::Class_Version(), "kinematics.h", 430,
-                  typeid(::_hlt_info_), DefineBehavior(ptr, ptr),
+                  typeid(::_hlt_info_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_hlt_info_::Dictionary, isa_proxy, 4,
                   sizeof(::_hlt_info_) );
       instance.SetNew(&new__hlt_info_);
@@ -344,7 +344,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_met_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_met_", ::_met_::Class_Version(), "kinematics.h", 325,
-                  typeid(::_met_), DefineBehavior(ptr, ptr),
+                  typeid(::_met_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_met_::Dictionary, isa_proxy, 4,
                   sizeof(::_met_) );
       instance.SetNew(&new__met_);
@@ -376,7 +376,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_mets_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_mets_", ::_mets_::Class_Version(), "kinematics.h", 457,
-                  typeid(::_mets_), DefineBehavior(ptr, ptr),
+                  typeid(::_mets_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_mets_::Dictionary, isa_proxy, 4,
                   sizeof(::_mets_) );
       instance.SetNew(&new__mets_);
@@ -408,7 +408,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_dileadingjets_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_dileadingjets_", ::_dileadingjets_::Class_Version(), "kinematics.h", 475,
-                  typeid(::_dileadingjets_), DefineBehavior(ptr, ptr),
+                  typeid(::_dileadingjets_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_dileadingjets_::Dictionary, isa_proxy, 4,
                   sizeof(::_dileadingjets_) );
       instance.SetNew(&new__dileadingjets_);
@@ -440,7 +440,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_run_info_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_run_info_", ::_run_info_::Class_Version(), "kinematics.h", 501,
-                  typeid(::_run_info_), DefineBehavior(ptr, ptr),
+                  typeid(::_run_info_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_run_info_::Dictionary, isa_proxy, 4,
                   sizeof(::_run_info_) );
       instance.SetNew(&new__run_info_);
@@ -472,7 +472,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_vertex_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_vertex_", ::_vertex_::Class_Version(), "kinematics.h", 516,
-                  typeid(::_vertex_), DefineBehavior(ptr, ptr),
+                  typeid(::_vertex_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_vertex_::Dictionary, isa_proxy, 4,
                   sizeof(::_vertex_) );
       instance.SetNew(&new__vertex_);
@@ -504,7 +504,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_l1_obj_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_l1_obj_", ::_l1_obj_::Class_Version(), "kinematics.h", 548,
-                  typeid(::_l1_obj_), DefineBehavior(ptr, ptr),
+                  typeid(::_l1_obj_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_l1_obj_::Dictionary, isa_proxy, 4,
                   sizeof(::_l1_obj_) );
       instance.SetNew(&new__l1_obj_);
@@ -536,7 +536,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_supercluster_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_supercluster_", ::_supercluster_::Class_Version(), "kinematics.h", 569,
-                  typeid(::_supercluster_), DefineBehavior(ptr, ptr),
+                  typeid(::_supercluster_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_supercluster_::Dictionary, isa_proxy, 4,
                   sizeof(::_supercluster_) );
       instance.SetNew(&new__supercluster_);
@@ -568,7 +568,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_photon_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_photon_", ::_photon_::Class_Version(), "kinematics.h", 603,
-                  typeid(::_photon_), DefineBehavior(ptr, ptr),
+                  typeid(::_photon_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_photon_::Dictionary, isa_proxy, 4,
                   sizeof(::_photon_) );
       instance.SetNew(&new__photon_);
@@ -600,7 +600,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_electron_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_electron_", ::_electron_::Class_Version(), "kinematics.h", 662,
-                  typeid(::_electron_), DefineBehavior(ptr, ptr),
+                  typeid(::_electron_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_electron_::Dictionary, isa_proxy, 4,
                   sizeof(::_electron_) );
       instance.SetNew(&new__electron_);
@@ -632,7 +632,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_beam_spot_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_beam_spot_", ::_beam_spot_::Class_Version(), "kinematics.h", 792,
-                  typeid(::_beam_spot_), DefineBehavior(ptr, ptr),
+                  typeid(::_beam_spot_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_beam_spot_::Dictionary, isa_proxy, 4,
                   sizeof(::_beam_spot_) );
       instance.SetNew(&new__beam_spot_);
@@ -664,7 +664,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_track_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_track_", ::_track_::Class_Version(), "kinematics.h", 348,
-                  typeid(::_track_), DefineBehavior(ptr, ptr),
+                  typeid(::_track_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_track_::Dictionary, isa_proxy, 4,
                   sizeof(::_track_) );
       instance.SetNew(&new__track_);
@@ -696,7 +696,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_muon_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_muon_", ::_muon_::Class_Version(), "kinematics.h", 814,
-                  typeid(::_muon_), DefineBehavior(ptr, ptr),
+                  typeid(::_muon_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_muon_::Dictionary, isa_proxy, 4,
                   sizeof(::_muon_) );
       instance.SetNew(&new__muon_);
@@ -728,7 +728,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_jet_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_jet_", ::_jet_::Class_Version(), "kinematics.h", 925,
-                  typeid(::_jet_), DefineBehavior(ptr, ptr),
+                  typeid(::_jet_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_jet_::Dictionary, isa_proxy, 4,
                   sizeof(::_jet_) );
       instance.SetNew(&new__jet_);
@@ -760,7 +760,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_di_jet_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_di_jet_", ::_di_jet_::Class_Version(), "kinematics.h", 1019,
-                  typeid(::_di_jet_), DefineBehavior(ptr, ptr),
+                  typeid(::_di_jet_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_di_jet_::Dictionary, isa_proxy, 4,
                   sizeof(::_di_jet_) );
       instance.SetNew(&new__di_jet_);
@@ -792,7 +792,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_gen_jet_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_gen_jet_", ::_gen_jet_::Class_Version(), "kinematics.h", 907,
-                  typeid(::_gen_jet_), DefineBehavior(ptr, ptr),
+                  typeid(::_gen_jet_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_gen_jet_::Dictionary, isa_proxy, 4,
                   sizeof(::_gen_jet_) );
       instance.SetNew(&new__gen_jet_);
@@ -824,7 +824,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_W_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_W_", ::_W_::Class_Version(), "kinematics.h", 1048,
-                  typeid(::_W_), DefineBehavior(ptr, ptr),
+                  typeid(::_W_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_W_::Dictionary, isa_proxy, 4,
                   sizeof(::_W_) );
       instance.SetNew(&new__W_);
@@ -856,7 +856,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_di_lepton_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_di_lepton_", ::_di_lepton_::Class_Version(), "kinematics.h", 1069,
-                  typeid(::_di_lepton_), DefineBehavior(ptr, ptr),
+                  typeid(::_di_lepton_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_di_lepton_::Dictionary, isa_proxy, 4,
                   sizeof(::_di_lepton_) );
       instance.SetNew(&new__di_lepton_);
@@ -888,7 +888,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_tri_lepton_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_tri_lepton_", ::_tri_lepton_::Class_Version(), "kinematics.h", 1119,
-                  typeid(::_tri_lepton_), DefineBehavior(ptr, ptr),
+                  typeid(::_tri_lepton_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_tri_lepton_::Dictionary, isa_proxy, 4,
                   sizeof(::_tri_lepton_) );
       instance.SetNew(&new__tri_lepton_);
@@ -920,7 +920,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_quar_lepton_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_quar_lepton_", ::_quar_lepton_::Class_Version(), "kinematics.h", 1143,
-                  typeid(::_quar_lepton_), DefineBehavior(ptr, ptr),
+                  typeid(::_quar_lepton_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_quar_lepton_::Dictionary, isa_proxy, 4,
                   sizeof(::_quar_lepton_) );
       instance.SetNew(&new__quar_lepton_);
@@ -952,7 +952,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_lepton_photon_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_lepton_photon_", ::_lepton_photon_::Class_Version(), "kinematics.h", 1167,
-                  typeid(::_lepton_photon_), DefineBehavior(ptr, ptr),
+                  typeid(::_lepton_photon_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_lepton_photon_::Dictionary, isa_proxy, 4,
                   sizeof(::_lepton_photon_) );
       instance.SetNew(&new__lepton_photon_);
@@ -984,7 +984,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_dilepton_photon_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_dilepton_photon_", ::_dilepton_photon_::Class_Version(), "kinematics.h", 1191,
-                  typeid(::_dilepton_photon_), DefineBehavior(ptr, ptr),
+                  typeid(::_dilepton_photon_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_dilepton_photon_::Dictionary, isa_proxy, 4,
                   sizeof(::_dilepton_photon_) );
       instance.SetNew(&new__dilepton_photon_);
@@ -1016,7 +1016,7 @@ namespace ROOT {
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::_event_ >(0);
       static ::ROOT::TGenericClassInfo 
          instance("_event_", ::_event_::Class_Version(), "kinematics.h", 1225,
-                  typeid(::_event_), DefineBehavior(ptr, ptr),
+                  typeid(::_event_), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::_event_::Dictionary, isa_proxy, 4,
                   sizeof(::_event_) );
       instance.SetNew(&new__event_);
@@ -1065,7 +1065,7 @@ TClass *_event_filterBit_::Dictionary()
 //______________________________________________________________________________
 TClass *_event_filterBit_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_event_filterBit_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_event_filterBit_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1100,7 +1100,7 @@ TClass *_gen_eventInfo_::Dictionary()
 //______________________________________________________________________________
 TClass *_gen_eventInfo_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_gen_eventInfo_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_gen_eventInfo_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1135,7 +1135,7 @@ TClass *_gen_ttbar_::Dictionary()
 //______________________________________________________________________________
 TClass *_gen_ttbar_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_gen_ttbar_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_gen_ttbar_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1170,7 +1170,7 @@ TClass *_gen_DrellYan_::Dictionary()
 //______________________________________________________________________________
 TClass *_gen_DrellYan_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_gen_DrellYan_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_gen_DrellYan_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1205,7 +1205,7 @@ TClass *_mc_process_::Dictionary()
 //______________________________________________________________________________
 TClass *_mc_process_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_mc_process_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_mc_process_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1240,7 +1240,7 @@ TClass *_genwz_::Dictionary()
 //______________________________________________________________________________
 TClass *_genwz_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_genwz_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_genwz_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1275,7 +1275,7 @@ TClass *_vec4_::Dictionary()
 //______________________________________________________________________________
 TClass *_vec4_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_vec4_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_vec4_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1310,7 +1310,7 @@ TClass *_trg_bits_::Dictionary()
 //______________________________________________________________________________
 TClass *_trg_bits_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_trg_bits_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_trg_bits_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1345,7 +1345,7 @@ TClass *_hlt_info_::Dictionary()
 //______________________________________________________________________________
 TClass *_hlt_info_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_hlt_info_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_hlt_info_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1380,7 +1380,7 @@ TClass *_met_::Dictionary()
 //______________________________________________________________________________
 TClass *_met_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_met_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_met_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1415,7 +1415,7 @@ TClass *_mets_::Dictionary()
 //______________________________________________________________________________
 TClass *_mets_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_mets_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_mets_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1450,7 +1450,7 @@ TClass *_dileadingjets_::Dictionary()
 //______________________________________________________________________________
 TClass *_dileadingjets_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_dileadingjets_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_dileadingjets_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1485,7 +1485,7 @@ TClass *_run_info_::Dictionary()
 //______________________________________________________________________________
 TClass *_run_info_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_run_info_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_run_info_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1520,7 +1520,7 @@ TClass *_vertex_::Dictionary()
 //______________________________________________________________________________
 TClass *_vertex_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_vertex_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_vertex_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1555,7 +1555,7 @@ TClass *_l1_obj_::Dictionary()
 //______________________________________________________________________________
 TClass *_l1_obj_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_l1_obj_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_l1_obj_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1590,7 +1590,7 @@ TClass *_supercluster_::Dictionary()
 //______________________________________________________________________________
 TClass *_supercluster_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_supercluster_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_supercluster_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1625,7 +1625,7 @@ TClass *_photon_::Dictionary()
 //______________________________________________________________________________
 TClass *_photon_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_photon_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_photon_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1660,7 +1660,7 @@ TClass *_electron_::Dictionary()
 //______________________________________________________________________________
 TClass *_electron_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_electron_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_electron_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1695,7 +1695,7 @@ TClass *_beam_spot_::Dictionary()
 //______________________________________________________________________________
 TClass *_beam_spot_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_beam_spot_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_beam_spot_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1730,7 +1730,7 @@ TClass *_track_::Dictionary()
 //______________________________________________________________________________
 TClass *_track_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_track_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_track_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1765,7 +1765,7 @@ TClass *_muon_::Dictionary()
 //______________________________________________________________________________
 TClass *_muon_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_muon_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_muon_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1800,7 +1800,7 @@ TClass *_jet_::Dictionary()
 //______________________________________________________________________________
 TClass *_jet_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_jet_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_jet_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1835,7 +1835,7 @@ TClass *_di_jet_::Dictionary()
 //______________________________________________________________________________
 TClass *_di_jet_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_di_jet_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_di_jet_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1870,7 +1870,7 @@ TClass *_gen_jet_::Dictionary()
 //______________________________________________________________________________
 TClass *_gen_jet_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_gen_jet_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_gen_jet_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1905,7 +1905,7 @@ TClass *_W_::Dictionary()
 //______________________________________________________________________________
 TClass *_W_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_W_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_W_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1940,7 +1940,7 @@ TClass *_di_lepton_::Dictionary()
 //______________________________________________________________________________
 TClass *_di_lepton_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_di_lepton_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_di_lepton_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -1975,7 +1975,7 @@ TClass *_tri_lepton_::Dictionary()
 //______________________________________________________________________________
 TClass *_tri_lepton_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_tri_lepton_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_tri_lepton_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -2010,7 +2010,7 @@ TClass *_quar_lepton_::Dictionary()
 //______________________________________________________________________________
 TClass *_quar_lepton_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_quar_lepton_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_quar_lepton_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -2045,7 +2045,7 @@ TClass *_lepton_photon_::Dictionary()
 //______________________________________________________________________________
 TClass *_lepton_photon_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_lepton_photon_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_lepton_photon_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -2080,7 +2080,7 @@ TClass *_dilepton_photon_::Dictionary()
 //______________________________________________________________________________
 TClass *_dilepton_photon_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_dilepton_photon_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_dilepton_photon_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -2115,7 +2115,7 @@ TClass *_event_::Dictionary()
 //______________________________________________________________________________
 TClass *_event_::Class()
 {
-   if (!fgIsA) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_event_*)0x0)->GetClass(); }
+   if (!fgIsA.load()) { R__LOCKGUARD2(gInterpreterMutex); fgIsA = ::ROOT::GenerateInitInstanceLocal((const ::_event_*)0x0)->GetClass(); }
    return fgIsA;
 }
 
@@ -3149,12 +3149,12 @@ namespace {
 0
     };
     static const char* includePaths[] = {
-"/cvmfs/cms.cern.ch/slc6_amd64_gcc493/lcg/root/6.02.12-kpegke4/include",
-"/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_6_3_patch2/src/Analysis_RunII/WZEdmAnalyzer/plugins/",
+"/cvmfs/cms.cern.ch/slc6_amd64_gcc530/lcg/root/6.06.00-ikhhed4/include",
+"/uscms_data/d2/ptan/work/sl6/development/CMSSW_8_0_20/src/Analysis_RunII/WZEdmAnalyzer/plugins/",
 0
     };
-    static const char* fwdDeclCode = 
-R"DICTFWDDCLS(
+    static const char* fwdDeclCode = R"DICTFWDDCLS(
+#line 1 "kinematicsDict dictionary forward declarations' payload"
 #pragma clang diagnostic ignored "-Wkeyword-compat"
 #pragma clang diagnostic ignored "-Wignored-attributes"
 #pragma clang diagnostic ignored "-Wreturn-type-c-linkage"
@@ -3192,6 +3192,7 @@ class __attribute__((annotate("$clingAutoload$kinematics.h")))  _dilepton_photon
 class __attribute__((annotate("$clingAutoload$kinematics.h")))  _event_;
 )DICTFWDDCLS";
     static const char* payloadCode = R"DICTPAYLOAD(
+#line 1 "kinematicsDict dictionary payload"
 
 #ifndef G__VECTOR_HAS_CLASS_ITERATOR
   #define G__VECTOR_HAS_CLASS_ITERATOR 1

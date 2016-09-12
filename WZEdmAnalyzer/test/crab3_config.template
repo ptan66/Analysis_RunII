@@ -20,7 +20,7 @@ config.Data.outputDatasetTag = '?outputdatatag'
 
 if (isData == True) :
      config.Data.splitting = 'LumiBased'
-     config.Data.unitsPerJob = 20
+     config.Data.unitsPerJob = 10
      config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions15/13TeV/Reprocessing/?jsonfile'
      config.Data.runRange = '?runrange'
 else :
