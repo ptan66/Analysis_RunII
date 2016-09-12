@@ -1,0 +1,5 @@
+#./submit.sh CMSSW74XV1 AOD MC lpclljj "False" run_config.template ""
+
+./submit.sh CMSSW80XV1 AOD MC lpclljj "False" run_config.template "/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISpring16DR80-PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/AODSIM" "HLT_IsoMu22_vVERSION:dummy:HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v2:HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v2" "HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v3:HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v3" "dummy:dummy:HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v3"
+
+
