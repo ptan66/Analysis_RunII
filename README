@@ -1,6 +1,13 @@
 notes for 80x release
 
 
+import egamma ID, 
+
+cd CMSSW_8_0_20/src
+cmsenv
+git cms-merge-topic ikrav:egm_id_80X_v1
+scram b -j 10
+
 
 
 
