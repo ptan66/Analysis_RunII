@@ -76,6 +76,7 @@ process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
 
 ## global tag for MC
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
+#process.load('CondCore.CondDB.CondDB_cfi')
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 
 if isData == True :
@@ -88,8 +89,6 @@ else :
 #    process.GlobalTag.globaltag = '74X_mcRun2_asymptotic_v4'
 
 
-#process.load("SimTracker.TrackAssociation.TrackAssociatorByChi2_cfi")
-#process.load("SimTracker.TrackAssociation.TrackAssociatorByHits_cfi")
 process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 
@@ -104,7 +103,7 @@ process.source = cms.Source("PoolSource",
 
 
 #ttbar MC to check against the JEC reference
-      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_6_3_patch2/src/Analysis_RunII/WZEdmAnalyzer/test/506BCB1A-41A4-E511-85CB-0CC47A0AD6AA.root'
+      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_8_0_20/src/Analysis_RunII/WZEdmAnalyzer/test/00773447-C000-E611-B4E6-0CC47A4D761A.root'
 #other test files
  #     'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_6_3_patch2/src/Analysis_RunII/WZEdmAnalyzer/test/002B97EF-D9BE-E511-9D93-0090FAA57420.root'
       # '/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/AODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/002F7FDD-BA13-E511-AA63-0026189437F5.root'
