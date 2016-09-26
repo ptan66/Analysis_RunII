@@ -354,7 +354,7 @@ else :
 switchOnVIDElectronIdProducer(process, dataFormat)
 
 # define which IDs we want to produce
-my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Spring15_25ns_V1_cff',
+my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Summer16_80X_V1_cff',
                  'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff', 
                  'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring15_25ns_nonTrig_V1_cff', 
                  'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring15_25ns_Trig_V1_cff']
@@ -733,9 +733,9 @@ process.analyzer = cms.EDAnalyzer(
     Muons                     = cms.string(  "muons"),
     Electrons                 = cms.string(  "gedGsfElectrons"),
     EffAreasConfigFile        = cms.FileInPath("RecoEgamma/ElectronIdentification/data/Spring15/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt"),
-    EleLooseIdMap             = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-loose"),
-    EleMediumIdMap            = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-medium"),
-    EleTightIdMap             = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight"),
+    EleLooseIdMap             = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID_Summer16_80X_V1_loose"),
+    EleMediumIdMap            = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID_Summer16_80X_V1_medium"),
+    EleTightIdMap             = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID_Summer16_80X_V1_tight"),
     ElectronEcalPFClusterIsolationProducer = cms.InputTag("electronEcalPFClusterIsolationProducer"),
     ElectronHcalPFClusterIsolationProducer = cms.InputTag("electronHcalPFClusterIsolationProducer"),
     TrigMvaValuesMap          = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig25nsV1Values"),

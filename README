@@ -8,6 +8,7 @@ cmsenv
 git cms-merge-topic ikrav:egm_id_80X_v1
 scram b -j 10
 
+egamma cut-based ID are switched to 80x version. 
 
 
 
