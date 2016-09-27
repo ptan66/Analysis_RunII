@@ -103,7 +103,7 @@ process.source = cms.Source("PoolSource",
 
 
 #ttbar MC to check against the JEC reference
-      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_8_0_20/src/Analysis_RunII/WZEdmAnalyzer/test/00773447-C000-E611-B4E6-0CC47A4D761A.root'
+      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_8_0_20/src/Analysis_RunII/WZEdmAnalyzer/test/004938DD-26FC-E511-A80F-02163E017620.root'
 #other test files
  #     'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_6_3_patch2/src/Analysis_RunII/WZEdmAnalyzer/test/002B97EF-D9BE-E511-9D93-0090FAA57420.root'
       # '/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/AODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/002F7FDD-BA13-E511-AA63-0026189437F5.root'
@@ -119,15 +119,15 @@ process.source = cms.Source("PoolSource",
 
 
 # Output definition
-#process.output = cms.OutputModule("PoolOutputModule",
-#    splitLevel = cms.untracked.int32(0),
-#    fileName = cms.untracked.string('step2_RAW2DIGI_L1Reco_RECO_PU.root'),
-#    dataset = cms.untracked.PSet(
-#        dataTier = cms.untracked.string('AOD'),
-#        filterName = cms.untracked.string('')
-#    )
-#)
-#process.out_step = cms.EndPath(process.output)
+process.output = cms.OutputModule("PoolOutputModule",
+    splitLevel = cms.untracked.int32(0),
+    fileName = cms.untracked.string('step2_RAW2DIGI_L1Reco_RECO_PU.root'),
+    dataset = cms.untracked.PSet(
+        dataTier = cms.untracked.string('AOD'),
+        filterName = cms.untracked.string('')
+    )
+)
+process.out_step = cms.EndPath(process.output)
 
 
 
@@ -733,9 +733,9 @@ process.analyzer = cms.EDAnalyzer(
     Muons                     = cms.string(  "muons"),
     Electrons                 = cms.string(  "gedGsfElectrons"),
     EffAreasConfigFile        = cms.FileInPath("RecoEgamma/ElectronIdentification/data/Spring15/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt"),
-    EleLooseIdMap             = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID_Summer16_80X_V1_loose"),
-    EleMediumIdMap            = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID_Summer16_80X_V1_medium"),
-    EleTightIdMap             = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID_Summer16_80X_V1_tight"),
+    EleLooseIdMap             = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-loose"),
+    EleMediumIdMap            = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-medium"),
+    EleTightIdMap             = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight"),
     ElectronEcalPFClusterIsolationProducer = cms.InputTag("electronEcalPFClusterIsolationProducer"),
     ElectronHcalPFClusterIsolationProducer = cms.InputTag("electronHcalPFClusterIsolationProducer"),
     TrigMvaValuesMap          = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig25nsV1Values"),
