@@ -1,14 +1,36 @@
 notes for 80x release
 
 
-import egamma ID, 
+instructionf or CMSSW_8_0_20,
+
+a) import egamma ID, 
 
 cd CMSSW_8_0_20/src
 cmsenv
 git cms-merge-topic ikrav:egm_id_80X_v1
 scram b -j 10
 
+
+b) git clone https://github.com/ptan66/Analysis_RunII
+
+
+scramv1 b -j10
+
+
+
+randome notes:
+++++++++++++++
 egamma cut-based ID are switched to 80x version. 
+
+muon ID/isolations looks ok. 
+
+Checking PU jet ID? 
+
+jet ID seems ok
+
+ICHEP CSVv2 b-tagger
+
+
 
 
 
