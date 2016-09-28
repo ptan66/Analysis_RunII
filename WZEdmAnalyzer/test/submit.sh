@@ -11,7 +11,7 @@
 #output directories
 if ($#argv <1) then 
 
-echo "Usage: ${0} prodtag AOD data[/MC] user True[False on grid] runconfig dataset [runrange] [jsonfile]";
+echo "Usage: ${0} prodtag AOD data[/MC] user True[False on grid] runconfig dataset ehlt muehlt muhlt [runrange] [jsonfile]";
 exit(0);
 endif
 
@@ -26,7 +26,7 @@ set runconfig  = ${6}
 set dataset    = ${7}
 
 set runrange   = "0-999999"
-set jsonfile   = "Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+set jsonfile   = "Cert_271036-280385_13TeV_PromptReco_Collisions16_JSON_NoL1T.txt"
 
 
 set useaod        = "True"
@@ -126,8 +126,7 @@ sed -e "s:?isdata:${isdata}:g" \
     -e "s:?runrange:${runrange}:g" \
 	${crabfile_template} > ${crab_file}
 
-source /cvmfs/cms.cern.ch/crab3/crab.csh; eval `scramv1 runtime -csh`; 
-#crab submit ${crab_file}
+source /cvmfs/cms.cern.ch/crab3/crab.csh; eval `scramv1 runtime -csh`; crab submit ${crab_file}
 
 
 cp  ${crab_file} ${subdir}
