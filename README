@@ -30,7 +30,7 @@ jet ID seems ok
 
 ICHEP CSVv2 b-tagger
 
-
+rootcint -f kinematicsDict.cc -rmf kinematicsDict.rootmap -rml kinematicsDict.so -c kinematics.h kinematicsLinkDef.h
 
 
 

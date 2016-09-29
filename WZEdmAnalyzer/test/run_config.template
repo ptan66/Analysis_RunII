@@ -102,8 +102,12 @@ process.source = cms.Source("PoolSource",
 #      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_6_3_patch2/src/Analysis_RunII/WZEdmAnalyzer/test/AC63F63B-15A8-E511-AA51-0025905B8576.root'
 
 
-#ttbar MC to check against the JEC reference
-      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_8_0_20/src/Analysis_RunII/WZEdmAnalyzer/test/004938DD-26FC-E511-A80F-02163E017620.root'
+#80x data test file
+      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_8_0_20/src/Analysis_RunII/WZEdmAnalyzer/test/3E460221-D919-E611-AE4F-02163E014142.root'
+
+
+#80x MC file
+#      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_8_0_20/src/Analysis_RunII/WZEdmAnalyzer/test/004938DD-26FC-E511-A80F-02163E017620.root'
 #other test files
  #     'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_6_3_patch2/src/Analysis_RunII/WZEdmAnalyzer/test/002B97EF-D9BE-E511-9D93-0090FAA57420.root'
       # '/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/AODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/002F7FDD-BA13-E511-AA63-0026189437F5.root'

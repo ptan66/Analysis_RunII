@@ -225,6 +225,9 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   }
 
 
+  lumiSummaryToken_                = consumes<LumiSummary,edm::InLumi>(edm::InputTag("lumiProducer") );
+
+
 
   jetID_ValueMapToken_             = consumes< edm::ValueMap<reco::JetID> >(inputJetIDValueMap);
   SuperClusterCollectionToken_     = consumes<reco::SuperClusterCollection>(edm::InputTag("superClusters"));
@@ -301,6 +304,10 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   pfMETToken_                      = consumes<PFMETCollection>(edm::InputTag("pfMet") );
 
   calibratedElectronsToken_        = consumes<reco::GsfElectronCollection> ( edm::InputTag("calibratedElectrons" ));
+
+
+
+
 
 
   this->displayConfig();
@@ -498,7 +505,8 @@ Handle<bool> CSCTightHaloFilterHandle;
 
 
   iEvent.getByToken(BeamSpotToken_, recoBeamSpotHandle);              
-  //  iEvent.getByLabel(BeamSpotTags_, recoBeamSpotHandle);              
+  //  iEvent.getByLabel(BeamSpotTags_, recoBeamSpotHandle);  
+            
   if (recoBeamSpotHandle.isValid() ) {
     vertexBeamSpot = recoBeamSpotHandle.product();
   } else {
@@ -1005,8 +1013,15 @@ WZEdmAnalyzer::beginLuminosityBlock(edm::LuminosityBlock const&iLumiBlock, edm::
   //  myavginstlumi=0;
   if (_is_data) {
 
+    //    edm::EDGetTokenT<LumiSummary> lumiSummaryToken_;
+    //    lumiSummaryToken_ = iC.consumes<LumiSummary,edm::InLumi>(lumiInputTag_);
+
     edm::Handle<LumiSummary>                 lumiSummaryHandle;
-    iLumiBlock.getByLabel("lumiProducer", lumiSummaryHandle); 
+    iLumiBlock.getByToken(lumiSummaryToken_, lumiSummaryHandle);
+
+
+    //  edm::EDGetTokenT<GenEventInfoProduct>     GeneratorLevelToken_;
+    //    iLumiBlock.getByLabel("lumiProducer", lumiSummaryHandle); 
     //    iLumiBlock.getByLabel(LumiSummaryToken_, lumiSummaryHandle); 
     // Check that there is something
     if (lumiSummaryHandle.isValid())  avgInstLumi=lumiSummaryHandle->avgInsDelLumi();

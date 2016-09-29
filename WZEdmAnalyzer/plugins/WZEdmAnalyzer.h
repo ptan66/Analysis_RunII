@@ -375,6 +375,9 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   bool              _is_save;
   std::string       _reco_selection; // determine if performing the dilepton reco
 
+
+  edm::EDGetTokenT<LumiSummary> lumiSummaryToken_;
+
   float              avgInstLumi;
   double             bField;
 
