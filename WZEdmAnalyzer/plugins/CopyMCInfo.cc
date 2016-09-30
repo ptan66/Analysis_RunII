@@ -82,7 +82,7 @@
 #include "TRandom.h"
 
 
-#include "kinematics.h"
+#include "Analysis_RunII/WZEdmAnalyzer/interface/kinematics.h"
 #include "AnalysisTools.h"
 #include "EdmAnalysisTools.h"
 #include "lhapdfcc.h"

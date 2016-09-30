@@ -36,7 +36,7 @@
 
 
 #include "math.h"
-#include "kinematics.h"
+#include "Analysis_RunII/WZEdmAnalyzer/interface/kinematics.h"
 
 using namespace reco;
 using namespace edm;

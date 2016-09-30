@@ -14,6 +14,7 @@ scram b -j 10
 b) git clone https://github.com/ptan66/Analysis_RunII
 
 
+
 scramv1 b -j10
 
 
@@ -32,6 +33,9 @@ ICHEP CSVv2 b-tagger
 
 rootcint -f kinematicsDict.cc -rmf kinematicsDict.rootmap -rml kinematicsDict.so -c kinematics.h kinematicsLinkDef.h
 
+
+
+using CMSSW classes.h and classes_def.xml to automatically generate the dictionary files
 
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

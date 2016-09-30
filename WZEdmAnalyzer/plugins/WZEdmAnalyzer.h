@@ -190,7 +190,7 @@
 #include "TF1.h"
 #include "TRandom.h"
 
-#include "kinematics.h"
+#include "Analysis_RunII/WZEdmAnalyzer/interface/kinematics.h"
 #include "AnalysisTools.h"
 #include "lhapdfcc.h"
 

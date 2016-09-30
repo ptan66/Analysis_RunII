@@ -123,15 +123,15 @@ process.source = cms.Source("PoolSource",
 
 
 # Output definition
-process.output = cms.OutputModule("PoolOutputModule",
-    splitLevel = cms.untracked.int32(0),
-    fileName = cms.untracked.string('step2_RAW2DIGI_L1Reco_RECO_PU.root'),
-    dataset = cms.untracked.PSet(
-        dataTier = cms.untracked.string('AOD'),
-        filterName = cms.untracked.string('')
-    )
-)
-process.out_step = cms.EndPath(process.output)
+#process.output = cms.OutputModule("PoolOutputModule",
+#    splitLevel = cms.untracked.int32(0),
+#    fileName = cms.untracked.string('step2_RAW2DIGI_L1Reco_RECO_PU.root'),
+#    dataset = cms.untracked.PSet(
+#        dataTier = cms.untracked.string('AOD'),
+#        filterName = cms.untracked.string('')
+#    )
+#)
+#process.out_step = cms.EndPath(process.output)
 
 
 
