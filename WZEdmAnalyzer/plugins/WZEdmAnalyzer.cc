@@ -334,6 +334,38 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   //  if (_is_debug) std::cout  << "check point ... create output file - " << out.c_str() << std::endl;
 
 
+  TClass::GetClass("_event_filterBit_")->SetCanSplit(true);
+  TClass::GetClass("_gen_eventInfo_")->SetCanSplit(true);
+  TClass::GetClass("_gen_ttbar_")->SetCanSplit(true);
+  TClass::GetClass("_gen_DrellYan_")->SetCanSplit(true);
+  TClass::GetClass("_mc_process_")->SetCanSplit(true);
+  TClass::GetClass("_genwz_")->SetCanSplit(true);
+  TClass::GetClass("_vec4_")->SetCanSplit(true);
+  TClass::GetClass("_trg_bits_")->SetCanSplit(true);
+  TClass::GetClass("_hlt_info_")->SetCanSplit(true);
+  TClass::GetClass("_met_")->SetCanSplit(true);
+  TClass::GetClass("_mets_")->SetCanSplit(true);
+  TClass::GetClass("_dileadingjets_")->SetCanSplit(true);
+  TClass::GetClass("_run_info_")->SetCanSplit(true);
+  TClass::GetClass("_vertex_")->SetCanSplit(true);
+  TClass::GetClass("_l1_obj_")->SetCanSplit(true);
+  TClass::GetClass("_supercluster_")->SetCanSplit(true);
+  TClass::GetClass("_photon_")->SetCanSplit(true);
+  TClass::GetClass("_electron_")->SetCanSplit(true);
+  TClass::GetClass("_beam_spot_")->SetCanSplit(true);
+  TClass::GetClass("_track_")->SetCanSplit(true);
+  TClass::GetClass("_muon_")->SetCanSplit(true);
+  TClass::GetClass("_jet_")->SetCanSplit(true);
+  TClass::GetClass("_di_jet_")->SetCanSplit(true);
+  TClass::GetClass("_gen_jet_")->SetCanSplit(true);
+  TClass::GetClass("_W_")->SetCanSplit(true);
+  TClass::GetClass("_di_lepton_")->SetCanSplit(true);
+  TClass::GetClass("_tri_lepton_")->SetCanSplit(true);
+  TClass::GetClass("_quar_lepton_")->SetCanSplit(true);
+  TClass::GetClass("_lepton_photon_")->SetCanSplit(true);
+  TClass::GetClass("_dilepton_photon_")->SetCanSplit(true);
+  TClass::GetClass("_event_")->SetCanSplit(true);
+
   // use TFile service?
   //  edm::Service< TFileService > fs_;
   ntuple = fs->make<TTree>("ntuple","ntuple");

@@ -1407,50 +1407,118 @@ _dilepton_photon_::~_dilepton_photon_() {Clear();}
 _event_::_event_() {
 
   hltNonIsoMuons    = new TClonesArray("_vec4_", 10);
+  hltNonIsoMuons->BypassStreamer(kFALSE); 
+
   hltMuons          = new TClonesArray("_vec4_", 10);
+  hltMuons->BypassStreamer(kFALSE); 
   hltMuonLs         = new TClonesArray("_vec4_", 10);
+  hltMuonLs->BypassStreamer(kFALSE); 
   hltMuonLleg1s     = new TClonesArray("_vec4_", 10);
+  hltMuonLleg1s->BypassStreamer(kFALSE); 
   hltMuonLleg2s     = new TClonesArray("_vec4_", 10);
+  hltMuonLleg2s->BypassStreamer(kFALSE); 
 
   hltMuonHs         = new TClonesArray("_vec4_", 10);
+  hltMuonHs->BypassStreamer(kFALSE); 
+
   hltMuonHleg1s     = new TClonesArray("_vec4_", 10);
+  hltMuonHleg1s->BypassStreamer(kFALSE); 
+
   hltMuonHleg2s     = new TClonesArray("_vec4_", 10);
+  hltMuonHleg2s->BypassStreamer(kFALSE); 
 
 
 
   hltMuonElectrons  = new TClonesArray("_vec4_", 10);
+  hltMuonElectrons->BypassStreamer(kFALSE); 
+
   hltElectronMuons  = new TClonesArray("_vec4_", 10);
+  hltElectronMuons->BypassStreamer(kFALSE); 
+
 
   hltNonIsoElectrons= new TClonesArray("_vec4_", 10);
+  hltNonIsoElectrons->BypassStreamer(kFALSE); 
+
   hltElectrons      = new TClonesArray("_vec4_", 10);
+  hltElectrons->BypassStreamer(kFALSE); 
+
+
   hltElectronLs     = new TClonesArray("_vec4_", 10);
+  hltElectronLs->BypassStreamer(kFALSE); 
+
   hltElectronLleg1s = new TClonesArray("_vec4_", 10);
+  hltElectronLleg1s->BypassStreamer(kFALSE); 
+
   hltElectronLleg2s = new TClonesArray("_vec4_", 10);
+  hltElectronLleg2s->BypassStreamer(kFALSE); 
 
 
   vertices          = new TClonesArray("_vertex_", 25);
+  vertices->BypassStreamer(kFALSE); 
+
   superclusters     = new TClonesArray("_supercluster_", 50);
+  superclusters->BypassStreamer(kFALSE); 
+
   photons           = new TClonesArray("_photon_", 50);
+  photons->BypassStreamer(kFALSE); 
+
   electrons         = new TClonesArray("_electron_", 10);
+  electrons->BypassStreamer(kFALSE); 
+
   l1Objs            = new TClonesArray("_l1_obj_", 100);
+  l1Objs->BypassStreamer(kFALSE); 
+
   simTracks         = new TClonesArray("_track_", 500);
+  simTracks->BypassStreamer(kFALSE); 
+
   tracks            = new TClonesArray("_track_", 500);
+  tracks->BypassStreamer(kFALSE); 
+
   jets              = new TClonesArray("_jet_", 50);
+  jets->BypassStreamer(kFALSE); 
+
   genJets           = new TClonesArray("_gen_jet_", 100);
+  genJets->BypassStreamer(kFALSE); 
+
   akGenJets         = new TClonesArray("_gen_jet_", 100);
+  akGenJets->BypassStreamer(kFALSE); 
+
   caloJets          = new TClonesArray("_jet_", 50);
+  caloJets->BypassStreamer(kFALSE); 
+
   jptJets           = new TClonesArray("_jet_", 50);
+  jptJets->BypassStreamer(kFALSE); 
+
   pfJets            = new TClonesArray("_jet_", 50);
+  pfJets->BypassStreamer(kFALSE); 
+
   muons             = new TClonesArray("_muon_", 10);
+  muons->BypassStreamer(kFALSE); 
+
 
   Ws                = new TClonesArray("_W_", 1);
+  Ws->BypassStreamer(kFALSE); 
+
   dileptons         = new TClonesArray("_di_lepton_", 1);
+  dileptons->BypassStreamer(kFALSE); 
+
   dijets            = new TClonesArray("_di_jet_", 1);
+  dijets->BypassStreamer(kFALSE); 
+
   trileptons        = new TClonesArray("_tri_lepton_", 1);
+  trileptons->BypassStreamer(kFALSE); 
+
   quarleptons       = new TClonesArray("_quar_lepton_", 1);
+  quarleptons->BypassStreamer(kFALSE); 
+
   leptonphotons     = new TClonesArray("_lepton_photon_", 1);
+  leptonphotons->BypassStreamer(kFALSE); 
+
   dileptonphotons   = new TClonesArray("_dilepton_photon_", 1);
+  dileptonphotons->BypassStreamer(kFALSE); 
+
   leptonTrkPairs    = new TClonesArray("_di_lepton_", 1);
+  leptonTrkPairs->BypassStreamer(kFALSE); 
 }
 
 
