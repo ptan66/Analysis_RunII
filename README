@@ -11,8 +11,11 @@ git cms-merge-topic ikrav:egm_id_80X_v1
 scram b -j 10
 
 
-b) git clone https://github.com/ptan66/Analysis_RunII
+b) 
 
+at /src/, git clone ssh://git@github.com/ptan66/Analysis_RunII.git
+
+git checkout 80x_prodv1
 
 
 scramv1 b -j10
@@ -36,6 +39,28 @@ rootcint -f kinematicsDict.cc -rmf kinematicsDict.rootmap -rml kinematicsDict.so
 
 
 using CMSSW classes.h and classes_def.xml to automatically generate the dictionary files
+
+
+
+set up git using ssh (using bash shells)
+
+
+git config --global user.name Ping Tan
+
+git config --global user.email ptan@fnal.gov
+
+git config --global user.github ptan66
+
+ls -al ~/.ssh
+
+eval "$(ssh-agent -s)"
+
+ssh-add ~/.ssh/id_rsa
+
+git clone ssh://git@github.com/<user>/<repository name>.git
+
+
+
 
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
