@@ -1,6 +1,6 @@
 #./submit.sh CMSSW74XV1 AOD MC lpclljj "False" run_config.template ""
 
-#./submit.sh CMSSW80XV1 AOD MC lpclljj "False" run_config.template "/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16DR80-PUSpring16_80X_mcRun2_asymptotic_2016_v3_ext1-v1/AODSIM" "HLT_Ele27_WPLoose_Gsf_vVERSION:HLT_Ele27_eta2p1_WPTight_Gsf_vVERSION:HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v3"  "HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v3:HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v3"  "HLT_IsoTkMu22_vVERSION:HLT_IsoMu22_vVERSION:HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v2:HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v2"
+./submit.sh CMSSW80XV1 AOD MC lpclljj "False" run_config.template "/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16DR80-PUSpring16_80X_mcRun2_asymptotic_2016_v3_ext1-v1/AODSIM" "HLT_Ele27_WPLoose_Gsf_vVERSION:HLT_Ele27_eta2p1_WPTight_Gsf_vVERSION:HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v3"  "HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v3:HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v3"  "HLT_IsoTkMu22_vVERSION:HLT_IsoMu22_vVERSION:HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v2:HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v2"
 
 
 
@@ -13,7 +13,7 @@
 #./submit.sh CMSSW80XV1 AOD data lpclljj "False" run_config.template "/MuonEG/Run2016B-PromptReco-v2/AOD"  "HLT_Ele27_WPLoose_Gsf_vVERSION:HLT_Ele27_WPTight_Gsf_vVERSION:HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_vVERSION"  "HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_vVERSION:HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_vVERSION"  "HLT_IsoTkMu24_vVERSION:HLT_IsoMu24_vVERSION:HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_vVERSION:HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_vVERSION" "273150-275376" 
 
 
-./submit.sh CMSSW80XV1 AOD data lpclljj "False" run_config.template "/SingleMuon/Run2016B-PromptReco-v2/AOD"  "HLT_Ele27_WPLoose_Gsf_vVERSION:HLT_Ele27_WPTight_Gsf_vVERSION:HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_vVERSION"  "HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_vVERSION:HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_vVERSION"  "HLT_IsoTkMu24_vVERSION:HLT_IsoMu24_vVERSION:HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_vVERSION:HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_vVERSION" "273150-275376" 
+#./submit.sh CMSSW80XV1 AOD data lpclljj "False" run_config.template "/SingleMuon/Run2016B-PromptReco-v2/AOD"  "HLT_Ele27_WPLoose_Gsf_vVERSION:HLT_Ele27_WPTight_Gsf_vVERSION:HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_vVERSION"  "HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_vVERSION:HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_vVERSION"  "HLT_IsoTkMu24_vVERSION:HLT_IsoMu24_vVERSION:HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_vVERSION:HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_vVERSION" "273150-275376" 
 
 
 

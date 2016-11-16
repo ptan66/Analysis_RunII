@@ -1,3 +1,51 @@
+some commands:
+
+filterJSON.py and corresponding useful tools are at, 
+
+/cvmfs/cms.cern.ch/slc6_amd64_gcc530/cms/cmssw/CMSSW_8_0_20/bin/slc6_amd64_gcc530/
+
+
+
+2016 run ranges, 
+
+
+DATASET	from Run	to Run
+Run2016A	271036	271658
+Run2016B	272007	275376
+Run2016C	275657	276283
+Run2016D	276315	276811
+Run2016E	276831	277420
+Run2016F	277772	278808
+Run2016G	278820	280385
+Run2016H	280919	284044
+
+
+pile up files
+/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/PileUp/
+
+
+
+pileupCalc.py -i /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-284044_13TeV_PromptReco_Collisions16_JSON_NoL1T.txt --inputLumiJSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/PileUp/pileup_latest.txt  --calcMode true --minBiasXsec 69200 --maxPileupBin 50 --numPileupBins 50  pileup_2016_promptreco.root
+
+
+
+
+
+
+Nov. 12, 2016:
+
+pileupCalc.py -i MyAnalysisJSON.txt --inputLumiJSON pileup_latest.txt  --calcMode true --minBiasXsec 69200 --maxPileupBin 50 --numPileupBins 50  MyDataPileupHistogram.root
+Note that the cross-section value is 69 mb for 2015 and 69.2 mb for 2016.
+Note that the recommended minBias cross-section of 80mb for reweighting is currently under review. The best-fit value is determined to be 69.2 mb with an uncertainty of 4.6% Since all analysis JSON`s should only include subsets of Runs and LS`s of the DCS-Only JSON, you in principle do not have to calculate the pile up JSON yourself. Instead, use your specific JSON to mask the pile up JSON provided centrally, as in shown in the example above.
+
+
+https://twiki.cern.ch/twiki/bin/view/CMS/PdmV2016Analysis
+https://github.com/cms-sw/cmssw/blob/CMSSW_8_0_X/SimGeneral/MixingModule/python/mix_2016_25ns_SpringMC_PUScenarioV1_PoissonOOTPU_cfi.py
+
+
+
+
+
 notes for 80x release
 
 
