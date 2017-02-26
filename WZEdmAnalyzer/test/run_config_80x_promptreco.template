@@ -80,11 +80,11 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 
 if isData == True :
-    process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v7'
+    process.GlobalTag.globaltag = '80X_dataRun2_Prompt_v10'
 #    process.GlobalTag.globaltag = '76X_dataRun2_16Dec2015_v0'
 #    process.GlobalTag.globaltag = '74X_dataRun2_Prompt_v2'
 else :
-    process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v8'
+    process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_v3'
 #    process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_RunIIFall15DR76_v1'
 #    process.GlobalTag.globaltag = '74X_mcRun2_asymptotic_v4'
 
