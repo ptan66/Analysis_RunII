@@ -26,7 +26,8 @@ set runconfig  = ${6}
 set dataset    = ${7}
 
 set runrange   = "0-999999"
-set jsonfile   = "Cert_271036-280385_13TeV_PromptReco_Collisions16_JSON_NoL1T.txt"
+set jsonfile   = "ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt"
+#set jsonfile   = "Cert_271036-280385_13TeV_PromptReco_Collisions16_JSON_NoL1T.txt"
 
 
 set useaod        = "True"
