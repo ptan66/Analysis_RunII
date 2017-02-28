@@ -75,18 +75,28 @@ process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
 
 
 ## global tag for MC
-process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
-#process.load('CondCore.CondDB.CondDB_cfi')
-from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
+#process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
+#process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
+#from Configuration.AlCa.GlobalTag import GlobalTag
+#if isData==True:
+#    process.GlobalTag = GlobalTag(process.GlobalTag, '80X_dataRun2_2016SeptRepro_v7', '')
+#else :
+#    process.GlobalTag = GlobalTag(process.GlobalTag, '80X_mcRun2_asymptotic_2016_TrancheIV_v8', '')
 
+
+
+
+
+
+process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
+from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 if isData == True :
     process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v7'
-#    process.GlobalTag.globaltag = '76X_dataRun2_16Dec2015_v0'
-#    process.GlobalTag.globaltag = '74X_dataRun2_Prompt_v2'
 else :
     process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v8'
-#    process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_RunIIFall15DR76_v1'
-#    process.GlobalTag.globaltag = '74X_mcRun2_asymptotic_v4'
+
+
+
 
 
 process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
@@ -102,8 +112,14 @@ process.source = cms.Source("PoolSource",
 #      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_7_6_3_patch2/src/Analysis_RunII/WZEdmAnalyzer/test/AC63F63B-15A8-E511-AA51-0025905B8576.root'
 
 
+
+#8026 rereco data test file
+      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_8_0_26_patch2/src/Analysis_RunII/WZEdmAnalyzer/test/0040EE06-3BC5-E611-9CF9-001E67444EAC.root'
+
+
+
 #80x data test file
-      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_8_0_20/src/Analysis_RunII/WZEdmAnalyzer/test/3E460221-D919-E611-AE4F-02163E014142.root'
+#      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_8_0_20/src/Analysis_RunII/WZEdmAnalyzer/test/3E460221-D919-E611-AE4F-02163E014142.root'
 
 
 #80x MC file
@@ -378,12 +394,16 @@ process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService
         ),
                                                    )
 
+from EgammaAnalysis.ElectronTools.regressionWeights_cfi import regressionWeights
+process = regressionWeights(process)
+
 
 process.selectedElectrons = cms.EDFilter("GsfElectronSelector", 
                                          src = cms.InputTag("gedGsfElectrons"),
                                          cut = cms.string("pt > 5 && abs(eta)<2.5") 
-                                         ) 
+					 )
 
+#process.load('EgammaAnalysis.ElectronTools.regressionWeights_cfi')
 process.load('EgammaAnalysis.ElectronTools.calibratedElectronsRun2_cfi')
 process.calibratedElectrons.electrons = cms.InputTag('selectedElectrons')
 if (isData == True) : 
@@ -710,8 +730,15 @@ process.load("RecoJets.JetProducers.ak5GenJets_cfi")
 #    jetAlgorithm = cms.string("AntiKt"),
 #    rParam       = cms.double(0.5)     )
 
+process.load('RecoMET.METFilters.badGlobalMuonTaggersAOD_cff')
+process.badGlobalMuonTagger.taggingMode = cms.bool(False)
+process.cloneGlobalMuonTagger.taggingMode = cms.bool(False)
 
 
+
+process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
+process.BadPFMuonFilter.muons = cms.InputTag("muons")
+process.BadPFMuonFilter.taggingMode = cms.bool(False)
 
 
 
@@ -821,6 +848,7 @@ if isData == True :
     process.p = cms.Path(
         #process.noscraping*
         process.primaryVertexFilter*
+        process.noBadGlobalMuons*process.BadPFMuonFilter*
         #                     process.HBHENoiseFilter*
         process.goodVertices * 
         process.ak5PFJets *
@@ -850,6 +878,7 @@ else :
         #process.noscraping*
         process.printList*
         process.primaryVertexFilter*
+        process.noBadGlobalMuons*process.BadPFMuonFilter*
         #                     process.HBHENoiseFilter*
         process.goodVertices *
         process.ak5PFJets *

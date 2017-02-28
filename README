@@ -1,3 +1,34 @@
+import notes for CMSSW_8_0_26
+
+
+https://twiki.cern.ch/twiki/bin/view/CMS/EGMRegression#EGMSmearer
+
+
+cmsrel CMSSW_8_0_26_patch1
+cd CMSSW_8_0_26_patch1/src
+cmsenv
+git cms-init
+git cms-merge-topic rafaellopesdesa:EgammaAnalysis80_EGMSmearer_Moriond17_23Jan
+cd EgammaAnalysis/ElectronTools/data
+git clone https://github.com/ECALELFS/ScalesSmearings.git
+cd $CMSSW_BASE/src
+scram b
+
+
+
+fitler on bad muons?
+
+
+https://twiki.cern.ch/twiki/bin/view/CMSPublic/ReMiniAOD03Feb2017Notes#MET_Recipes
+
+
+git cms-merge-topic cms-met:METRecipe_8020 -u
+
+
+
+
+
+
 some commands:
 
 filterJSON.py and corresponding useful tools are at, 
