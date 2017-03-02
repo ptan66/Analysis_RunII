@@ -397,13 +397,17 @@ process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService
 from EgammaAnalysis.ElectronTools.regressionWeights_cfi import regressionWeights
 process = regressionWeights(process)
 
+process.load('EgammaAnalysis.ElectronTools.regressionApplicationAOD_cff')
 
 process.selectedElectrons = cms.EDFilter("GsfElectronSelector", 
-                                         src = cms.InputTag("gedGsfElectrons"),
+                                         src = cms.InputTag("gedGsfElectronsClone"),
                                          cut = cms.string("pt > 5 && abs(eta)<2.5") 
 					 )
 
-#process.load('EgammaAnalysis.ElectronTools.regressionWeights_cfi')
+
+
+
+
 process.load('EgammaAnalysis.ElectronTools.calibratedElectronsRun2_cfi')
 process.calibratedElectrons.electrons = cms.InputTag('selectedElectrons')
 if (isData == True) : 
@@ -868,7 +872,7 @@ if isData == True :
         process.myJetPlusTrackCorrectionsAntiKt4*
         process.myPFCHSBTaggers*process.myPFBTaggers*process.myAK5PFBTaggers*process.myCaloBTaggers*process.myJPTBTaggers*
         #                    process.QuarkGluonTagger*	
-        process.selectedElectrons * process.calibratedElectrons *
+        process.regressionApplication*process.selectedElectrons * process.calibratedElectrons *
         process.egmGsfElectronIDSequence*
         process.analyzer)
     
@@ -907,7 +911,7 @@ else :
         process.flavourByRefJPT*process.flavourByValJPT*
         process.myPFCHSBTaggers*process.myPFBTaggers*process.myAK5PFBTaggers*process.myCaloBTaggers*process.myJPTBTaggers*
         #                    process.QuarkGluonTagger*	
-        process.selectedElectrons * process.calibratedElectrons *
+        process.regressionApplication*process.selectedElectrons * process.calibratedElectrons *
         process.egmGsfElectronIDSequence*
         #process.pfWeightedIsoSeq *
         process.analyzer)
