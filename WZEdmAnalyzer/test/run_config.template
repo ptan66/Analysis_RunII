@@ -397,10 +397,10 @@ process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService
 from EgammaAnalysis.ElectronTools.regressionWeights_cfi import regressionWeights
 process = regressionWeights(process)
 
-process.load('EgammaAnalysis.ElectronTools.regressionApplicationAOD_cff')
+process.load('EgammaAnalysis.ElectronTools.regressionApplication_cff')
 
 process.selectedElectrons = cms.EDFilter("GsfElectronSelector", 
-                                         src = cms.InputTag("gedGsfElectronsClone"),
+                                         src = cms.InputTag("gedGsfElectrons"),
                                          cut = cms.string("pt > 5 && abs(eta)<2.5") 
 					 )
 

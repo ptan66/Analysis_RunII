@@ -26,6 +26,45 @@ git cms-merge-topic cms-met:METRecipe_8020 -u
 
 
 
+PU jet ID
+
+https://twiki.cern.ch/twiki/bin/viewauth/CMS/PileupJetID#Information_for_13_TeV_data_anal
+
+git remote add ahinzmann git@github.com:ahinzmann/cmssw.git
+git fetch ahinzmann PUidMiniAODfix80
+git cherry-pick ca33756e1747aec27d13971bcfd0874b16724e7f
+
+
+Pileup
+
+MC:
+https://github.com/cms-sw/cmssw/blob/CMSSW_8_0_X/SimGeneral/MixingModule/python/mix_2016_25ns_Moriond17MC_PoissonOOTPU_cfi.py
+Data:
+
+
+
+   105	15:37	pileupCalc.py -i /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt --inputLumiJSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/PileUp/pileup_latest.txt --calcMode true --minBiasXsec 69200 --maxPileupBin 50 --numPileupBins 50 pileup_2016_rereco.root
+   106	15:39	ls -ltrh
+   107	15:40	pileupCalc.py -i /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt --inputLumiJSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/PileUp/pileup_latest.txt --calcMode true --minBiasXsec 72400 --maxPileupBin 50 --numPileupBins 50 pileup_2016_rerecoUp.root
+   108	15:42	pileupCalc.py -i /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt --inputLumiJSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/PileUp/pileup_latest.txt --calcMode true --minBiasXsec 66000 --maxPileupBin 50 --numPileupBins 50 pileup_2016_rerecoDown.root
+
+
+
+I derived [1] a pileup reweighting file [2] using the recommended minbias cross section of 69.2 mb +/- 4.6% [3] and the Summer16 MC pileup distribution [4].
+
+When testing the reweighting in several control regions (comparing NVtx distribution in data vs MC [5]), I found that the -1 sigma variation (66.0 mb) for the minbias cross section provides better overall agreement (though there is some disagreement in the tails).
+
+Has anyone else seen a similar effect? Should we agree within the PAG to use a minbias cross section of 66.0 mb?
+
+Best,
+Kevin
+
+[1] https://github.com/TreeMaker/TreeMaker#calculate-pileup-corrections
+[2] https://github.com/TreeMaker/TreeMaker/blob/Run2/Production/test/data/PileupHistograms_0121_69p2mb_pm4p6.root
+[3] https://twiki.cern.ch/twiki/bin/viewauth/CMS/PileupJSONFileforData#Pileup_JSON_Files_For_Run_II
+[4] https://github.com/cms-sw/cmssw/blob/CMSSW_8_0_X/SimGeneral/MixingModule/python/mix_2016_25ns_Moriond17MC_PoissonOOTPU_cfi.py
+[5] https://indico.cern.ch/event/597564/contributions/2484615/attachments/1416148/2168656/pileup_weight_2016_4.pdf
+
 
 
 
