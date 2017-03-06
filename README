@@ -1,9 +1,9 @@
 import notes for CMSSW_8_0_26
 
 
+
+# e/gamma regresssion correction
 https://twiki.cern.ch/twiki/bin/view/CMS/EGMRegression#EGMSmearer
-
-
 cmsrel CMSSW_8_0_26_patch1
 cd CMSSW_8_0_26_patch1/src
 cmsenv
@@ -13,6 +13,15 @@ cd EgammaAnalysis/ElectronTools/data
 git clone https://github.com/ECALELFS/ScalesSmearings.git
 cd $CMSSW_BASE/src
 scram b
+
+
+Mar. 06 note, using this branch: rafaellopesdesa:EgammaAnalysis80_AOD_EGMSmearer_Moriond17_23Jan
+
+cp $CMSSW_BASE/src/Analysis_RunII/regressionApplication_cff.py     $CMSSW_BASE/src/EgammaAnalysis/ElectronTools/python/
+
+
+
+
 
 
 
@@ -43,10 +52,11 @@ Data:
 
 
 
-   105	15:37	pileupCalc.py -i /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt --inputLumiJSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/PileUp/pileup_latest.txt --calcMode true --minBiasXsec 69200 --maxPileupBin 50 --numPileupBins 50 pileup_2016_rereco.root
-   106	15:39	ls -ltrh
-   107	15:40	pileupCalc.py -i /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt --inputLumiJSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/PileUp/pileup_latest.txt --calcMode true --minBiasXsec 72400 --maxPileupBin 50 --numPileupBins 50 pileup_2016_rerecoUp.root
-   108	15:42	pileupCalc.py -i /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt --inputLumiJSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/PileUp/pileup_latest.txt --calcMode true --minBiasXsec 66000 --maxPileupBin 50 --numPileupBins 50 pileup_2016_rerecoDown.root
+  pileupCalc.py -i /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt --inputLumiJSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/PileUp/pileup_latest.txt --calcMode true --minBiasXsec 69200 --maxPileupBin 75 --numPileupBins 75 pileup_2016_rereco.root
+
+   pileupCalc.py -i /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt --inputLumiJSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/PileUp/pileup_latest.txt --calcMode true --minBiasXsec 72400 --maxPileupBin 75 --numPileupBins 75 pileup_2016_rerecoUp.root
+
+	pileupCalc.py -i /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt --inputLumiJSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/PileUp/pileup_latest.txt --calcMode true --minBiasXsec 66000 --maxPileupBin 75 --numPileupBins 75 pileup_2016_rerecoDown.root
 
 
 
