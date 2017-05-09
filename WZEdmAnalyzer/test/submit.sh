@@ -127,8 +127,7 @@ sed -e "s:?isdata:${isdata}:g" \
     -e "s:?runrange:${runrange}:g" \
 	${crabfile_template} > ${crab_file}
 
-source /cvmfs/cms.cern.ch/crab3/crab.csh; eval `scramv1 runtime -csh`; 
-#crab submit ${crab_file}
+source /cvmfs/cms.cern.ch/crab3/crab.csh; eval `scramv1 runtime -csh`; crab submit ${crab_file}
 
 
 cp  ${crab_file} ${subdir}

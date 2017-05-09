@@ -702,7 +702,7 @@ const Candidate *WZEdmAnalyzer::genLevelLeptons( const Candidate *born_level, ma
   //  std::cout << "start list of process ... " <<setw(10) << born_level->pdgId() 
   //	    << "   " << born_level->status() << std::endl;
 
-  const  Candidate *bare_level = 0;
+  const  Candidate *bare_level = born_level;
   std::list< const Candidate * > alist;
   std::list< const Candidate * > photons;
 

@@ -114,7 +114,11 @@ process.source = cms.Source("PoolSource",
 
 
 #8026 rereco data test file
-      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_8_0_26_patch2/src/Analysis_RunII/WZEdmAnalyzer/test/0040EE06-3BC5-E611-9CF9-001E67444EAC.root'
+#MC
+#      'file:/uscms_data/d2/ptan/work/sl6/development/CMSSW_8_0_26_patch2/src/Analysis_RunII/WZEdmAnalyzer/test/0040EE06-3BC5-E611-9CF9-001E67444EAC.root'
+#data
+      'file:/uscms_data/d2/ptan/work/sl6/production/CMSSW_8_0_26_patch2/src/Analysis_RunII/WZEdmAnalyzer/test/00500CC4-D797-E611-962C-008CFA56D6F4.root'
+
 
 
 
