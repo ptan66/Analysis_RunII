@@ -1,0 +1,11 @@
+filterJSON.py --min=272007 --max=275376 --output run2016b.json ./Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
+
+
+filterJSON.py --min=275657 --max=276283 --output run2016c.json ./Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
+filterJSON.py --min=276315 --max=276811 --output run2016d.json ./Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
+filterJSON.py --min=276831 --max=277420 --output run2016e.json ./Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
+filterJSON.py --min=277772 --max=278808 --output run2016f.json ./Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
+filterJSON.py --min=278820 --max=280385 --output run2016g.json ./Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
+filterJSON.py --min=280919 --max=284044 --output run2016h.json ./Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
+
+

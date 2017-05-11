@@ -1735,8 +1735,8 @@ WZEdmAnalyzer::copyHLTInfo(const edm::Event& iEvent,
 		  && ( (std::string( hltname) ).find("Ele") !=  (std::string( hltname) ).rfind("Ele")))  { // double electron trigger
 	
 	channels = 0;
-	if ( ( std::string( trigModules[ii] ).find("Leg1Filter") != string::npos )
-	     || ( std::string( trigModules[ii] ).find("Leg2Filter") != string::npos )
+	if ( ( std::string( trigModules[ii] ).find("TrackIsoLeg1Filter") != string::npos )
+	     || ( std::string( trigModules[ii] ).find("TrackIsoLeg2Filter") != string::npos )
 	     || ( std::string( trigModules[ii] ).find("DZFilter") != string::npos )
 	    
 	    //(( std::string( trigModules[ii] ).find("Ele17") != string::npos )
@@ -1753,11 +1753,14 @@ WZEdmAnalyzer::copyHLTInfo(const edm::Event& iEvent,
 	
 
 	channels = 1;
-	if ( ( (std::string(trigModules[ii])).find("MuonlegL3") != string::npos )
-	     || ( (std::string(trigModules[ii])).find("Electronleg") != string::npos )
+	if ( ( (std::string(trigModules[ii])).find("MuonlegL3IsoFiltered") != string::npos )
+	     || ( (std::string(trigModules[ii])).find("ElectronlegTrackIsoFilter") != string::npos )
 	     //	     || (  ( (std::string(trigModules[ii])).find("Mu") != string::npos ) && ( (std::string(trigModules[ii])).find("Ele") != string::npos )   ) 
-	     )  filtersL3.push_back( std::string( trigModules[ii] ) );
+	     ) 	  {
 
+
+	  filtersL3.push_back( std::string( trigModules[ii] ) );
+	}
 
       } else { // single lepton trigger
 

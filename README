@@ -90,14 +90,65 @@ filterJSON.py and corresponding useful tools are at,
 
 
 DATASET	from Run	to Run
-Run2016A	271036	271658
-Run2016B	272007	275376
-Run2016C	275657	276283
-Run2016D	276315	276811
-Run2016E	276831	277420
-Run2016F	277772	278808
-Run2016G	278820	280385
-Run2016H	280919	284044
+Run2016A	271036	271658   0
+Run2016B	272007	275376   5.751
+Run2016C	275657	276283   2.573
+Run2016D	276315	276811   4.242
+Run2016E	276831	277420   4.025
+Run2016F	277772	278808   3.105
+Run2016G	278820	280385   7.576
+Run2016H	280919	284044   8.651
+
+triggers:
+
+single muon, 
+
+HLT_IsoMu24_v* and HLT_IsoTkMu24_v*
+
+double muon,
+
+
+HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v*
+HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v*
+
+
+
+
+Single electron, HLT_Ele27_WPTight_Gsf_v*
+
+double electron,
+HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v* ( HLT_Ele17_ is not available for RunH)
+
+
+mu e, HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v* before <H
+      HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_v3 for H
+
+e mu, HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v4 for H
+      HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v* before <H
+
+
+
+
+MC: 
+
+
+HLT_IsoMu24_v* and HLT_IsoTkMu24_v*
+
+HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v* 
+HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v*
+
+single electron, HLT_Ele27_WPTight_Gsf_v*
+Double electron, HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v*
+
+
+mu e, HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v*,
+      HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v*, for H
+
+e mu, HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v*,
+      HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v*, for H
+
+
+
 
 
 pile up files
