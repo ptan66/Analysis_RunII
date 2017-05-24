@@ -1,6 +1,14 @@
 Update in CMSSW_8_0_26 for final production. 
 
+May 24, 2017: 
+
+need be careful with the additional implemention of electron ID. have gone through electron, muon, jet ID, and b-tagging recommendation. Need conifrmation 
+on the implmentation of pileup jet ID from Andreas. 
+
+
 https://twiki.cern.ch/twiki/bin/view/CMS/HEEPElectronIdentificationRun2
+
+
 
 
 cmsrel CMSSW_8_0_25
@@ -49,8 +57,8 @@ cd $CMSSW_BASE/src && scram b -j 8
 
 
 
-import notes for CMSSW_8_0_26
-
+import notes for CMSSW_8_0_26 (previous production)
++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 # e/gamma regresssion correction
