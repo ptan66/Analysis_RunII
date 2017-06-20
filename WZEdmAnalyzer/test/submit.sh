@@ -26,13 +26,17 @@ set runconfig  = ${6}
 set dataset    = ${7}
 
 set runrange   = "0-999999"
-set jsonfile   = "ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt"
+set jsonfile   = "Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt"
 #set jsonfile   = "Cert_271036-280385_13TeV_PromptReco_Collisions16_JSON_NoL1T.txt"
 
 
 set useaod        = "True"
 set isdata        = "False"
 set subdir        = "noreplica/Summer2016/${prodtag}"
+if ($prodtag =~ "*76*") then 
+set subdir        = "noreplica/Summer2015/${prodtag}"
+endif 
+
 set temp          = `echo ${dataset} | awk -F/ '{print $2"_"$3}'`
 
 set user          = "group/lpclljj"
@@ -48,6 +52,11 @@ if (${dataflag} == "data") then
 
 set isdata          = "True"
 set subdir          = "noreplica/Run2016/${prodtag}"
+
+if ($prodtag =~ "*76*") then 
+set subdir        = "noreplica/Run2015/${prodtag}"
+endif 
+
 endif
 
 
