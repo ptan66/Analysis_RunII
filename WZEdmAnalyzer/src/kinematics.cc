@@ -876,6 +876,9 @@ _electron_::_electron_():_track_() {
    mvaNonTrigV0Cat                 = -999;
 
 
+   dEtaInSeed                      = 999;
+   dPhiIn                          = 999;
+
 
 }
 _electron_::_electron_(const _electron_ & orig){}

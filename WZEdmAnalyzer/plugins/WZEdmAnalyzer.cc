@@ -604,13 +604,17 @@ Handle<bool> CSCTightHaloFilterHandle;
   // NOTE74
 
   iEvent.getByToken(FixGridRhoToken_, fixGridRhoHandle);  
+  if (fixGridRhoHandle.isValid() ) {
+    myEvent->rho      = *fixGridRhoHandle;
+
+  }
 
   iEvent.getByToken(RhoSrcToken_,          rhoHandle);         
   iEvent.getByToken(SigmaSrcToken_,        sigmaHandle);         
-  if (rhoHandle.isValid() && sigmaHandle.isValid() ) {
-    myEvent->rho      = *rhoHandle;
-    myEvent->sigma    = *sigmaHandle;
-  }
+  //if (rhoHandle.isValid() && sigmaHandle.isValid() ) {
+  //  myEvent->rho      = *rhoHandle;
+  //  myEvent->sigma    = *sigmaHandle;
+  // }
 
   // default rho value for ak4PFjetCHS
   iEvent.getByToken(RhoSrcTokenCHS_,          rhoHandleCHS);         

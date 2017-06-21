@@ -1511,6 +1511,11 @@ WZEdmAnalyzer::copyElectronInfo( reco::GsfElectronCollection::const_iterator ele
     + (nontrgmva_tight << 1) 
     + (nontrgmva_medium << 0);
 
+
+  myElectron->dEtaInSeed = (electron->superCluster().isNonnull() && electron->superCluster()->seed().isNonnull()) ? ( electron->deltaEtaSuperClusterTrackAtVtx() - electron->superCluster()->eta() + electron->superCluster()->seed()->eta()) : std::numeric_limits<float>::max();
+  myElectron->dPhiIn     = electron->deltaPhiSuperClusterTrackAtVtx();
+
+
   //const edm::ValueMap<double> ele_regEne = (*regEne_handle.product());
   
   //    edm::Handle<edm::ValueMap<double>> regErr_handle;

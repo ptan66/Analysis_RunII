@@ -781,6 +781,11 @@ class _electron_ : public _track_ {
   Float_t mvaTrigV0, mvaNonTrigV0;
   Float_t mvaTrigV0Cat, mvaNonTrigV0Cat;
 
+
+  // added variables in 80x
+  Float_t dEtaInSeed, dPhiIn;
+
+
   _electron_();
   _electron_(const _electron_ & orig);
   virtual ~_electron_();
