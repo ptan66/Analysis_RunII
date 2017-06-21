@@ -1,0 +1,2 @@
+./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "/DoubleMuon/Run2015C_25ns-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "254231-254914" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+
