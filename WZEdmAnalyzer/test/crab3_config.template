@@ -26,6 +26,9 @@ if (isData == True) :
 else :
      config.Data.splitting   = 'FileBased'
      config.Data.unitsPerJob =3
+     config.Data.lumiMask = ''
+     config.Data.runRange = ''
+
 
 
 
