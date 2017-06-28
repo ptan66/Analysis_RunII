@@ -52,3 +52,7 @@
 ./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/DY4JetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
 
 
+
+
+
+#./submit_privateMC.sh CMSSW76XV2 run_config_76x.template unknown phys03 ZpDU_mmcc /uscms_data/d2/ptan/work/generator/generators/production/summer15_aodsim.txt
