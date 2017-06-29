@@ -1,4 +1,9 @@
+************ general notes *****************
 
+As of Jun 28, 2017: jets collection in ntuple is PF jets (noCHS) and PF jet collection is actually PF CHS jet collection. 
+
+
+************ !!!!!!!!!!!! ******************
 
 
 Update in CMSSW_8_0_26 for final production. 
