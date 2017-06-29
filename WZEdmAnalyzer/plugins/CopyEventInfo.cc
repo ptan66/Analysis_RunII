@@ -2494,7 +2494,7 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
     //std::cout << "jet pt = " << jet->pt() << "afer " << std::endl;
   
     if ( jec * jet->pt() < jetMinPt) continue;    
-    _jet_ *myjet = myEvent->addJet();
+    _jet_ *myjet = myEvent->addPFJet();
     this->copyPFCHSJetInfo(iEvent, iSetup, jet, jetRef, pfchsJetUnc, jec, thePFCHSJetFlavourInfos, myjet);
 
 
@@ -2638,7 +2638,7 @@ WZEdmAnalyzer::fillEventInfo(const edm::Event& iEvent,  const edm::EventSetup& i
     //std::cout << "jet pt = " << jet->pt() << "afer " << std::endl;
   
     if ( jec * jet->pt() < jetMinPt) continue;    
-    _jet_ *myjet = myEvent->addPFJet();
+    _jet_ *myjet = myEvent->addJet();
 
     this->copyPFJetInfo(iEvent, iSetup, jet, jetRef, pfJetUnc, jec, thePFJetFlavourInfos, myjet);
 

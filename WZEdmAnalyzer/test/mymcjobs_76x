@@ -1,54 +1,56 @@
 
-#./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+#./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
 
-#./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/TT_TuneCUETP8M1_13TeV-powheg-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext4-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
-
-
-
-
-
-#./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext4-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
-#./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+#./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/TT_TuneCUETP8M1_13TeV-powheg-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext4-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
 
 
 
 
 
-#./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/TTJets_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
-
-
-#./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext4-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+#./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext4-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
 
 
 
 
 
-#./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/ST_s-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
-./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/ST_t-channel_antitop_4f_leptonDecays_13TeV-powheg-pythia8_TuneCUETP8M1/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
-#./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/ST_t-channel_top_4f_leptonDecays_13TeV-powheg-pythia8_TuneCUETP8M1/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
-#./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/ST_t-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
-./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M1/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v2/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
-./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M1/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/TTJets_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
 
 
-#./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/WWTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
-#./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/ZZTo4L_13TeV-amcatnloFXFX-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
-./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/ZZTo2L2Nu_13TeV_powheg_pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
-#./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
-#./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/WWTo2L2Nu_13TeV-powheg/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
-#./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/WZTo3LNu_TuneCUETP8M1_13TeV-powheg-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v2/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
-
-./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/WZToLNu2QorQQ2L_aTGC_13TeV-madgraph-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
-
-#./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/WZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
-#./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/WZTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+#./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext4-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
 
 
 
 
-#./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/DY1JetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
-#./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/DY2JetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
-#./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/DY3JetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
-./submit.sh CMSSW76XV2 AOD MC lpclljj "False" run_config_76x.template "/DY4JetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+
+./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/ST_s-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/ST_t-channel_antitop_4f_leptonDecays_13TeV-powheg-pythia8_TuneCUETP8M1/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/ST_t-channel_top_4f_leptonDecays_13TeV-powheg-pythia8_TuneCUETP8M1/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/ST_t-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M1/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v2/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M1/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
 
 
+./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/WWTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/ZZTo4L_13TeV-amcatnloFXFX-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/ZZTo2L2Nu_13TeV_powheg_pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/WWTo2L2Nu_13TeV-powheg/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/WZTo3LNu_TuneCUETP8M1_13TeV-powheg-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v2/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+
+./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/WZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/WZTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+
+
+
+
+./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/DY1JetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/DY2JetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/DY3JetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/DY4JetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+
+
+
+
+
+#./submit_privateMC.sh CMSSW76XV3 run_config_76x.template unknown phys03 ZpDU_mmcc /uscms_data/d2/ptan/work/generator/generators/production/summer15_aodsim.txt

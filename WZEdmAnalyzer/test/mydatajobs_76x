@@ -1,14 +1,14 @@
 
 
 #double mu
-#./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "/DoubleMuon/Run2015C_25ns-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "254231-254914" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+./submit.sh CMSSW76XV3 AOD data lpclljj "False" run_config_76x.template "/DoubleMuon/Run2015C_25ns-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "254231-254914" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
 
 
-#./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "/DoubleMuon/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "256630-257819" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+./submit.sh CMSSW76XV3 AOD data lpclljj "False" run_config_76x.template "/DoubleMuon/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "256630-257819" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
 
-#./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "/DoubleMuon/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "257968-258158" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+./submit.sh CMSSW76XV3 AOD data lpclljj "False" run_config_76x.template "/DoubleMuon/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "257968-258158" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
 
-#./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "/DoubleMuon/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "258159-260627" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+./submit.sh CMSSW76XV3 AOD data lpclljj "False" run_config_76x.template "/DoubleMuon/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "258159-260627" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
 
 
 
@@ -16,13 +16,13 @@
 
 
 #signle mu
-#./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "/SingleMuon/Run2015C_25ns-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "254231-254914" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+./submit.sh CMSSW76XV3 AOD data lpclljj "False" run_config_76x.template "/SingleMuon/Run2015C_25ns-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "254231-254914" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
 
-#./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "/SingleMuon/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "256630-257819" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+./submit.sh CMSSW76XV3 AOD data lpclljj "False" run_config_76x.template "/SingleMuon/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "256630-257819" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
 
-#./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "/SingleMuon/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "257968-258158" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+./submit.sh CMSSW76XV3 AOD data lpclljj "False" run_config_76x.template "/SingleMuon/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "257968-258158" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
 
-#./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "/SingleMuon/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "258159-260627" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+./submit.sh CMSSW76XV3 AOD data lpclljj "False" run_config_76x.template "/SingleMuon/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "258159-260627" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
 
 
 
@@ -30,32 +30,32 @@
 
 
 #double e
-#./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "/DoubleEG/Run2015C_25ns-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "254231-254914" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+./submit.sh CMSSW76XV3 AOD data lpclljj "False" run_config_76x.template "/DoubleEG/Run2015C_25ns-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "254231-254914" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
 
-#./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "/DoubleEG/Run2015D-16Dec2015-v2/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "256630-257819" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+./submit.sh CMSSW76XV3 AOD data lpclljj "False" run_config_76x.template "/DoubleEG/Run2015D-16Dec2015-v2/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "256630-257819" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
 
-#./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "/DoubleEG/Run2015D-16Dec2015-v2/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "257968-258158" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+./submit.sh CMSSW76XV3 AOD data lpclljj "False" run_config_76x.template "/DoubleEG/Run2015D-16Dec2015-v2/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "257968-258158" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
 
-#./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "/DoubleEG/Run2015D-16Dec2015-v2/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "258159-260627" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+./submit.sh CMSSW76XV3 AOD data lpclljj "False" run_config_76x.template "/DoubleEG/Run2015D-16Dec2015-v2/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "258159-260627" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
 
 
 
 
 
 #single e
-#./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "/SingleElectron/Run2015C_25ns-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "254231-254914" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+./submit.sh CMSSW76XV3 AOD data lpclljj "False" run_config_76x.template "/SingleElectron/Run2015C_25ns-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "254231-254914" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
 
-#./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "/SingleElectron/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "256630-257819" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
-#./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "/SingleElectron/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "257968-258158" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
-#./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "/SingleElectron/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "258159-260627" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+./submit.sh CMSSW76XV3 AOD data lpclljj "False" run_config_76x.template "/SingleElectron/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "256630-257819" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+./submit.sh CMSSW76XV3 AOD data lpclljj "False" run_config_76x.template "/SingleElectron/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "257968-258158" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+./submit.sh CMSSW76XV3 AOD data lpclljj "False" run_config_76x.template "/SingleElectron/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "258159-260627" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
 
 
 #mu-e
-./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "/MuonEG/Run2015C_25ns-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "254231-254914" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
-#./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "/MuonEG/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "256630-257819" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
-#./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "/MuonEG/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "257968-258158" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
-#./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "/MuonEG/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "258159-260627" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+./submit.sh CMSSW76XV3 AOD data lpclljj "False" run_config_76x.template "/MuonEG/Run2015C_25ns-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "254231-254914" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+./submit.sh CMSSW76XV3 AOD data lpclljj "False" run_config_76x.template "/MuonEG/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "256630-257819" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+./submit.sh CMSSW76XV3 AOD data lpclljj "False" run_config_76x.template "/MuonEG/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "257968-258158" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+./submit.sh CMSSW76XV3 AOD data lpclljj "False" run_config_76x.template "/MuonEG/Run2015D-16Dec2015-v1/AOD" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "258159-260627" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
 
 
-#./submit.sh CMSSW76XV2 AOD data lpclljj "False" run_config_76x.template "" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
+#./submit.sh CMSSW76XV3 AOD data lpclljj "False" run_config_76x.template "" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy   "" "Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt"
 

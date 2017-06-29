@@ -1,3 +1,11 @@
+************ general notes *****************
+
+As of Jun 28, 2017: jets collection in ntuple is PF jets (noCHS) and PF jet collection is actually PF CHS jet collection. 
+
+
+************ !!!!!!!!!!!! ******************
+
+
 Update in CMSSW_8_0_26 for final production. 
 
 Jun 27, 2017: 
@@ -298,6 +306,39 @@ git clone ssh://git@github.com/<user>/<repository name>.git
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 notes for 76x release
 
+
+Jun 27, 2017:
+
+note for 76x production v2 (backport package from 80x)
+
+cmsrel CMSSW_7_6_3_patch2
+cd CMSSW_7_6_3_patch2/src
+cmsenv
+git cms-merge-topic -u matteosan1:smearer_76X
+scram b
+
+
+cmsrel CMSSW_7_6_4
+cd CMSSW_7_6_4/src/
+cmsenv
+git cms-init
+git cms-merge-topic jbrands:pileupJetId76X
+git cherry-pick 7c23237a87181e9320874c6f1f913a43fe849499
+cd RecoJets/JetProducers/data/
+wget https://github.com/jbrands/RecoJets-JetProducers/raw/3dad903ed25d025f68be94d6f781ca957d6f86ac/pileupJetId_76x_Eta0to2p5_BDT.weights.xml.gz
+wget https://github.com/jbrands/RecoJets-JetProducers/raw/3dad903ed25d025f68be94d6f781ca957d6f86ac/pileupJetId_76x_Eta2p5to2p75_BDT.weights.xml.gz
+wget https://github.com/jbrands/RecoJets-JetProducers/raw/3dad903ed25d025f68be94d6f781ca957d6f86ac/pileupJetId_76x_Eta2p75to3_BDT.weights.xml.gz
+wget https://github.com/jbrands/RecoJets-JetProducers/raw/3dad903ed25d025f68be94d6f781ca957d6f86ac/pileupJetId_76x_Eta3to5_BDT.weights.xml.gz
+cd ../../..
+scram b -j5
+
+
+
+
+
+
+
+#previous note for 76x production. 
 
 git cms-merge-topic -u matteosan1:smearer_76X
 
