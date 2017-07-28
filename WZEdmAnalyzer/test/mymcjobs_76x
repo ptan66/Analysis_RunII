@@ -1,6 +1,11 @@
 
 #./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
 
+
+#/WRToNuMuToMuMuJJ_MW-1000_MNu-500_TuneCUETP8M1_13TeV-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM
+#./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/WRToNuMuToMuMuJJ_MW-1000_MNu-500_TuneCUETP8M1_13TeV-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
+
+
 #./submit.sh CMSSW76XV3 AOD MC lpclljj "False" run_config_76x.template "/TT_TuneCUETP8M1_13TeV-powheg-pythia8/RunIIFall15DR76-PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext4-v1/AODSIM" dummy:dummy:dummy dummy:dummy dummy:dummy:dummy:dummy
 
 
