@@ -2,6 +2,54 @@
 
 As of Jun 28, 2017: jets collection in ntuple is PF jets (noCHS) and PF jet collection is actually PF CHS jet collection. 
 
+*********** import note for 8_0_29 *********
+
+
+scramv1 project CMSSW CMSSW_8_0_29
+cd CMSSW_8_0_29/
+cd src/
+cmsenv
+
+git cms-init
+ git cms-merge-topic cms-egamma:EGM_gain_v1
+ cd cd EgammaAnalysis/ElectronTools/data
+ cd EgammaAnalysis/ElectronTools/data
+ git clone https://github.com/ECALELFS/ScalesSmearings.git
+ 
+#git checkout Moriond17_23Jan_v2 this gives error 
+cd ../../../	
+ 
+
+git remote add ahinzmann git@github.com:ahinzmann/cmssw.git
+git fetch ahinzmann PUidMiniAODfix80
+git cherry-pick ca33756e1747aec27d13971bcfd0874b16724e7f
+
+
+
+
+[ptan@cmslpc24 src]$ git cherry-pick ca33756e1747aec27d13971bcfd0874b16724e7f
+
+
+error: addinfo_cache failed for path 'RecoEgamma/ElectronIdentification/interface/ElectronMVAEstimatorRun2Spring15Trig.h'
+error: addinfo_cache failed for path 'RecoEgamma/ElectronIdentification/interface/ElectronMVAEstimatorRun2Spring15NonTrig.h'
+error: addinfo_cache failed for path 'RecoEgamma/ElectronIdentification/interface/ElectronMVAEstimatorRun2Phys14NonTrig.h'
+error: addinfo_cache failed for path 'GeneratorInterface/HiGenCommon/python/VtxSmearedPbP5TeVBoost_cff.py'
+error: addinfo_cache failed for path 'GeneratorInterface/HiGenCommon/python/VtxSmearedPPb5TeVBoost_cff.py'
+error: addinfo_cache failed for path 'CondFormats/CTPPSReadoutObjects/xml/mapping_tracking_strip_to_fill_5288.xml'
+error: addinfo_cache failed for path 'CondFormats/CTPPSReadoutObjects/xml/mapping_tracking_strip_from_fill_5330.xml'
+[from-CMSSW_8_0_29 0b2cc6f] sync AOD and MiniAOD PU ID
+ Author: Andreas Hinzmann <hinzmann@cern.ch>
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+
+
+git clone ssh://git@github.com/ptan66/Analysis_RunII.git
+
+
+cp $CMSSW_BASE/src/Analysis_RunII/regressionApplication_cff.py $CMSSW_BASE/src/EgammaAnalysis/ElectronTools/python/regressionApplication_cff.py
+
+
+
 
 ************ !!!!!!!!!!!! ******************
 
