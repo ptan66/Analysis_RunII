@@ -242,11 +242,13 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   myPFCHSJetTagsTCHPToken_         = consumes<reco::JetTagCollection>( edm::InputTag( PFCHSJetTagInfos_[0] ) );
   myPFCHSJetTagsJPToken_           = consumes<reco::JetTagCollection>( edm::InputTag( PFCHSJetTagInfos_[1] ) );
   myPFCHSJetTagsCSVToken_          = consumes<reco::JetTagCollection>( edm::InputTag( PFCHSJetTagInfos_[2] ) );
+  //   myPFCHSJetTagsCMVAToken_          = consumes<reco::JetTagCollection>( edm::InputTag( PFCHSJetTagInfos_[3] ) );
 
 
   myAK5PFJetTagsTCHPToken_         = consumes<reco::JetTagCollection>( edm::InputTag( ak5PFJetTagInfos_[0] ) );
   myAK5PFJetTagsJPToken_           = consumes<reco::JetTagCollection>( edm::InputTag( ak5PFJetTagInfos_[1] ) );
   myAK5PFJetTagsCSVToken_          = consumes<reco::JetTagCollection>( edm::InputTag( ak5PFJetTagInfos_[2] ) );
+  //  myAK5PFJetTagsCMVAToken_          = consumes<reco::JetTagCollection>( edm::InputTag( ak5PFJetTagInfos_[3] ) );
 
 
   myCaloJetTagsTCHPToken_          = consumes<reco::JetTagCollection>( edm::InputTag( CaloJetTagInfos_[0] ) );
@@ -261,6 +263,7 @@ WZEdmAnalyzer::WZEdmAnalyzer(const edm::ParameterSet& iConfig) :
   myPFJetTagsTCHPToken_            = consumes<reco::JetTagCollection>( edm::InputTag( PFJetTagInfos_[0] ) );
   myPFJetTagsJPToken_              = consumes<reco::JetTagCollection>( edm::InputTag( PFJetTagInfos_[1] ) );
   myPFJetTagsCSVToken_             = consumes<reco::JetTagCollection>( edm::InputTag( PFJetTagInfos_[2] ) );
+  //   myPFJetTagsCMVAToken_             = consumes<reco::JetTagCollection>( edm::InputTag( PFJetTagInfos_[3] ) );
 
 
   QGTagsHandleMLPToken_            = consumes<edm::ValueMap<float> > (  edm::InputTag("QGTagger","qgMLP") );
@@ -741,12 +744,14 @@ Handle<bool> CSCTightHaloFilterHandle;
   iEvent.getByToken(myPFCHSJetTagsTCHPToken_,  myPFCHSJetTagsTCHP);
   iEvent.getByToken(myPFCHSJetTagsJPToken_,    myPFCHSJetTagsJP);
   iEvent.getByToken(myPFCHSJetTagsCSVToken_,   myPFCHSJetTagsCSV);
+  //iEvent.getByToken(myPFCHSJetTagsCMVAToken_,   myPFCHSJetTagsCMVA);
 
 
 
   iEvent.getByToken(myAK5PFJetTagsTCHPToken_,     myAK5PFJetTagsTCHP);
   iEvent.getByToken(myAK5PFJetTagsJPToken_,       myAK5PFJetTagsJP);
   iEvent.getByToken(myAK5PFJetTagsCSVToken_,      myAK5PFJetTagsCSV);
+  //iEvent.getByToken(myAK5PFJetTagsCMVAToken_,      myAK5PFJetTagsCMVA);
 
 
 
@@ -765,6 +770,7 @@ Handle<bool> CSCTightHaloFilterHandle;
   iEvent.getByToken(myPFJetTagsTCHPToken_,     myPFJetTagsTCHP);
   iEvent.getByToken(myPFJetTagsJPToken_,       myPFJetTagsJP);
   iEvent.getByToken(myPFJetTagsCSVToken_,      myPFJetTagsCSV);
+  //  iEvent.getByToken(myPFJetTagsCMVAToken_,      myPFJetTagsCMVA);
 
 
   // quark gluon likelihood separator

@@ -445,13 +445,16 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::EDGetTokenT<reco::JetFlavourInfoMatchingCollection> pfchsJetFlavourInfosToken_;
   edm::Handle<reco::JetFlavourInfoMatchingCollection>      thePFCHSJetFlavourInfos;
   std::vector< std::string  >                              PFCHSJetTagInfos_;
+
   edm::EDGetTokenT<reco::JetTagCollection>                 myPFCHSJetTagsJPToken_;
   edm::EDGetTokenT<reco::JetTagCollection>                 myPFCHSJetTagsTCHPToken_;
   edm::EDGetTokenT<reco::JetTagCollection>                 myPFCHSJetTagsCSVToken_;
+  edm::EDGetTokenT<reco::JetTagCollection>                 myPFCHSJetTagsCMVAToken_;
 
   edm::Handle<reco::JetTagCollection>                      myPFCHSJetTagsJP;
   edm::Handle<reco::JetTagCollection>                      myPFCHSJetTagsTCHP;
   edm::Handle<reco::JetTagCollection>                      myPFCHSJetTagsCSV;
+  edm::Handle<reco::JetTagCollection>                      myPFCHSJetTagsCMVA;
 
 
 
@@ -464,10 +467,12 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::EDGetTokenT<reco::JetTagCollection>                 myAK5PFJetTagsJPToken_;
   edm::EDGetTokenT<reco::JetTagCollection>                 myAK5PFJetTagsTCHPToken_;
   edm::EDGetTokenT<reco::JetTagCollection>                 myAK5PFJetTagsCSVToken_;
+  edm::EDGetTokenT<reco::JetTagCollection>                 myAK5PFJetTagsCMVAToken_;
 
   edm::Handle<reco::JetTagCollection>                      myAK5PFJetTagsJP;
   edm::Handle<reco::JetTagCollection>                      myAK5PFJetTagsTCHP;
   edm::Handle<reco::JetTagCollection>                      myAK5PFJetTagsCSV;
+  edm::Handle<reco::JetTagCollection>                      myAK5PFJetTagsCMVA;
 
 
 
@@ -515,10 +520,12 @@ class WZEdmAnalyzer : public edm::EDAnalyzer {
   edm::EDGetTokenT<reco::JetTagCollection>                 myPFJetTagsJPToken_;
   edm::EDGetTokenT<reco::JetTagCollection>                 myPFJetTagsTCHPToken_;
   edm::EDGetTokenT<reco::JetTagCollection>                 myPFJetTagsCSVToken_;
+  edm::EDGetTokenT<reco::JetTagCollection>                 myPFJetTagsCMVAToken_;
 
   edm::Handle<reco::JetTagCollection>                      myPFJetTagsJP;
   edm::Handle<reco::JetTagCollection>                      myPFJetTagsTCHP;
   edm::Handle<reco::JetTagCollection>                      myPFJetTagsCSV;
+  edm::Handle<reco::JetTagCollection>                      myPFJetTagsCMVA;
 
 
 
