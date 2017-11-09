@@ -17,6 +17,7 @@ config.Data.outLFNDirBase = '/store/?user/?subdir'
 config.Data.publication = False
 config.Data.outputDatasetTag = '?outputdatatag'
 
+config.Data.allowNonValidInputDataset = True
 
 if (isData == True) :
      config.Data.splitting = 'LumiBased'
