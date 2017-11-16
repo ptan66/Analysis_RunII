@@ -6,18 +6,18 @@ import string
 #  global control flag
 #
 #######################################################################
-useAOD   = ?useaod
-isData   = ?isdata # True data; False MC
+useAOD   = True
+isData   = True # True data; False MC
 
-HLT_SINGLEMU1 = '?hltSINGLEMU1'
-HLT_SINGLEMU2 = '?hltSINGLEMU2'
-HLT_DOUBLEMU1 = '?hltDOUBLEMU1'
-HLT_DOUBLEMU2 = '?hltDOUBLEMU2'
-HLT_MUE       = '?hltMUE'
-HLT_EMU       = '?hltEMU'
-HLT_SINGLEELE1= '?hltSINGLEELE1'
-HLT_SINGLEELE2= '?hltSINGLEELE2'
-HLT_DOUBLEELE1= '?hltDOUBLEELE1'
+HLT_SINGLEMU1 = 'HLT_IsoTkMu24_vVERSION'
+HLT_SINGLEMU2 = 'HLT_IsoMu24_vVERSION'
+HLT_DOUBLEMU1 = 'HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_vVERSION'
+HLT_DOUBLEMU2 = 'HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_vVERSION'
+HLT_MUE       = 'HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_vVERSION'
+HLT_EMU       = 'HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_vVERSION'
+HLT_SINGLEELE1= 'dummy'
+HLT_SINGLEELE2= 'HLT_Ele27_WPTight_Gsf_vVERSION'
+HLT_DOUBLEELE1= 'HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_vVERSION'
 
 
 
@@ -143,15 +143,15 @@ process.source = cms.Source("PoolSource",
 
 
 # Output definition
-#process.output = cms.OutputModule("PoolOutputModule",
-#    splitLevel = cms.untracked.int32(0),
-#    fileName = cms.untracked.string('step2_RAW2DIGI_L1Reco_RECO_PU.root'),
-#    dataset = cms.untracked.PSet(
-#        dataTier = cms.untracked.string('AOD'),
-#        filterName = cms.untracked.string('')
-#    )
-#)
-#process.out_step = cms.EndPath(process.output)
+process.output = cms.OutputModule("PoolOutputModule",
+    splitLevel = cms.untracked.int32(0),
+    fileName = cms.untracked.string('step2_RAW2DIGI_L1Reco_RECO_PU.root'),
+    dataset = cms.untracked.PSet(
+        dataTier = cms.untracked.string('AOD'),
+        filterName = cms.untracked.string('')
+    )
+)
+process.out_step = cms.EndPath(process.output)
 
 
 
@@ -537,6 +537,23 @@ process.myak4GenJetFlavourInfos = ak4JetFlavourInfos.clone(jets = cms.InputTag("
 #
 #
 ###################################################################
+import PhysicsTools.PatAlgos.tools.helpers as configtools
+from RecoBTag.Configuration.RecoBTag_cff import *
+
+
+#process.myPFCHSBTaggers = process.btagging.clone()
+configtools.cloneProcessingSnippet(process, process.btagging, "MyPFCHS")
+configtools.massSearchReplaceAnyInputTag(process.btaggingMyPFCHS,  cms.InputTag("ak4PFJetsCHS"),  cms.InputTag("ak4PFJetsCHS") )
+
+configtools.cloneProcessingSnippet(process, process.btagging, "MyPF")
+configtools.massSearchReplaceAnyInputTag(process.btaggingMyPF,  cms.InputTag("ak4PFJetsCHS"),  cms.InputTag("ak4PFJets") )
+
+
+configtools.cloneProcessingSnippet(process, process.btagging, "MyAK5PF")
+configtools.massSearchReplaceAnyInputTag(process.btaggingMyAK5PF,  cms.InputTag("ak4PFJetsCHS"),  cms.InputTag("ak5PFJets") )
+
+
+
 #ak4pfCHS jet
 process.MyPFCHSImpactParameterTagInfos = process.pfImpactParameterTagInfos.clone(
     jets = cms.InputTag("ak4PFJetsCHS") # use ak4PFJetsCHS stored in AOD as input
@@ -588,20 +605,15 @@ process.myPFCHSBTaggers = cms.Sequence(
     (  process.MyPFCHSTrackCountingHighPurBJetTags +
        process.MyPFCHSJetProbabilityBJetTags + 
        (  process.MyPFCHSInclusiveSecondaryVertexFinderTagInfos *
-          process.MyPFCHSCombinedSecondaryVertexV2BJetTags *
-          (   process.MyPFCHSSecondaryVertexTagInfos * 
-              process.MyPFCHSSoftPFMuonsTagInfos *
-              process.MyPFCHSSoftPFElectronsTagInfos *
-              process.MyPFCHSCombinedMVAV2BJetTags
-              )
+          process.MyPFCHSCombinedSecondaryVertexV2BJetTags 
+#*
+#          (   process.MyPFCHSSecondaryVertexTagInfos * 
+#              process.MyPFCHSSoftPFMuonsTagInfos *
+#              process.MyPFCHSSoftPFElectronsTagInfos *
+#              process.MyPFCHSCombinedMVAV2BJetTags
+#              )
           )
-# +
-#     (  process.MyPFCHSSecondaryVertexTagInfos * 
-#        process.MyPFCHSInclusiveSecondaryVertexFinderTagInfos *
-#        process.MyPFCHSSoftPFMuonsTagInfos *
-#        process.MyPFCHSSoftPFElectronsTagInfos *
-#        process.MyPFCHSCombinedMVAV2BJetTags
-#        )
+
        )
     )
 
@@ -894,12 +906,11 @@ process.analyzer = cms.EDAnalyzer(
     NonTrigMvaTightIdMaps     = cms.InputTag( "egmGsfElectronIDs:mvaEleID-Spring16-HZZ-V1-wpLoose"), 
     PFCHSJets                 = cms.string(  "ak4PFJetsCHS"),
     PFCHSJetFlavourInfos      = cms.InputTag("myak4PFJetCHSFlavourInfos"),
-    PFCHSJetTagInfos          = cms.vstring( "MyPFCHSTrackCountingHighPurBJetTags", "MyPFCHSJetProbabilityBJetTags", "MyPFCHSCombinedSecondaryVertexV2BJetTags"), 
-#, "MyPFCHSCombinedMVAV2BJetTags"),
+    PFCHSJetTagInfos          = cms.vstring( "pfTrackCountingHighEffBJetTagsMyPFCHS", "pfJetProbabilityBJetTagsMyPFCHS", "pfCombinedInclusiveSecondaryVertexV2BJetTagsMyPFCHS", "pfCombinedMVAV2BJetTagsMyPFCHS"), 
     AK5PFJets                  = cms.string(  "ak5PFJets"),
     AK5PFJetFlavourInfos       = cms.InputTag("myak5PFJetFlavourInfos"), 
-    AK5PFJetTagInfos           = cms.vstring( "MyAK5PFTrackCountingHighPurBJetTags", "MyAK5PFJetProbabilityBJetTags", "MyAK5PFCombinedSecondaryVertexV2BJetTags"), 
-#, "MyAK5PFCombinedMVAV2BJetTags"),
+    #AK5PFJetTagInfos           = cms.vstring( "MyAK5PFTrackCountingHighPurBJetTags", "MyAK5PFJetProbabilityBJetTags", "MyAK5PFCombinedSecondaryVertexV2BJetTags"), 
+    AK5PFJetTagInfos          = cms.vstring( "pfTrackCountingHighEffBJetTagsMyAK5PF", "pfJetProbabilityBJetTagsMyAK5PF", "pfCombinedInclusiveSecondaryVertexV2BJetTagsMyAK5PF"),
     CaloJets                  = cms.string(  "ak4CaloJets"),
     CaloJetFlavourInfos       = cms.InputTag("flavourByValCalo"), 
     CaloJetTagInfos           = cms.vstring( "MyCaloTrackCountingHighPurBJetTags",  "MyCaloJetProbabilityBJetTags", "MyCaloCombinedSecondaryVertexV2BJetTags"),
@@ -908,8 +919,8 @@ process.analyzer = cms.EDAnalyzer(
     JPTJetTagInfos            = cms.vstring( "MyJPTTrackCountingHighPurBJetTags",   "MyJPTJetProbabilityBJetTags", "MyJPTCombinedSecondaryVertexV2BJetTags"),
     PFJets                    = cms.string(  "ak4PFJets"),
     PFJetFlavourInfos         = cms.InputTag("myak4PFJetFlavourInfos"),
-    PFJetTagInfos             = cms.vstring( "MyPFTrackCountingHighPurBJetTags",    "MyPFJetProbabilityBJetTags", "MyPFCombinedSecondaryVertexV2BJetTags"), 
-#"MyPFCombinedMVAV2BJetTags"),
+    #PFJetTagInfos             = cms.vstring( "MyPFTrackCountingHighPurBJetTags",    "MyPFJetProbabilityBJetTags", "MyPFCombinedSecondaryVertexV2BJetTags"), 
+    PFJetTagInfos          = cms.vstring( "pfTrackCountingHighEffBJetTagsMyPF", "pfJetProbabilityBJetTagsMyPF", "pfCombinedInclusiveSecondaryVertexV2BJetTagsMyPF"),
     JetTagCollections         = cms.vstring( "pfTrackCountingHighEffBJetTags", "pfCombinedInclusiveSecondaryVertexV2BJetTags"),
     JetMinPt                  = cms.double(10),    
     LeptonThreshold           = cms.double(10),    
@@ -955,7 +966,7 @@ process.analyzer = cms.EDAnalyzer(
 # rename output file
 process.TFileService = cms.Service("TFileService",
                                    fileName = 
-                                   cms.string('?outputrootfile' ),
+                                   cms.string('CMSSW80X_RERECOV3_SingleMuon_Run2016H-07Aug17-v1_280919-284044.root' ),
                                    closeFileFast = cms.untracked.bool(True)
                                    )
 
@@ -984,7 +995,9 @@ if isData == True :
         #                    process.mymets*
         process.superClusters*
         process.myJetPlusTrackCorrectionsAntiKt4*
-        process.myPFCHSBTaggers*process.myPFBTaggers*process.myAK5PFBTaggers*process.myCaloBTaggers*process.myJPTBTaggers*
+        process.btaggingMyPFCHS*process.btaggingMyPF*process.btaggingMyAK5PF*
+#        process.myPFCHSBTaggers*process.myPFBTaggers*process.myAK5PFBTaggers*
+        process.myCaloBTaggers*process.myJPTBTaggers*
         #                    process.QuarkGluonTagger*	
         process.regressionApplication*process.selectedElectrons * process.calibratedElectrons *
         process.egmGsfElectronIDSequence*
@@ -1023,7 +1036,9 @@ else :
         process.superClusters*
         process.myJetPlusTrackCorrectionsAntiKt4*
         process.flavourByRefJPT*process.flavourByValJPT*
-        process.myPFCHSBTaggers*process.myPFBTaggers*process.myAK5PFBTaggers*process.myCaloBTaggers*process.myJPTBTaggers*
+        process.btaggingMyPFCHS*process.btaggingMyPF*process.btaggingMyAK5PF*
+#        process.myPFCHSBTaggers*process.myPFBTaggers*process.myAK5PFBTaggers*
+        process.myCaloBTaggers*process.myJPTBTaggers*
         #                    process.QuarkGluonTagger*	
         process.regressionApplication*process.selectedElectrons * process.calibratedElectrons *
         process.egmGsfElectronIDSequence*
