@@ -673,10 +673,10 @@ WZEdmAnalyzer::copyPFCHSJetInfo(   const edm::Event& iEvent,
   myJet->flavor[0]                   = btaggingAssociation( (reco::Jet)(*jet), jetTags.product());
   myJet->flavor[1]                   = btaggingAssociation( (reco::Jet)(*jet), jetTagsCSV.product());
 
-  myJet->flavor[2]                   = btaggingAssociation( jetRef, myPFCHSJetTagsJP);
+  myJet->flavor[2]                   = btaggingAssociation( jetRef, myPFCHSJetTagsJP) + btaggingAssociation( jetRef, myPFCHSJetTagsTCHP);
   myJet->flavor[3]                   = btaggingAssociation( jetRef, myPFCHSJetTagsTCHP);
   myJet->flavor[4]                   = btaggingAssociation( jetRef, myPFCHSJetTagsCSV);
-  //    myJet->flavor[5]                   = btaggingAssociation( jetRef, myPFCHSJetTagsCMVA);
+  myJet->flavor[5]                   = btaggingAssociation( jetRef, myPFCHSJetTagsCMVA);
 
 
 }
@@ -702,10 +702,10 @@ WZEdmAnalyzer::copyPFJetInfo(   const edm::Event& iEvent,
   myJet->flavor[0]                   = btaggingAssociation( (reco::Jet)(*jet), jetTags.product());
   myJet->flavor[1]                   = btaggingAssociation( (reco::Jet)(*jet), jetTagsCSV.product());
 
-  myJet->flavor[2]                   = btaggingAssociation( jetRef, myPFJetTagsJP, _is_debug);
+  myJet->flavor[2]                   = btaggingAssociation( jetRef, myPFJetTagsJP, _is_debug) +  btaggingAssociation( jetRef, myPFJetTagsTCHP, _is_debug);
   myJet->flavor[3]                   = btaggingAssociation( jetRef, myPFJetTagsTCHP, _is_debug);
   myJet->flavor[4]                   = btaggingAssociation( jetRef, myPFJetTagsCSV, _is_debug);
-  //   myJet->flavor[5]                   = btaggingAssociation( jetRef, myPFJetTagsCMVA, _is_debug);
+     myJet->flavor[5]                = btaggingAssociation( jetRef, myPFJetTagsCMVA, _is_debug);
   
 }
 
@@ -733,10 +733,10 @@ WZEdmAnalyzer::copyAK5PFJetInfo(   const edm::Event& iEvent,
   myJet->flavor[0]                   = btaggingAssociation( (reco::Jet)(*jet), jetTags.product());
   myJet->flavor[1]                   = btaggingAssociation( (reco::Jet)(*jet), jetTagsCSV.product());
 
-  myJet->flavor[2]                   = btaggingAssociation( jetRef, myAK5PFJetTagsJP, _is_debug);
+  myJet->flavor[2]                   = btaggingAssociation( jetRef, myAK5PFJetTagsJP, _is_debug) +  btaggingAssociation( jetRef, myAK5PFJetTagsTCHP, _is_debug) ;
   myJet->flavor[3]                   = btaggingAssociation( jetRef, myAK5PFJetTagsTCHP, _is_debug);
   myJet->flavor[4]                   = btaggingAssociation( jetRef, myAK5PFJetTagsCSV, _is_debug);
-  //   myJet->flavor[5]                   = btaggingAssociation( jetRef, myAK5PFJetTagsCMVA, _is_debug);
+  myJet->flavor[5]                   = btaggingAssociation( jetRef, myAK5PFJetTagsCMVA, _is_debug);
   
 }
 

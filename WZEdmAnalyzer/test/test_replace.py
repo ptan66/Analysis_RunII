@@ -553,6 +553,28 @@ configtools.cloneProcessingSnippet(process, process.btagging, "MyAK5PF")
 configtools.massSearchReplaceAnyInputTag(process.btaggingMyAK5PF,  cms.InputTag("ak4PFJetsCHS"),  cms.InputTag("ak5PFJets") )
 
 
+from RecoBTag.Combined.deepFlavour_cff import *
+configtools.cloneProcessingSnippet(process, process.pfDeepFlavour, "MyPFCHS")
+configtools.massSearchReplaceAnyInputTag(process.pfDeepFlavourMyPFCHS,  cms.InputTag("ak4PFJetsCHS"),  cms.InputTag("ak4PFJetsCHS") )
+
+
+configtools.cloneProcessingSnippet(process, process.pfDeepFlavour, "MyAK5PF")
+configtools.massSearchReplaceAnyInputTag(process.pfDeepFlavourMyAK5PF,  cms.InputTag("ak4PFJetsCHS"),  cms.InputTag("ak5PFJets") )
+
+
+configtools.cloneProcessingSnippet(process, process.pfDeepFlavour, "MyPF")
+configtools.massSearchReplaceAnyInputTag(process.pfDeepFlavourMyPF,  cms.InputTag("ak4PFJetsCHS"),  cms.InputTag("ak4PFJets") )
+
+
+process.myDeepCSVTaggers = cms.Sequence(
+    process.btagging * (
+        process.pfDeepFlavourMyPFCHS 
+#+
+#        process.pfDeepFlavourMyAK5PF +
+#        process.pfDeepFlavourMyPF 
+        )
+    )
+
 
 #ak4pfCHS jet
 process.MyPFCHSImpactParameterTagInfos = process.pfImpactParameterTagInfos.clone(
@@ -906,11 +928,12 @@ process.analyzer = cms.EDAnalyzer(
     NonTrigMvaTightIdMaps     = cms.InputTag( "egmGsfElectronIDs:mvaEleID-Spring16-HZZ-V1-wpLoose"), 
     PFCHSJets                 = cms.string(  "ak4PFJetsCHS"),
     PFCHSJetFlavourInfos      = cms.InputTag("myak4PFJetCHSFlavourInfos"),
-    PFCHSJetTagInfos          = cms.vstring( "pfTrackCountingHighEffBJetTagsMyPFCHS", "pfJetProbabilityBJetTagsMyPFCHS", "pfCombinedInclusiveSecondaryVertexV2BJetTagsMyPFCHS", "pfCombinedMVAV2BJetTagsMyPFCHS"), 
+    PFCHSJetTagInfos          = cms.vstring( "pfDeepCSVJetTagsMyPFCHS:probb", "pfDeepCSVJetTagsMyPFCHS:probbb", "pfCombinedInclusiveSecondaryVertexV2BJetTagsMyPFCHS", "pfCombinedMVAV2BJetTagsMyPFCHS"), 
+#    PFCHSJetTagInfos          = cms.vstring( "pfTrackCountingHighEffBJetTagsMyPFCHS", "pfJetProbabilityBJetTagsMyPFCHS", "pfCombinedInclusiveSecondaryVertexV2BJetTagsMyPFCHS", "pfCombinedMVAV2BJetTagsMyPFCHS"), 
     AK5PFJets                  = cms.string(  "ak5PFJets"),
     AK5PFJetFlavourInfos       = cms.InputTag("myak5PFJetFlavourInfos"), 
-    #AK5PFJetTagInfos           = cms.vstring( "MyAK5PFTrackCountingHighPurBJetTags", "MyAK5PFJetProbabilityBJetTags", "MyAK5PFCombinedSecondaryVertexV2BJetTags"), 
-    AK5PFJetTagInfos          = cms.vstring( "pfTrackCountingHighEffBJetTagsMyAK5PF", "pfJetProbabilityBJetTagsMyAK5PF", "pfCombinedInclusiveSecondaryVertexV2BJetTagsMyAK5PF"),
+#    AK5PFJetTagInfos           = cms.vstring( "pfDeepCSVJetTagsMyAK5PF:probb", "pfDeepCSVJetTagsMyAK5PF:probbb", "pfCombinedInclusiveSecondaryVertexV2BJetTagsMyAK5PF", "pfCombinedMVAV2BJetTagsMyAK5PF"),
+    AK5PFJetTagInfos          = cms.vstring( "pfTrackCountingHighEffBJetTagsMyAK5PF", "pfJetProbabilityBJetTagsMyAK5PF", "pfCombinedInclusiveSecondaryVertexV2BJetTagsMyAK5PF", "pfCombinedMVAV2BJetTagsMyAK5PF"),
     CaloJets                  = cms.string(  "ak4CaloJets"),
     CaloJetFlavourInfos       = cms.InputTag("flavourByValCalo"), 
     CaloJetTagInfos           = cms.vstring( "MyCaloTrackCountingHighPurBJetTags",  "MyCaloJetProbabilityBJetTags", "MyCaloCombinedSecondaryVertexV2BJetTags"),
@@ -919,8 +942,8 @@ process.analyzer = cms.EDAnalyzer(
     JPTJetTagInfos            = cms.vstring( "MyJPTTrackCountingHighPurBJetTags",   "MyJPTJetProbabilityBJetTags", "MyJPTCombinedSecondaryVertexV2BJetTags"),
     PFJets                    = cms.string(  "ak4PFJets"),
     PFJetFlavourInfos         = cms.InputTag("myak4PFJetFlavourInfos"),
-    #PFJetTagInfos             = cms.vstring( "MyPFTrackCountingHighPurBJetTags",    "MyPFJetProbabilityBJetTags", "MyPFCombinedSecondaryVertexV2BJetTags"), 
-    PFJetTagInfos          = cms.vstring( "pfTrackCountingHighEffBJetTagsMyPF", "pfJetProbabilityBJetTagsMyPF", "pfCombinedInclusiveSecondaryVertexV2BJetTagsMyPF"),
+#    PFJetTagInfos          = cms.vstring( "pfDeepCSVJetTagsMyPF:probb", "pfDeepCSVJetTagsMyPF:probbb", "pfCombinedInclusiveSecondaryVertexV2BJetTagsMyPF", "pfCombinedMVAV2BJetTagsMyPF"),
+    PFJetTagInfos          = cms.vstring( "pfTrackCountingHighEffBJetTagsMyPF", "pfJetProbabilityBJetTagsMyPF", "pfCombinedInclusiveSecondaryVertexV2BJetTagsMyPF", "pfCombinedMVAV2BJetTagsMyPF"),
     JetTagCollections         = cms.vstring( "pfTrackCountingHighEffBJetTags", "pfCombinedInclusiveSecondaryVertexV2BJetTags"),
     JetMinPt                  = cms.double(10),    
     LeptonThreshold           = cms.double(10),    
@@ -996,7 +1019,7 @@ if isData == True :
         process.superClusters*
         process.myJetPlusTrackCorrectionsAntiKt4*
         process.btaggingMyPFCHS*process.btaggingMyPF*process.btaggingMyAK5PF*
-#        process.myPFCHSBTaggers*process.myPFBTaggers*process.myAK5PFBTaggers*
+        process.myDeepCSVTaggers * 
         process.myCaloBTaggers*process.myJPTBTaggers*
         #                    process.QuarkGluonTagger*	
         process.regressionApplication*process.selectedElectrons * process.calibratedElectrons *
@@ -1037,7 +1060,7 @@ else :
         process.myJetPlusTrackCorrectionsAntiKt4*
         process.flavourByRefJPT*process.flavourByValJPT*
         process.btaggingMyPFCHS*process.btaggingMyPF*process.btaggingMyAK5PF*
-#        process.myPFCHSBTaggers*process.myPFBTaggers*process.myAK5PFBTaggers*
+        process.myDeepCSVTaggers * 
         process.myCaloBTaggers*process.myJPTBTaggers*
         #                    process.QuarkGluonTagger*	
         process.regressionApplication*process.selectedElectrons * process.calibratedElectrons *
